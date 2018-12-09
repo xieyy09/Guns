@@ -2,6 +2,7 @@
  * 初始化活动管理详情对话框
  */
 var ActivityDetailsInfoDlg = {
+    editor:null,
     activityDetailsInfoData : {}
 };
 
@@ -44,11 +45,11 @@ ActivityDetailsInfoDlg.close = function() {
  * 收集数据
  */
 ActivityDetailsInfoDlg.collectData = function() {
+    this.activityDetailsInfoData['content'] = ActivityDetailsInfoDlg.editor.txt.html();
     this
     .set('id')
     .set('title')
     .set('img')
-    .set('content')
     .set('beginTime')
     .set('endTime')
     .set('activityState')
@@ -75,6 +76,7 @@ ActivityDetailsInfoDlg.addSubmit = function() {
         Feng.error("添加失败!" + data.responseJSON.message + "!");
     });
     ajax.set(this.activityDetailsInfoData);
+    console.log(this.activityDetailsInfoData)
     ajax.start();
 }
 
@@ -98,6 +100,12 @@ ActivityDetailsInfoDlg.editSubmit = function() {
     ajax.start();
 }
 
-$(function() {
+$(function () {
 
+    //初始化编辑器
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create();
+    editor.txt.html($("#contentVal").val());
+    ActivityDetailsInfoDlg.editor = editor;
 });
