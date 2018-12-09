@@ -72,9 +72,11 @@ public class ActivityDetailsController extends BaseController {
     @RequestMapping(value = "/add")
     @ResponseBody
     public Object add(ActivityDetails activityDetails) {
+        //UUID 自动生成主键
         activityDetails.setId(UUIDUtils.getBase64UUID());
         activityDetails.setCreateTime(new Date());
-        activityDetails.setUid(1L);
+        final Object userId = super.getSession().getAttribute("userId");
+        activityDetails.setUid(Long.parseLong(userId.toString()));
         activityDetailsService.insert(activityDetails);
         return SUCCESS_TIP;
     }
