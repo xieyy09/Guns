@@ -195,7 +195,6 @@ MgrUser.onClickDept = function (e, treeId, treeNode) {
     MgrUser.deptid = treeNode.id;
     MgrUser.search();
 };
-
 $(function () {
     var defaultColunms = MgrUser.initColumn();
     var table = new BSTable("managerTable", "/mgr/list", defaultColunms);

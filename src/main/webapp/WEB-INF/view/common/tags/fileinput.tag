@@ -11,7 +11,7 @@
 <div class="form-group">
     <label class="col-sm-3 control-label">${name}</label>
     <div class="col-sm-9">
-        <input id="${id}" name="path" type="hidden"/>
+        <input id="${id}" name="${id}" type="hidden" value="${value!''}"/>
         <form id="${id}UploadForm" enctype='multipart/form-data'>
             <input id="path" name="path" type="hidden" value="${path}"/>
             <div class="form-group">

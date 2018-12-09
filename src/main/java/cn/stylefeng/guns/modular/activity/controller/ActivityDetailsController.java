@@ -7,6 +7,8 @@ import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.util.FileUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -69,7 +72,12 @@ public class ActivityDetailsController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        return activityDetailsService.selectList(null);
+        Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
+        if(condition!=null && !condition.isEmpty()) {
+            wrapper.like("title", condition);
+        }
+        List<ActivityDetails> activityDetails = activityDetailsService.selectList(wrapper);
+        return activityDetails;
     }
 
     /**

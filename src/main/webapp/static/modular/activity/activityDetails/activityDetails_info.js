@@ -101,7 +101,8 @@ ActivityDetailsInfoDlg.editSubmit = function() {
 }
 
 $(function () {
-
+    //初始化是否发布选项
+    $("#state").val($("#stateValue").val());
     //初始化编辑器
     var E = window.wangEditor;
     var editor = new E('#editor');

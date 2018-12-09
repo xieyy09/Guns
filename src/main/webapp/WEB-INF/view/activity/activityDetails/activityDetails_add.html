@@ -10,7 +10,10 @@
                 </div>
 
                 <div class="col-sm-6">
-                            <#input id="state" name="是否发布" type="checkbox" value="1" style="height:inherit;width:50px" underline="true"/>
+                            <#select id="state" name="是否发布" underline="true">
+                                <option value="1">发布</option>
+                                <option value="0">未发布</option>
+                            </#select>
                             <#TimeCon id="beginTime" name="开始时间" underline="true"/>
                             <#TimeCon id="endTime" name="结束时间" underline="true"/>
                 </div>

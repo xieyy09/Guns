@@ -7,12 +7,17 @@
                 <div class="col-sm-6 b-r">
                     <input class="form-control" type="hidden" id="id" name="id" value="${item.id}">
                     <input type="hidden" id="contentVal" value='${item.content}'>
+
+                    <input type="hidden" id="stateValue" value='${item.state}'>
                     <#input id="title" name="标题" value="${item.title}" underline="true"/>
                     <#fileinput id="img" name="图片" path="activity"  value="${item.img}" />
                 </div>
 
                 <div class="col-sm-6">
-                    <#input id="state" name="是否发布" type="checkbox" value="${item.state}" style="height:inherit;width:50px" underline="true"/>
+                    <#select id="state" name="是否发布" underline="true">
+                        <option value="1">发布</option>
+                        <option value="0">未发布</option>
+                    </#select>
                     <#input id="beginTime" name="开始时间" value="${item.beginTime}" underline="true"/>
                     <#input id="endTime" name="结束时间" value="${item.endTime}" underline="true"/>
                 </div>

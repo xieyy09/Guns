@@ -15,13 +15,32 @@ ActivityDetails.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
             {title: '标题', field: 'title', visible: true, align: 'center', valign: 'middle'},
-            {title: '开始时间', field: 'beginTime', visible: true, align: 'center', valign: 'middle'},
-            {title: '结束时间', field: 'endTime', visible: true, align: 'center', valign: 'middle'},
-            {title: '状态', field: 'activityState', visible: true, align: 'center', valign: 'middle'},
-            {title: '发布人', field: 'uid', visible: true, align: 'center', valign: 'middle'},
-            {title: '发布时间', field: 'createTime', visible: true, align: 'center', valign: 'middle'},
+            {title: '开始时间', field: 'beginTime', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                    DateUtils.expandDate();
+                    var date = new Date(value);
+                    return date.format('yyyy-MM-dd');
+                }},
+            {title: '结束时间', field: 'endTime', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                    DateUtils.expandDate();
+                    var date = new Date(value);
+                    return date.format('yyyy-MM-dd');
+                }},
+            {title: '状态', field: 'activityState', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                if(value==-1){
+                    return "已结束";
+                }else if(value==0){
+                    return "未开始";
+                }else if(value==1){
+                    return "进行中";
+                }
+                }},
+            {title: '发布时间', field: 'createTime', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                    DateUtils.expandDate();
+                    var date = new Date(value);
+                    return date.format('yyyy-MM-dd');
+                }},
             {title: '参加人数', field: 'userNumber', visible: true, align: 'center', valign: 'middle'},
-            {title: '发布状态', field: 'state', visible: true, align: 'center', valign: 'middle'}
+            {title: '发布状态', field: 'state', visible: true, align: 'center', valign: 'middle',formatter:formatter}
     ];
 };
 
@@ -95,7 +114,13 @@ ActivityDetails.search = function () {
     queryData['condition'] = $("#condition").val();
     ActivityDetails.table.refresh({query: queryData});
 };
-
+function formatter(value, row, index){
+    if(value==1){
+        return "发布";
+    }else{
+        return "未发布";
+    }
+}
 $(function () {
     var defaultColunms = ActivityDetails.initColumn();
     var table = new BSTable(ActivityDetails.id, "/activityDetails/list", defaultColunms);
