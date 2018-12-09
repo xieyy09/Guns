@@ -128,7 +128,7 @@ public class LoginController extends BaseController {
         ShiroUser shiroUser = ShiroKit.getUser();
         super.getSession().setAttribute("shiroUser", shiroUser);
         super.getSession().setAttribute("username", shiroUser.getAccount());
-
+        super.getSession().setAttribute("userId", shiroUser.getId());
         LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getId(), getIp()));
 
         ShiroKit.getSession().setAttribute("sessionFlag", true);

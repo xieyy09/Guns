@@ -1,19 +1,24 @@
 package cn.stylefeng.guns.modular.activity.controller;
 
+import cn.stylefeng.guns.config.properties.GunsProperties;
 import cn.stylefeng.guns.config.util.UUIDUtils;
+import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import cn.stylefeng.roses.core.util.FileUtil;
+import cn.stylefeng.roses.core.util.ToolUtil;
+import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import cn.stylefeng.guns.core.log.LogObjectHolder;
-import org.springframework.web.bind.annotation.RequestParam;
 import cn.stylefeng.guns.modular.system.model.ActivityDetails;
 import cn.stylefeng.guns.modular.activity.service.IActivityDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * 活动管理控制器
@@ -29,7 +34,8 @@ public class ActivityDetailsController extends BaseController {
 
     @Autowired
     private IActivityDetailsService activityDetailsService;
-
+    @Autowired
+    private GunsProperties gunsProperties;
     /**
      * 跳转到活动管理首页
      */
@@ -108,5 +114,41 @@ public class ActivityDetailsController extends BaseController {
     @ResponseBody
     public Object detail(@PathVariable("activityDetailsId") String activityDetailsId) {
         return activityDetailsService.selectById(activityDetailsId);
+    }
+
+    /**
+     * 上传图片
+     */
+    @RequestMapping(method = RequestMethod.POST, path = "/upload")
+    @ResponseBody
+    public String upload(@RequestPart("file") MultipartFile picture,@RequestParam("path") String path) {
+
+        String pictureName = UUID.randomUUID().toString() + "." + ToolUtil.getFileSuffix(picture.getOriginalFilename());
+        try {
+            String fileSavePath = gunsProperties.getFileUploadPath()+path;
+            picture.transferTo(new File(fileSavePath +File.separator+ pictureName));
+        } catch (Exception e) {
+            throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);
+        }
+        return pictureName;
+    }
+
+
+    /**
+     * 上传图片
+     */
+    @RequestMapping(method = RequestMethod.GET, path = "/loadImg")
+    @ResponseBody
+    public byte[] loadImg(@RequestParam("filename") String filename,@RequestParam("path") String path) {
+
+        String fileSavePath = gunsProperties.getFileUploadPath();
+        try {
+            String pathname = fileSavePath + path+File.separator+filename;
+            return FileUtil.toByteArray(pathname);
+        } catch (Exception e) {
+            String pathname = fileSavePath + "noimage.png";
+            return FileUtil.toByteArray(pathname);
+        }
+
     }
 }

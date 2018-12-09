@@ -14,17 +14,14 @@ var ActivityDetails = {
 ActivityDetails.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
-            {title: 'id', field: 'id', visible: true, align: 'center', valign: 'middle'},
             {title: '标题', field: 'title', visible: true, align: 'center', valign: 'middle'},
-            {title: '图片', field: 'img', visible: true, align: 'center', valign: 'middle'},
-            {title: '内容', field: 'content', visible: true, align: 'center', valign: 'middle'},
             {title: '开始时间', field: 'beginTime', visible: true, align: 'center', valign: 'middle'},
             {title: '结束时间', field: 'endTime', visible: true, align: 'center', valign: 'middle'},
-            {title: '状态(-1已结束0未开始1进行中)', field: 'activityState', visible: true, align: 'center', valign: 'middle'},
-            {title: '发布人ID', field: 'uid', visible: true, align: 'center', valign: 'middle'},
+            {title: '状态', field: 'activityState', visible: true, align: 'center', valign: 'middle'},
+            {title: '发布人', field: 'uid', visible: true, align: 'center', valign: 'middle'},
             {title: '发布时间', field: 'createTime', visible: true, align: 'center', valign: 'middle'},
             {title: '参加人数', field: 'userNumber', visible: true, align: 'center', valign: 'middle'},
-            {title: '发布状态(0未发布 已发布)', field: 'state', visible: true, align: 'center', valign: 'middle'}
+            {title: '发布状态', field: 'state', visible: true, align: 'center', valign: 'middle'}
     ];
 };
 

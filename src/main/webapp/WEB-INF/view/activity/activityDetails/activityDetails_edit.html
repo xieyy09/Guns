@@ -7,16 +7,14 @@
                 <div class="col-sm-6 b-r">
                     <input class="form-control" type="hidden" id="id" name="id" value="${item.id}">
                     <#input id="title" name="标题" value="${item.title}" underline="true"/>
-                    <#input id="img" name="图片" value="${item.img}" underline="true"/>
-                    <#textarea id="content" name="内容" value="${item.content}" underline="true"/>
-                    <#TimeCon id="beginTime" name="开始时间" value="${item.beginTime}" isTime="false" pattern="YYYY-MM-DD"/>
+                    <#fileinput id="img" name="图片" path="activity"  value="${item.img}" />
                 </div>
 
                 <div class="col-sm-6">
-                    <#input id="activityState" name="状态" underline="true" value="${item.activityState}"/>
-                    <#input id="userNumber" name="参加人数" value="${item.userNumber}" underline="true"/>
+                    <#input id="state" name="是否发布" type="checkbox" value="${item.state}" style="height:inherit;width:50px" underline="true"/>
+                    <#TimeCon id="beginTime" name="开始时间" isTime="false" pattern="YYYY-MM-DD" value="${item.beginTime}" underline="true"/>
                     <#TimeCon id="endTime" name="结束时间" isTime="false" pattern="YYYY-MM-DD" value="${item.endTime}" underline="true"/>
-                    <#input id="state" name="发布状态" value="${item.state}" />
+                    <#textarea id="content" name="内容"  value="${item.content}"/>
                 </div>
             </div>
 
@@ -30,7 +28,9 @@
 
     </div>
 </div>
+<link href="${ctxPath}/static/css/plugins/bootstrap-fileinput.css" rel="stylesheet">
 <script src="${ctxPath}/static/modular/activity/activityDetails/activityDetails_info.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-fileinput.js"></script>
 <script>
     laydate.render({
         elem: '#beginTime'
