@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.system.dao.ActivityDetailsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.system.model.ActivityDetails">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="img" property="img" />
+        <result column="content" property="content" />
+        <result column="begin_time" property="beginTime" />
+        <result column="end_time" property="endTime" />
+        <result column="activity_state" property="activityState" />
+        <result column="uid" property="uid" />
+        <result column="create_time" property="createTime" />
+        <result column="user_number" property="userNumber" />
+        <result column="state" property="state" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, img, content, begin_time, end_time, activity_state, uid, create_time, user_number, state
+    </sql>
+
+</mapper>

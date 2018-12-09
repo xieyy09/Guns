@@ -11,5 +11,9 @@
                 type="button">${name}
         </button>
     </div>
-    <input type="text" class="form-control layer-date" id="${id}"/>
+    <input type="text" class="form-control layer-date" id="${id}"
+           @if(isNotEmpty(value)){
+            value="${value}"
+           @}
+    />
 </div>

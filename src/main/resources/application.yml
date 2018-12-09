@@ -1,8 +1,7 @@
 server:
   port: 8080
-
 guns:
-  swagger-open: true              #是否开启swagger (true/false)
+  swagger-open: false              #是否开启swagger (true/false)
   kaptcha-open: false             #是否开启登录时验证码 (true/false)
   #  file-upload-path: d:/tmp     #文件上传目录(不配置的话为java.io.tmpdir目录)
   spring-session-open: false      #是否开启spring session,如果是多机环境需要开启(true/false)
@@ -28,6 +27,8 @@ spring:
     multipart:
       max-request-size: 100MB
       max-file-size: 100MB
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
 
 mybatis-plus:
   typeAliasesPackage: cn.stylefeng.guns.modular.system.model
@@ -40,9 +41,10 @@ log:
 spring:
   profiles: local
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/guns?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
+    dbname: photo
+    url: jdbc:mysql://193.112.92.40:3306/photo?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&serverTimezone=CTT
     username: root
-    password: root
+    password: jasonx_!@#
     filters: wall,mergeStat
 
 #多数据源情况的配置
