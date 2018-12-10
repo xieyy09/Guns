@@ -1,0 +1,33 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" underline="true"/>
+                            <#input id="title" name="百科讲堂名称" underline="true"/>
+                            <#input id="img" name="百科讲堂图片" underline="true"/>
+                            <#input id="remark" name="百科讲堂说明"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="content" name="百科讲堂内容" underline="true"/>
+                            <#input id="createTime" name="创建时间" underline="true"/>
+                            <#input id="uid" name="创建人ID" underline="true"/>
+                            <#input id="ind" name="顺序" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="WikipediaHallInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="WikipediaHallInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/wikipedia/wikipediaHall/wikipediaHall_info.js"></script>
+@}
