@@ -1,0 +1,117 @@
+package cn.stylefeng.guns.modular.champion.controller;
+
+import cn.stylefeng.guns.config.util.UUIDUtils;
+import cn.stylefeng.guns.core.shiro.ShiroKit;
+import cn.stylefeng.roses.core.base.controller.BaseController;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.beans.factory.annotation.Autowired;
+import cn.stylefeng.guns.core.log.LogObjectHolder;
+import org.springframework.web.bind.annotation.RequestParam;
+import cn.stylefeng.guns.modular.system.model.Champion;
+import cn.stylefeng.guns.modular.champion.service.IChampionService;
+
+import java.util.Date;
+
+/**
+ * 擂主管理控制器
+ *
+ * @author fengshuonan
+ * @Date 2018-12-10 13:26:41
+ */
+@Controller
+@RequestMapping("/champion")
+public class ChampionController extends BaseController {
+
+    private String PREFIX = "/champion/champion/";
+
+    @Autowired
+    private IChampionService championService;
+
+    /**
+     * 跳转到擂主管理首页
+     */
+    @RequestMapping("")
+    public String index() {
+        return PREFIX + "champion.html";
+    }
+
+    /**
+     * 跳转到添加擂主管理
+     */
+    @RequestMapping("/champion_add")
+    public String championAdd() {
+        return PREFIX + "champion_add.html";
+    }
+
+    /**
+     * 跳转到修改擂主管理
+     */
+    @RequestMapping("/champion_update/{championId}")
+    public String championUpdate(@PathVariable String championId, Model model) {
+        Champion champion = championService.selectById(championId);
+        model.addAttribute("item",champion);
+        LogObjectHolder.me().set(champion);
+        return PREFIX + "champion_edit.html";
+    }
+
+    /**
+     * 获取擂主管理列表
+     */
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public Object list(String condition) {
+        Wrapper<Champion> wrapper=new EntityWrapper<>();
+        if(condition!=null && !condition.isEmpty()) {
+            wrapper.like("champion_name", condition);
+        }
+        return championService.selectList(wrapper);
+    }
+
+    /**
+     * 新增擂主管理
+     */
+    @RequestMapping(value = "/add")
+    @ResponseBody
+    public Object add(Champion champion) {
+        champion.setId(UUIDUtils.getBase64UUID());
+        champion.setCreateTime(new Date());
+        champion.setCreateUid(Long.parseLong(ShiroKit.getUser().getId().toString()));
+        championService.insert(champion);
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 删除擂主管理
+     */
+    @RequestMapping(value = "/delete")
+    @ResponseBody
+    public Object delete(@RequestParam String championId) {
+        championService.deleteById(championId);
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 修改擂主管理
+     */
+    @RequestMapping(value = "/update")
+    @ResponseBody
+    public Object update(Champion champion) {
+        championService.updateById(champion);
+        return SUCCESS_TIP;
+    }
+
+    /**
+     * 擂主管理详情
+     */
+    @RequestMapping(value = "/detail/{championId}")
+    @ResponseBody
+    public Object detail(@PathVariable("championId") String championId) {
+        return championService.selectById(championId);
+    }
+}
