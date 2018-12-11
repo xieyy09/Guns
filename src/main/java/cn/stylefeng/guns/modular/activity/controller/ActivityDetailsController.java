@@ -134,6 +134,10 @@ public class ActivityDetailsController extends BaseController {
         String pictureName = UUID.randomUUID().toString() + "." + ToolUtil.getFileSuffix(picture.getOriginalFilename());
         try {
             String fileSavePath = gunsProperties.getFileUploadPath()+path;
+            File file = new File(fileSavePath);
+            if(!file.exists()){
+                file.mkdirs();
+            }
             picture.transferTo(new File(fileSavePath +File.separator+ pictureName));
         } catch (Exception e) {
             throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);

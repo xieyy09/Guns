@@ -2,6 +2,7 @@
  * 初始化百科讲堂详情对话框
  */
 var WikipediaHallInfoDlg = {
+    editor:null,
     wikipediaHallInfoData : {}
 };
 
@@ -44,12 +45,12 @@ WikipediaHallInfoDlg.close = function() {
  * 收集数据
  */
 WikipediaHallInfoDlg.collectData = function() {
+    this.wikipediaHallInfoData['content'] = WikipediaHallInfoDlg.editor.txt.html();
     this
     .set('id')
     .set('title')
     .set('img')
     .set('remark')
-    .set('content')
     .set('createTime')
     .set('uid')
     .set('ind');
@@ -96,5 +97,29 @@ WikipediaHallInfoDlg.editSubmit = function() {
 }
 
 $(function() {
-
+    //初始化编辑器
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create();
+    editor.txt.html($("#contentVal").val());
+    WikipediaHallInfoDlg.editor = editor;
+    $('#imgPicID').change(function(){
+        var data = new FormData($('#imgUploadForm')[0]);
+        $.ajax({
+            url: '/activityDetails/upload',
+            type: 'POST',
+            data: data,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $("#img").val(data)
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data.status);
+            }
+        });
+    })
 });

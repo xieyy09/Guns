@@ -155,7 +155,9 @@ public class WebConfig implements WebMvcConfigurer {
         XssFilter xssFilter = new XssFilter();
         xssFilter.setUrlExclusion(Arrays.asList("/notice/update", "/notice/add"
                 ,"/activityDetails/add","/activityDetails/update"
-                ,"/champion/add","/champion/update"));
+                ,"/champion/add","/champion/update"
+                ,"/popularScienceBase/add","/popularScienceBase/update"
+                ,"/wikipediaHall/add","/wikipediaHall/update"));
         FilterRegistrationBean registration = new FilterRegistrationBean(xssFilter);
         registration.addUrlPatterns("/*");
         return registration;

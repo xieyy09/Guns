@@ -2,6 +2,7 @@
  * 初始化科普基地详情对话框
  */
 var PopularScienceBaseInfoDlg = {
+    editor:null,
     popularScienceBaseInfoData : {}
 };
 
@@ -44,12 +45,12 @@ PopularScienceBaseInfoDlg.close = function() {
  * 收集数据
  */
 PopularScienceBaseInfoDlg.collectData = function() {
+    this.popularScienceBaseInfoData['content'] = PopularScienceBaseInfoDlg.editor.txt.html();
     this
     .set('id')
     .set('title')
     .set('img')
     .set('remark')
-    .set('content')
     .set('createTime')
     .set('uid')
     .set('ind');
@@ -96,5 +97,30 @@ PopularScienceBaseInfoDlg.editSubmit = function() {
 }
 
 $(function() {
+    //初始化编辑器
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create();
+    editor.txt.html($("#contentVal").val());
+    PopularScienceBaseInfoDlg.editor = editor;
 
+    $('#imgPicID').change(function(){
+        var data = new FormData($('#imgUploadForm')[0]);
+        $.ajax({
+            url: '/activityDetails/upload',
+            type: 'POST',
+            data: data,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                $("#img").val(data)
+                console.log(data);
+            },
+            error: function (data) {
+                console.log(data.status);
+            }
+        });
+    })
 });

@@ -14,10 +14,9 @@ var PopularScienceBase = {
 PopularScienceBase.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
-            {title: '科普基地名称', field: 'title', visible: true, align: 'center', valign: 'middle'},
-            {title: '科普基地图片', field: 'img', visible: true, align: 'center', valign: 'middle'},
-            {title: '科普基地说明', field: 'remark', visible: true, align: 'center', valign: 'middle'},
-            {title: '科普基地内容', field: 'content', visible: true, align: 'center', valign: 'middle'},
+            {title: '基地名称', field: 'title', visible: true, align: 'center', valign: 'middle'},
+            {title: '基地说明', field: 'remark', visible: true, align: 'center', valign: 'middle'},
+            {title: '基地内容', field: 'content', visible: true, align: 'center', valign: 'middle'},
             {title: '创建时间', field: 'createTime', visible: true, align: 'center', valign: 'middle'},
             {title: '顺序', field: 'ind', visible: true, align: 'center', valign: 'middle'}
     ];

@@ -14,10 +14,9 @@ var WikipediaHall = {
 WikipediaHall.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
-            {title: '百科讲堂名称', field: 'title', visible: true, align: 'center', valign: 'middle'},
-            {title: '百科讲堂图片', field: 'img', visible: true, align: 'center', valign: 'middle'},
-            {title: '百科讲堂说明', field: 'remark', visible: true, align: 'center', valign: 'middle'},
-            {title: '百科讲堂内容', field: 'content', visible: true, align: 'center', valign: 'middle'},
+            {title: '讲堂名称', field: 'title', visible: true, align: 'center', valign: 'middle'},
+            {title: '讲堂说明', field: 'remark', visible: true, align: 'center', valign: 'middle'},
+            {title: '讲堂内容', field: 'content', visible: true, align: 'center', valign: 'middle'},
             {title: '创建时间', field: 'createTime', visible: true, align: 'center', valign: 'middle'},
             {title: '顺序', field: 'ind', visible: true, align: 'center', valign: 'middle'}
     ];
