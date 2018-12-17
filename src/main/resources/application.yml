@@ -1,5 +1,7 @@
 server:
   port: 8080
+  servlet:
+    context-path: /photo
 guns:
   swagger-open: false              #是否开启swagger (true/false)
   kaptcha-open: false             #是否开启登录时验证码 (true/false)
@@ -29,7 +31,6 @@ spring:
       max-file-size: 100MB
   jackson:
     date-format: "yyyy-MM-dd HH:mm:ss"
-
 mybatis-plus:
   typeAliasesPackage: cn.stylefeng.guns.modular.system.model
 

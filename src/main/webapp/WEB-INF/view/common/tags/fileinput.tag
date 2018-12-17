@@ -17,7 +17,7 @@
             <div class="form-group">
                 <div class="fileinput fileinput-new" data-provides="fileinput" id="${id}InputUpload">
                     <div class="fileinput-new thumbnail" style="width: 200px;height: auto;max-height:150px;">
-                        <img id='picImg' style="width: 100%;height: auto;max-height: 140px;" src="/activityDetails/loadImg?path=${path}&filename=${value!'noimage.png'}" alt="" />
+                        <img id='picImg' style="width: 100%;height: auto;max-height: 140px;" src="${ctxPath}/activityDetails/loadImg?path=${path}&filename=${value!'noimage.png'}" alt="" />
                     </div>
                     <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                     <div>

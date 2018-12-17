@@ -106,7 +106,7 @@ $(function() {
     $('#imgPicID').change(function(){
         var data = new FormData($('#imgUploadForm')[0]);
         $.ajax({
-            url: '/activityDetails/upload',
+            url: Feng.ctxPath + '/activityDetails/upload',
             type: 'POST',
             data: data,
             async: false,
