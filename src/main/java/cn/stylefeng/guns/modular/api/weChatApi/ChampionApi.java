@@ -1,6 +1,7 @@
 package cn.stylefeng.guns.modular.api.weChatApi;
 
-import cn.stylefeng.guns.modular.science.service.IPopularScienceBaseService;
+import cn.stylefeng.guns.modular.champion.service.IChampionService;
+import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.PopularScienceBase;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
@@ -17,36 +18,35 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 科普基地API
+ * 擂主管理
  */
 @RestController
-@RequestMapping("/weChatApi/science")
+@RequestMapping("/weChatApi/champio")
 @Slf4j
-public class ScienceApi extends BaseController {
+public class ChampionApi extends BaseController {
     @Autowired
-    private IPopularScienceBaseService popularScienceBaseService;
-
+    private IChampionService championService;
     @GetMapping("/list")
-    public Object findPopularScienceList(@RequestParam(value = "limit",defaultValue = "5") String limit){
+    public Object findChampionList(@RequestParam(value = "limit",defaultValue = "5") String limit){
         try {
-            Wrapper<PopularScienceBase> wrapper = new EntityWrapper<>();
-            wrapper.orderDesc(Arrays.asList("ind"));
-            List<PopularScienceBase> list = popularScienceBaseService.selectList(wrapper);
-            return list;
+            Wrapper<Champion> wrapper=new EntityWrapper<>();
+//            wrapper.orderDesc(Arrays.asList("ind"));
+            List<Champion> champions = championService.selectList(wrapper);
+            return champions;
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return new ErrorResponseData(500, "查询科普基地列表失败！");
+            return new ErrorResponseData(500, "查询擂主列表失败！");
         }
     }
 
     @GetMapping("/info")
-    public Object findPopularScienceInfo(@RequestParam("id") String id){
+    public Object findChampionInfo(@RequestParam("id") String id){
         try {
-            PopularScienceBase popularScienceBase = popularScienceBaseService.selectById(id);
-            return popularScienceBase;
+            Champion champion = championService.selectById(id);
+            return champion;
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return new ErrorResponseData(500, "查询科普基地详情失败！");
+            return new ErrorResponseData(500, "查询擂主详情失败！");
         }
     }
 }

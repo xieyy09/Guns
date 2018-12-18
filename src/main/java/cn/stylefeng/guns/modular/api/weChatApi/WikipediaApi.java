@@ -1,7 +1,8 @@
 package cn.stylefeng.guns.modular.api.weChatApi;
 
-import cn.stylefeng.guns.modular.science.service.IPopularScienceBaseService;
-import cn.stylefeng.guns.modular.system.model.PopularScienceBase;
+import cn.stylefeng.guns.modular.system.model.ActivityDetails;
+import cn.stylefeng.guns.modular.system.model.WikipediaHall;
+import cn.stylefeng.guns.modular.wikipedia.service.IWikipediaHallService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -17,36 +18,36 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 科普基地API
+ * 百科讲堂API
  */
 @RestController
-@RequestMapping("/weChatApi/science")
+@RequestMapping("/weChatApi/wikipedia")
 @Slf4j
-public class ScienceApi extends BaseController {
+public class WikipediaApi extends BaseController {
     @Autowired
-    private IPopularScienceBaseService popularScienceBaseService;
+    private IWikipediaHallService wikipediaHallService;
 
     @GetMapping("/list")
-    public Object findPopularScienceList(@RequestParam(value = "limit",defaultValue = "5") String limit){
+    public Object findChampionList(@RequestParam(value = "limit",defaultValue = "5") String limit){
         try {
-            Wrapper<PopularScienceBase> wrapper = new EntityWrapper<>();
+            Wrapper<WikipediaHall> wrapper=new EntityWrapper<>();
             wrapper.orderDesc(Arrays.asList("ind"));
-            List<PopularScienceBase> list = popularScienceBaseService.selectList(wrapper);
-            return list;
+            List<WikipediaHall> wikipediaHalls = wikipediaHallService.selectList(wrapper);
+            return wikipediaHalls;
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return new ErrorResponseData(500, "查询科普基地列表失败！");
+            return new ErrorResponseData(500, "查询百科讲堂列表失败！");
         }
     }
 
     @GetMapping("/info")
-    public Object findPopularScienceInfo(@RequestParam("id") String id){
+    public Object findChampionInfo(@RequestParam("id") String id){
         try {
-            PopularScienceBase popularScienceBase = popularScienceBaseService.selectById(id);
-            return popularScienceBase;
+            WikipediaHall wikipediaHall = wikipediaHallService.selectById(id);
+            return wikipediaHall;
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return new ErrorResponseData(500, "查询科普基地详情失败！");
+            return new ErrorResponseData(500, "查询百科讲堂详情失败！");
         }
     }
 }
