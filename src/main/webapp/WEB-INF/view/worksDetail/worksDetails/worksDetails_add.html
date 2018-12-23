@@ -1,0 +1,50 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                            <#input id="id" name="id" underline="true"/>
+                            <#input id="activityId" name="活动ID" underline="true"/>
+                            <#input id="uid" name="用户ID" underline="true"/>
+                            <#input id="replyNumber" name="评论数量" underline="true"/>
+                            <#input id="forwardNumber" name="转发数量" underline="true"/>
+                            <#input id="giveLikeNumber" name="点赞数量" underline="true"/>
+                            <#input id="createTime" name="创建时间" underline="true"/>
+                            <#input id="state" name="审核状态(0待审核1通过-1不通过)" underline="true"/>
+                            <#input id="hasPoint" name="是否定位(0无定位1有定位)" underline="true"/>
+                            <#input id="worksTitle" name="作品名称" underline="true"/>
+                            <#input id="imgNumber" name="图片数量" underline="true"/>
+                            <#input id="imgUrl" name="第一个图片地址" underline="true"/>
+                            <#input id="imgRemark" name="图片说明"/>
+                </div>
+
+                <div class="col-sm-6">
+                            <#input id="pohtoTime" name="拍摄时间" underline="true"/>
+                            <#input id="weather" name="天气" underline="true"/>
+                            <#input id="address" name="拍摄地点" underline="true"/>
+                            <#input id="takenAuthor" name="拍摄作者" underline="true"/>
+                            <#input id="takenTool" name="拍摄工具" underline="true"/>
+                            <#input id="content" name="二记" underline="true"/>
+                            <#input id="answerOne" name="问题1" underline="true"/>
+                            <#input id="answerTwo" name="问题2" underline="true"/>
+                            <#input id="answerThree" name="问题3" underline="true"/>
+                            <#input id="answerFour" name="问题4" underline="true"/>
+                            <#input id="answerFive" name="问题5" underline="true"/>
+                            <#input id="answerSix" name="问题6" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="WorksDetailsInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="WorksDetailsInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/worksDetail/worksDetails/worksDetails_info.js"></script>
+@}
