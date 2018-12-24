@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.system.dao.AccountExtMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.system.model.AccountExt">
+        <id column="uid" property="uid" />
+        <result column="ban_reply" property="banReply" />
+        <result column="ban_post" property="banPost" />
+        <result column="ban_give_like" property="banGiveLike" />
+        <result column="last_speak_time" property="lastSpeakTime" />
+        <result column="webchat_open_id" property="webchatOpenId" />
+        <result column="webchat_pohto_url" property="webchatPohtoUrl" />
+        <result column="webchat_name" property="webchatName" />
+        <result column="now_give_number" property="nowGiveNumber" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        uid, ban_reply, ban_post, ban_give_like, last_speak_time, webchat_open_id, webchat_pohto_url, webchat_name, now_give_number
+    </sql>
+
+</mapper>
