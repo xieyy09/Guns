@@ -87,12 +87,18 @@ public class LoginApi  extends BaseController {
             if(accountExt==null){
                 //未绑定
                 setUserInfo(openid, userInfo,null);
+                if(log.isDebugEnabled()){
+                    log.debug("build ok:----->{}",openid);
+                }
             }else{
                 //已绑定
                 setUserInfo(openid, userInfo,accountExt.getUid());
+                if(log.isDebugEnabled()){
+                    log.debug("update ok:----->{}",openid);
+                }
             }
             super.getSession().setAttribute(AuthUtil.OPENID,openid);
-            return null;
+            return true;
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "授权失败！");
