@@ -1,5 +1,6 @@
 package cn.stylefeng.guns.config.web;
 
+import cn.stylefeng.guns.config.util.AuthUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,14 @@ public class WeChatInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if(log.isDebugEnabled()){
             log.debug("weChat Interceptor begin URL -->{}",request.getRequestURL());
+        }
+        Object attribute = request.getSession().getAttribute(AuthUtil.OPENID);
+        if(attribute==null){
+            response.setStatus(403);
+            return false;
+        }
+        if(log.isDebugEnabled()){
+            log.debug("weChat Interceptor openId -->{}",attribute);
         }
         return true;
     }

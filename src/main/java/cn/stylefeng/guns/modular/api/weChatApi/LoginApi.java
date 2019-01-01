@@ -2,6 +2,7 @@ package cn.stylefeng.guns.modular.api.weChatApi;
 
 import cn.stylefeng.guns.config.properties.GunsProperties;
 import cn.stylefeng.guns.config.util.AuthUtil;
+import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.modular.system.model.AccountExt;
 import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.User;
@@ -10,15 +11,19 @@ import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import cn.stylefeng.roses.core.util.FileUtil;
+import cn.stylefeng.roses.core.util.ToolUtil;
+import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/weChatApi")
@@ -30,8 +35,30 @@ public class LoginApi  extends BaseController {
     private IAccountExtService accountExtService;
     @Autowired
     private IUserService userService;
+
     /**
      * 上传图片
+     */
+    @RequestMapping(method = RequestMethod.POST, path = "/upload")
+    @ResponseBody
+    public String upload(@RequestPart("file") MultipartFile picture) {
+
+        String pictureName = UUID.randomUUID().toString() + "." + ToolUtil.getFileSuffix(picture.getOriginalFilename());
+        try {
+            String path="worksdetail";
+            String fileSavePath = gunsProperties.getFileUploadPath()+path;
+            File file = new File(fileSavePath);
+            if(!file.exists()){
+                file.mkdirs();
+            }
+            picture.transferTo(new File(fileSavePath +File.separator+ pictureName));
+        } catch (Exception e) {
+            throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);
+        }
+        return pictureName;
+    }
+    /**
+     * 加载图片
      */
     @RequestMapping(method = RequestMethod.GET, path = "/loadImg")
     @ResponseBody

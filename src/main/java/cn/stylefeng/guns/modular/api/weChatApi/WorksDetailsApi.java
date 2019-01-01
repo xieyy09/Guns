@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,7 +54,7 @@ public class WorksDetailsApi {
     @RequestMapping(value = "/list")
     public Object list(String condition) {
         String orderBycolnum = "create_time";
-        if("giveLike".toLowerCase().equals(condition.toLowerCase())){
+        if(!StringUtils.isEmpty(condition) && "giveLike".toLowerCase().equals(condition.toLowerCase())){
             orderBycolnum ="give_like_number";
         }
         WorksDetails worksDetails = new WorksDetails();
