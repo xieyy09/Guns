@@ -3,19 +3,19 @@ package cn.stylefeng.guns.modular.activity.controller;
 import cn.stylefeng.guns.config.properties.GunsProperties;
 import cn.stylefeng.guns.config.util.UUIDUtils;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
+import cn.stylefeng.guns.core.log.LogObjectHolder;
+import cn.stylefeng.guns.modular.activity.service.IActivityDetailsService;
+import cn.stylefeng.guns.modular.system.model.ActivityDetails;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.util.FileUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
-import cn.stylefeng.guns.core.log.LogObjectHolder;
-import cn.stylefeng.guns.modular.system.model.ActivityDetails;
-import cn.stylefeng.guns.modular.activity.service.IActivityDetailsService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -90,6 +90,14 @@ public class ActivityDetailsController extends BaseController {
         activityDetails.setId(UUIDUtils.getBase64UUID());
         activityDetails.setCreateTime(new Date());
         final Object userId = super.getSession().getAttribute("userId");
+        Date beginTime = activityDetails.getBeginTime();
+        Date endTime = activityDetails.getEndTime();
+        Date now=new Date();
+        if(beginTime.getTime()<now.getTime()&&now.getTime()<endTime.getTime()){
+            activityDetails.setActivityState(1);
+        }else if(now.getTime()>endTime.getTime()){
+            activityDetails.setActivityState(-1);
+        }
         activityDetails.setUid(Long.parseLong(userId.toString()));
         activityDetailsService.insert(activityDetails);
         return SUCCESS_TIP;
