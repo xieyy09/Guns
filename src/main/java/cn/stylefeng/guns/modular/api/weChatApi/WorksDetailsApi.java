@@ -16,6 +16,7 @@ import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,17 +53,18 @@ public class WorksDetailsApi {
      * 获取作品管理列表
      */
     @RequestMapping(value = "/list")
-    public Object list(String condition) {
+    public Page<WorksDetails> list(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String condition) {
         String orderBycolnum = "create_time";
         if(!StringUtils.isEmpty(condition) && "giveLike".toLowerCase().equals(condition.toLowerCase())){
             orderBycolnum ="give_like_number";
         }
+        Page<WorksDetails> pages =  new Page<>(page,20);
         WorksDetails worksDetails = new WorksDetails();
         worksDetails.setState(1);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
         worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0}",worksDetails.getState())
                 .orderBy(orderBycolnum);
-        return worksDetailsService.selectList(worksDetailsEntityWrapper);
+        return worksDetailsService.selectPage(pages,worksDetailsEntityWrapper);
     }
 
 

@@ -20,6 +20,7 @@ import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import org.omg.CORBA.OBJ_ADAPTER;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      * 获取我的作品管理列表
      */
     @RequestMapping(value = "/mylist")
-    public Object mylist(String condition) {
+    public Page<WorksDetails> mylist(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String condition) {
         String orderBycolnum = "create_time";
         WorksDetails worksDetails = new WorksDetails();
         ShiroUser user = ShiroKit.getUser();
@@ -56,11 +57,12 @@ public class WorksDetailsAuthcApi extends BaseController {
             throw new ServiceException(BizExceptionEnum.TOKEN_EXPIRED);
         }
         long uid = user.getId().longValue();
+        Page<WorksDetails> pages =  new Page<>(page,20);
         worksDetails.setUid(uid);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
         worksDetailsEntityWrapper.where(worksDetails.getUid()!=null," uid ={0}",worksDetails.getUid())
                 .orderBy(orderBycolnum);
-        return worksDetailsService.selectList(worksDetailsEntityWrapper);
+        return worksDetailsService.selectPage(pages,worksDetailsEntityWrapper);
     }
 
     @RequestMapping(value = "/delete/{worksDetailsId}")
@@ -132,7 +134,6 @@ public class WorksDetailsAuthcApi extends BaseController {
     public Object addGiveLike(@PathVariable String worksDetailsId){
         long uid = ShiroKit.getUser().getId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
-
 
         // 判断当前是否已经点赞
         EntityWrapper<GiveLikeDetails> giveLikeDetailsWrapper = new EntityWrapper<>();
