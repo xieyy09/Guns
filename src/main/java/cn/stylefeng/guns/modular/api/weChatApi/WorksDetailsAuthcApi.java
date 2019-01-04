@@ -126,6 +126,30 @@ public class WorksDetailsAuthcApi extends BaseController {
     }
 
     /**
+     *
+     * @param worksDetailsId 作品
+     * @param auditType PASS 通过   REJECT 不通过
+     * @return
+     */
+    @RequestMapping(value = "/auditWorksDetails/{worksDetailsId}_{auditType}")
+    public Object auditWorksDetails(@PathVariable String worksDetailsId,@PathVariable String auditType){
+        WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
+        if(worksDetails==null){
+            // 数据不全
+            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+        }
+        WorksDetails worksDetail = new WorksDetails();
+        worksDetail.setId(worksDetailsId);
+        if("REJECT".equals(auditType.toUpperCase())){
+            worksDetail.setState(1);
+        }else{
+            worksDetail.setState(-1);
+        }
+        worksDetailsService.updateById(worksDetail);
+        return SUCCESS_TIP;
+    }
+
+    /**
      * 点赞
      * @param worksDetailsId
      * @return
