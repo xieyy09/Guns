@@ -42,6 +42,8 @@ public class Champion extends Model<Champion> {
      */
     @TableField("professional_field")
     private String professionalField;
+    @TableField("phone")
+    private String phone;
     /**
      * 签名
      */
@@ -67,6 +69,14 @@ public class Champion extends Model<Champion> {
     private Integer state;
 
     private String img;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public String getImg() {
         return img;

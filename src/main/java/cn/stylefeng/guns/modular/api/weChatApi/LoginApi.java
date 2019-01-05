@@ -77,8 +77,7 @@ public class LoginApi  extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
-    @ResponseBody
-    public Object callBack() {
+    public void callBack() {
         try {
             String code = super.getHttpServletRequest().getParameter("code");
             if(code==null || code.equals("")){
@@ -86,7 +85,6 @@ public class LoginApi  extends BaseController {
                 String redirectUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
                         +"&redirect_uri="+wx_redirect_uri+"&reponse_type=code&scope=SCOPE&state=STATE#wechat_redirect";
                 super.getHttpServletResponse().sendRedirect(redirectUrl);
-                return false;
             }else {
                 if (log.isDebugEnabled()) {
                     log.debug("code:----->{}", code);
@@ -120,31 +118,39 @@ public class LoginApi  extends BaseController {
                 Wrapper<AccountExt> wrapper = new EntityWrapper<>();
                 wrapper.eq("webchat_open_id", openid);
                 AccountExt accountExt = accountExtService.selectOne(wrapper);
+                String nickname="";
                 if (accountExt == null) {
                     //未绑定
-                    setUserInfo(openid, userInfo, null);
+                    nickname = setUserInfo(openid, userInfo, null);
                     if (log.isDebugEnabled()) {
                         log.debug("build ok:----->{}", openid);
                     }
                 } else {
                     //已绑定
-                    setUserInfo(openid, userInfo, accountExt.getUid());
+                    nickname = setUserInfo(openid, userInfo, accountExt.getUid());
                     if (log.isDebugEnabled()) {
                         log.debug("update ok:----->{}", openid);
                     }
                 }
                 super.getSession().setAttribute(AuthUtil.OPENID, openid);
-                return true;
+                super.getSession().setAttribute(AuthUtil.NICKNAME, nickname);
             }
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return new ErrorResponseData(500, "授权失败！");
+//            return new ErrorResponseData(500, "授权失败！");
         }
     }
-
-    private void setUserInfo(String openid, JSONObject userInfo,Integer id) {
-        AccountExt accountExt;
-        accountExt=new AccountExt();
+    @RequestMapping(method = RequestMethod.GET, path = "/getNickname")
+    @ResponseBody
+    public String getNickname() {
+        Object attribute = super.getSession().getAttribute(AuthUtil.NICKNAME);
+        if(attribute==null){
+            return null;
+        }
+        return attribute.toString();
+    }
+    private String setUserInfo(String openid, JSONObject userInfo,Integer id) {
+        AccountExt accountExt=new AccountExt();
         Integer sex = userInfo.getInteger("sex");
         String nickname = userInfo.getString("nickname");
         String headimgurl = userInfo.getString("headimgurl");
@@ -159,8 +165,13 @@ public class LoginApi  extends BaseController {
         if(id!=null){
             user.setId(id);
             accountExt.setUid(user.getId());
+            userService.updateById(user);
+            accountExtService.updateById(accountExt);
+        }else{
+            userService.insert(user);
+            accountExt.setUid(user.getId());
+            accountExtService.insert(accountExt);
         }
-        userService.insertOrUpdate(user);
-        accountExtService.insertOrUpdate(accountExt);
+        return nickname;
     }
 }

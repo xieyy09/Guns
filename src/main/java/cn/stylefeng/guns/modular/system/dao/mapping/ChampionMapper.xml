@@ -15,11 +15,12 @@
         <result column="reply_number" property="replyNumber" />
         <result column="state" property="state" />
         <result column="img" property="img" />
+        <result column="phone" property="phone" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, champion_name, uid, champion_remark, professional_field, sign, create_time, create_uid, reply_number, state,img
+        id, champion_name, uid, champion_remark, professional_field, sign, create_time, create_uid, reply_number, state,img,phone
     </sql>
 
 </mapper>

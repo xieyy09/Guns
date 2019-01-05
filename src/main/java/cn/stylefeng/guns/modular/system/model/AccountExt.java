@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -63,7 +64,16 @@ public class AccountExt extends Model<AccountExt> {
      */
     @TableField("now_give_number")
     private Integer nowGiveNumber;
+    @TableField("isEdit")
+    private Integer isEdit;
 
+    public Integer getIsEdit() {
+        return isEdit;
+    }
+
+    public void setIsEdit(Integer isEdit) {
+        this.isEdit = isEdit;
+    }
 
     public Integer getUid() {
         return uid;
@@ -155,5 +165,26 @@ public class AccountExt extends Model<AccountExt> {
         ", webchatName=" + webchatName +
         ", nowGiveNumber=" + nowGiveNumber +
         "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AccountExt that = (AccountExt) o;
+        return Objects.equals(uid, that.uid) &&
+                Objects.equals(banReply, that.banReply) &&
+                Objects.equals(banPost, that.banPost) &&
+                Objects.equals(banGiveLike, that.banGiveLike) &&
+                Objects.equals(lastSpeakTime, that.lastSpeakTime) &&
+                Objects.equals(webchatOpenId, that.webchatOpenId) &&
+                Objects.equals(webchatPohtoUrl, that.webchatPohtoUrl) &&
+                Objects.equals(webchatName, that.webchatName) &&
+                Objects.equals(nowGiveNumber, that.nowGiveNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(uid, banReply, banPost, banGiveLike, lastSpeakTime, webchatOpenId, webchatPohtoUrl, webchatName, nowGiveNumber);
     }
 }

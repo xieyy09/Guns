@@ -13,11 +13,12 @@
         <result column="webchat_pohto_url" property="webchatPohtoUrl" />
         <result column="webchat_name" property="webchatName" />
         <result column="now_give_number" property="nowGiveNumber" />
+        <result column="isEdit" property="isEdit" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        uid, ban_reply, ban_post, ban_give_like, last_speak_time, webchat_open_id, webchat_pohto_url, webchat_name, now_give_number
+        uid, ban_reply, ban_post, ban_give_like, last_speak_time, webchat_open_id, webchat_pohto_url, webchat_name, now_give_number,isEdit
     </sql>
 
 </mapper>

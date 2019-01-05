@@ -16,6 +16,7 @@ Champion.initColumn = function () {
         {field: 'selectItem', radio: true},
             {title: '擂主姓名', field: 'championName', visible: true, align: 'center', valign: 'middle'},
             {title: '擂主说明', field: 'championRemark', visible: true, align: 'center', valign: 'middle'},
+            {title: '联系电话', field: 'phone', visible: true, align: 'center', valign: 'middle'},
             {title: '专业领域', field: 'professionalField', visible: true, align: 'center', valign: 'middle'},
             {title: '签名', field: 'sign', visible: true, align: 'center', valign: 'middle'},
             {title: '创建时间', field: 'createTime', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
