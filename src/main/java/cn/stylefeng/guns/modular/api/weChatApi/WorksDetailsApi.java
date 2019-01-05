@@ -4,6 +4,8 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.system.model.*;
 import cn.stylefeng.guns.modular.system.service.IUserService;
+import cn.stylefeng.guns.modular.system.transfer.GiveLikeDetailsDto;
+import cn.stylefeng.guns.modular.system.transfer.ReplyDetailsDto;
 import cn.stylefeng.guns.modular.system.transfer.WorksDetailsDto;
 import cn.stylefeng.guns.modular.system.transfer.WorksImgDetailsDto;
 import cn.stylefeng.guns.modular.worksDetail.service.IGiveLikeDetailsService;
@@ -26,10 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by lyc on 2018/12/23.
@@ -124,12 +123,41 @@ public class WorksDetailsApi {
         giveLikeDetailsWrapper.setEntity(giveLikeDetails);
         List<GiveLikeDetails> giveLikeDetailss = giveLikeDetailsService.selectList(giveLikeDetailsWrapper);
         // 根据用户ID 获取用户信息
-
+        Set<Long> userIdList = new HashSet<>();
+        for(GiveLikeDetails details : giveLikeDetailss){
+            userIdList.add(details.getUid());
+        }
+        Map<Long, User> mapUserInfoByUserIdList = getMapUserInfoByUserIdList(userIdList);
+        List<GiveLikeDetailsDto> listDto = new ArrayList<>();
+        GiveLikeDetailsDto dto;
+        for(GiveLikeDetails details : giveLikeDetailss){
+            dto = new GiveLikeDetailsDto();
+            BeanUtils.copyProperties(details,dto);
+            User user = mapUserInfoByUserIdList.get(dto.getUid());
+            if(user!=null){
+                dto.setUname(user.getName());
+                dto.setPhoto(user.getAvatar());
+            }
+        }
         SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(giveLikeDetailss);
+        responseData.setData(listDto);
         responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
         responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
         return responseData;
+    }
+
+    /**
+     * 获取用户信息 
+     * @param userIdList
+     * @return
+     */
+    private Map<Long,User> getMapUserInfoByUserIdList(Set<Long> userIdList) {
+        List<User> users = userService.selectBatchIds(userIdList);
+        Map<Long,User> userInfoMap = new HashMap<>();
+        for(User user : users){
+            userInfoMap.put(Long.valueOf(user.getId()),user);
+        }
+        return userInfoMap;
     }
 
     /**
@@ -148,9 +176,25 @@ public class WorksDetailsApi {
                 .orderBy("create_time",false);
         List<ReplyDetails> replyDetailss = replyDetailsService.selectList(wrapper);
 //        // 根据用户ID 获取用户信息
-
+        // 根据用户ID 获取用户信息
+        Set<Long> userIdList = new HashSet<>();
+        for(ReplyDetails details : replyDetailss){
+            userIdList.add(details.getUid());
+        }
+        Map<Long, User> mapUserInfoByUserIdList = getMapUserInfoByUserIdList(userIdList);
+        List<ReplyDetailsDto> listDto = new ArrayList<>();
+        ReplyDetailsDto dto;
+        for(ReplyDetails details : replyDetailss){
+            dto = new ReplyDetailsDto();
+            BeanUtils.copyProperties(details,dto);
+            User user = mapUserInfoByUserIdList.get(dto.getUid());
+            if(user!=null){
+                dto.setUname(user.getName());
+                dto.setPhoto(user.getAvatar());
+            }
+        }
         SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(replyDetailss);
+        responseData.setData(listDto);
         responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
         responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
         return responseData;
