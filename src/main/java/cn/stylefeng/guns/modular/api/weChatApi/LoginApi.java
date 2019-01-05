@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,52 +81,61 @@ public class LoginApi  extends BaseController {
     public Object callBack() {
         try {
             String code = super.getHttpServletRequest().getParameter("code");
-            if(log.isDebugEnabled()){
-                log.debug("code:----->{}",code);
-            }
-            //获取code后，请求以下链接获取access_token
-            String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + AuthUtil.APPID
-                    + "&secret=" + AuthUtil.APPSECRET
-                    + "&code=" + code
-                    + "&grant_type=authorization_code";
-
-            //通过网络请求方法来请求上面这个接口
-            JSONObject jsonObject = AuthUtil.doGetJson(url);
-            if(log.isDebugEnabled()){
-                log.debug("jsonObject:----->{}",jsonObject);
-            }
-            //从返回的JSON数据中取出access_token和openid，拉取用户信息时用
-            String token =  jsonObject.getString("access_token");
-            String openid = jsonObject.getString("openid");
-            // 第三步：刷新access_token（如果需要）
-
-            // 第四步：拉取用户信息(需scope为 snsapi_userinfo)
-            String infoUrl ="https://api.weixin.qq.com/sns/userinfo?access_token=" + token
-                    + "&openid=" + openid
-                    + "&lang=zh_CN";
-            //通过网络请求方法来请求上面这个接口
-            JSONObject userInfo = AuthUtil.doGetJson(infoUrl);
-            if(log.isDebugEnabled()){
-                log.debug("userInfo:----->{}",userInfo);
-            }
-            Wrapper<AccountExt> wrapper=new EntityWrapper<>();
-            wrapper.eq("webchat_open_id",openid);
-            AccountExt accountExt = accountExtService.selectOne(wrapper);
-            if(accountExt==null){
-                //未绑定
-                setUserInfo(openid, userInfo,null);
-                if(log.isDebugEnabled()){
-                    log.debug("build ok:----->{}",openid);
+            if(code==null || code.equals("")){
+                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/weChatApi/callBack");
+                String redirectUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
+                        +"&redirect_uri="+wx_redirect_uri+"&reponse_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+                super.getHttpServletResponse().sendRedirect(redirectUrl);
+                return false;
+            }else {
+                if (log.isDebugEnabled()) {
+                    log.debug("code:----->{}", code);
                 }
-            }else{
-                //已绑定
-                setUserInfo(openid, userInfo,accountExt.getUid());
-                if(log.isDebugEnabled()){
-                    log.debug("update ok:----->{}",openid);
+
+                //获取code后，请求以下链接获取access_token
+                String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + AuthUtil.APPID
+                        + "&secret=" + AuthUtil.APPSECRET
+                        + "&code=" + code
+                        + "&grant_type=authorization_code";
+
+                //通过网络请求方法来请求上面这个接口
+                JSONObject jsonObject = AuthUtil.doGetJson(url);
+                if (log.isDebugEnabled()) {
+                    log.debug("jsonObject:----->{}", jsonObject);
                 }
+                //从返回的JSON数据中取出access_token和openid，拉取用户信息时用
+                String token = jsonObject.getString("access_token");
+                String openid = jsonObject.getString("openid");
+                // 第三步：刷新access_token（如果需要）
+
+                // 第四步：拉取用户信息(需scope为 snsapi_userinfo)
+                String infoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token
+                        + "&openid=" + openid
+                        + "&lang=zh_CN";
+                //通过网络请求方法来请求上面这个接口
+                JSONObject userInfo = AuthUtil.doGetJson(infoUrl);
+                if (log.isDebugEnabled()) {
+                    log.debug("userInfo:----->{}", userInfo);
+                }
+                Wrapper<AccountExt> wrapper = new EntityWrapper<>();
+                wrapper.eq("webchat_open_id", openid);
+                AccountExt accountExt = accountExtService.selectOne(wrapper);
+                if (accountExt == null) {
+                    //未绑定
+                    setUserInfo(openid, userInfo, null);
+                    if (log.isDebugEnabled()) {
+                        log.debug("build ok:----->{}", openid);
+                    }
+                } else {
+                    //已绑定
+                    setUserInfo(openid, userInfo, accountExt.getUid());
+                    if (log.isDebugEnabled()) {
+                        log.debug("update ok:----->{}", openid);
+                    }
+                }
+                super.getSession().setAttribute(AuthUtil.OPENID, openid);
+                return true;
             }
-            super.getSession().setAttribute(AuthUtil.OPENID,openid);
-            return true;
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "授权失败！");

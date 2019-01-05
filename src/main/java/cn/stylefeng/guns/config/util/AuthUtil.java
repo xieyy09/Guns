@@ -14,6 +14,7 @@ public class AuthUtil {
     public static final String OPENID = "OPENID";
     public static final String APPID = "wx45c1428e5584fcdb";
     public static final String APPSECRET = "98174450eb706ada330f37e646be85d5";
+    public static final String SERVER = "http://193.112.92.40/photo";
 
     public static JSONObject doGetJson(String url) throws ClientProtocolException, IOException {
         JSONObject jsonObject = null;
