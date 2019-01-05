@@ -31,6 +31,14 @@ public class ReplyDetailsDto {
      */
     private Long uid;
     /**
+     * 评论人姓名
+     */
+    private String uname;
+    /**
+     * 评论人头像
+     */
+    private String photo;
+    /**
      * 评论内容
      */
     private String content;

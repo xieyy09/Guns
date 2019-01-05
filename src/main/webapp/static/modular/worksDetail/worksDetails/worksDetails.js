@@ -14,31 +14,49 @@ var WorksDetails = {
 WorksDetails.initColumn = function () {
     return [
         {field: 'selectItem', radio: true},
-            {title: 'id', field: 'id', visible: true, align: 'center', valign: 'middle'},
-            {title: '活动ID', field: 'activityId', visible: true, align: 'center', valign: 'middle'},
-            {title: '用户ID', field: 'uid', visible: true, align: 'center', valign: 'middle'},
+            {title: 'id', field: 'id', visible:false, align: 'center', valign: 'middle'},
+            {title: '活动ID', field: 'activityId', visible: false, align: 'center', valign: 'middle'},
+            {title: '用户ID', field: 'uid', visible: false, align: 'center', valign: 'middle'},
             {title: '评论数量', field: 'replyNumber', visible: true, align: 'center', valign: 'middle'},
             {title: '转发数量', field: 'forwardNumber', visible: true, align: 'center', valign: 'middle'},
             {title: '点赞数量', field: 'giveLikeNumber', visible: true, align: 'center', valign: 'middle'},
-            {title: '创建时间', field: 'createTime', visible: true, align: 'center', valign: 'middle'},
-            {title: '审核状态(0待审核1通过-1不通过)', field: 'state', visible: true, align: 'center', valign: 'middle'},
-            {title: '是否定位(0无定位1有定位)', field: 'hasPoint', visible: true, align: 'center', valign: 'middle'},
+            {title: '创建时间', field: 'createTime', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                DateUtils.expandDate();
+                var date = new Date(value);
+                return date.format('yyyy-MM-dd');
+            }},
+            {title: '审核状态', field: 'state', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                if(value==-1){
+                    return "不通过";
+                }else if(value==0){
+                    return "待审核";
+                }else if(value==1){
+                    return "通过";
+                }
+            }},
+            {title: '是否定位', field: 'hasPoint', visible: false, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                if(value==0){
+                    return "无定位";
+                }else if(value==1){
+                    return "有定位";
+                }
+            }},
             {title: '作品名称', field: 'worksTitle', visible: true, align: 'center', valign: 'middle'},
             {title: '图片数量', field: 'imgNumber', visible: true, align: 'center', valign: 'middle'},
-            {title: '第一个图片地址', field: 'imgUrl', visible: true, align: 'center', valign: 'middle'},
-            {title: '图片说明', field: 'imgRemark', visible: true, align: 'center', valign: 'middle'},
-            {title: '拍摄时间', field: 'pohtoTime', visible: true, align: 'center', valign: 'middle'},
-            {title: '天气', field: 'weather', visible: true, align: 'center', valign: 'middle'},
-            {title: '拍摄地点', field: 'address', visible: true, align: 'center', valign: 'middle'},
-            {title: '拍摄作者', field: 'takenAuthor', visible: true, align: 'center', valign: 'middle'},
-            {title: '拍摄工具', field: 'takenTool', visible: true, align: 'center', valign: 'middle'},
-            {title: '二记', field: 'content', visible: true, align: 'center', valign: 'middle'},
-            {title: '问题1', field: 'answerOne', visible: true, align: 'center', valign: 'middle'},
-            {title: '问题2', field: 'answerTwo', visible: true, align: 'center', valign: 'middle'},
-            {title: '问题3', field: 'answerThree', visible: true, align: 'center', valign: 'middle'},
-            {title: '问题4', field: 'answerFour', visible: true, align: 'center', valign: 'middle'},
-            {title: '问题5', field: 'answerFive', visible: true, align: 'center', valign: 'middle'},
-            {title: '问题6', field: 'answerSix', visible: true, align: 'center', valign: 'middle'}
+            {title: '第一个图片地址', field: 'imgUrl', visible: false, align: 'center', valign: 'middle'},
+            {title: '图片说明', field: 'imgRemark', visible: false, align: 'center', valign: 'middle'},
+            {title: '拍摄时间', field: 'pohtoTime', visible: false, align: 'center', valign: 'middle'},
+            {title: '天气', field: 'weather', visible: false, align: 'center', valign: 'middle'},
+            {title: '拍摄地点', field: 'address', visible: false, align: 'center', valign: 'middle'},
+            {title: '拍摄作者', field: 'takenAuthor', visible: false, align: 'center', valign: 'middle'},
+            {title: '拍摄工具', field: 'takenTool', visible: false, align: 'center', valign: 'middle'},
+            {title: '二记', field: 'content', visible: false, align: 'center', valign: 'middle'},
+            {title: '问题1', field: 'answerOne', visible: false, align: 'center', valign: 'middle'},
+            {title: '问题2', field: 'answerTwo', visible: false, align: 'center', valign: 'middle'},
+            {title: '问题3', field: 'answerThree', visible: false, align: 'center', valign: 'middle'},
+            {title: '问题4', field: 'answerFour', visible: false, align: 'center', valign: 'middle'},
+            {title: '问题5', field: 'answerFive', visible: false, align: 'center', valign: 'middle'},
+            {title: '问题6', field: 'answerSix', visible: false, align: 'center', valign: 'middle'}
     ];
 };
 

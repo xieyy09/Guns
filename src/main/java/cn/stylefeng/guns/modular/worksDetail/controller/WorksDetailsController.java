@@ -1,6 +1,9 @@
 package cn.stylefeng.guns.modular.worksDetail.controller;
 
+import cn.stylefeng.guns.modular.system.model.ActivityDetails;
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,7 +63,12 @@ public class WorksDetailsController extends BaseController {
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(String condition) {
-        return worksDetailsService.selectList(null);
+        Wrapper<WorksDetails> wrapper=new EntityWrapper<>();
+        if(condition!=null && !condition.isEmpty()) {
+            wrapper.like("worksTitle", condition);
+        }
+        return worksDetailsService.selectList(wrapper);
+
     }
 
     /**
