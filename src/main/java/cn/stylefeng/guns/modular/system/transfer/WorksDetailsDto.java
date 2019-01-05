@@ -1,5 +1,6 @@
 package cn.stylefeng.guns.modular.system.transfer;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -112,6 +113,16 @@ public class WorksDetailsDto {
      * 问题6
      */
     String answerSix;
+
+    /**
+     * 是否擂主回复
+     */
+    Integer championReply;
+
+    /**
+     * 是否删除 0位删除 1已删除
+     */
+    Integer detailsDelete;
 
     /**
      * 问题图片集和

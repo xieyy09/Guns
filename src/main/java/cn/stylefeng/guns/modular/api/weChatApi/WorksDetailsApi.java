@@ -52,16 +52,18 @@ public class WorksDetailsApi {
      * 获取作品管理列表
      */
     @RequestMapping(value = "/list")
-    public Page<WorksDetails> list(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String condition) {
+    public Page<WorksDetails> list(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
         String orderBycolnum = "create_time";
-        if(!StringUtils.isEmpty(condition) && "giveLike".toLowerCase().equals(condition.toLowerCase())){
+        if(!StringUtils.isEmpty(orderBy) && "giveLike".toLowerCase().equals(orderBy.toLowerCase())){
             orderBycolnum ="give_like_number";
+        }else if(!StringUtils.isEmpty(orderBy) && "champion".toLowerCase().equals(orderBy.toLowerCase())){
+            orderBycolnum ="champion_reply,create_time";
         }
-        Page<WorksDetails> pages =  new Page<>(page,20);
+        Page<WorksDetails> pages =  new Page<>(page,12);
         WorksDetails worksDetails = new WorksDetails();
         worksDetails.setState(1);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
-        worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0}",worksDetails.getState())
+        worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0} and details_delete=0",worksDetails.getState())
                 .orderBy(orderBycolnum);
         return worksDetailsService.selectPage(pages,worksDetailsEntityWrapper);
     }

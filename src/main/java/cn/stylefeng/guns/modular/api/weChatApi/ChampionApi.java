@@ -1,6 +1,7 @@
 package cn.stylefeng.guns.modular.api.weChatApi;
 
 import cn.stylefeng.guns.modular.champion.service.IChampionService;
+import cn.stylefeng.guns.modular.science.service.IPopularScienceBaseService;
 import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.PopularScienceBase;
 import cn.stylefeng.roses.core.base.controller.BaseController;
@@ -8,13 +9,17 @@ import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.ibatis.reflection.ArrayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,6 +31,8 @@ import java.util.List;
 public class ChampionApi extends BaseController {
     @Autowired
     private IChampionService championService;
+    @Autowired
+    private IPopularScienceBaseService popularScienceBaseService;
     @GetMapping("/list")
     public Object findChampionList(@RequestParam(value = "limit",defaultValue = "5") String limit){
         try {
@@ -43,6 +50,16 @@ public class ChampionApi extends BaseController {
     public Object findChampionInfo(@RequestParam("id") String id){
         try {
             Champion champion = championService.selectById(id);
+            String popularIds = champion.getPopularIds();
+            if(popularIds!=null && popularIds.length()>0){
+                // 擂主和基地关系
+                String[] listPopularId  = popularIds.split(",");
+                List<String> listStrId = new ArrayList<>(listPopularId.length);
+                for (String s : listPopularId) {
+                    listStrId.add(s);
+                }
+                List<PopularScienceBase> popularScienceBases = popularScienceBaseService.selectBatchIds(listStrId);
+            }
             return champion;
         }catch (Exception e){
             log.error(e.getMessage(),e);

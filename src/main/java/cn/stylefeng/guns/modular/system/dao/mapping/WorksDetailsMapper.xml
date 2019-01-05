@@ -29,11 +29,13 @@
         <result column="answer_four" property="answerFour" />
         <result column="answer_five" property="answerFive" />
         <result column="answer_six" property="answerSix" />
+        <result column="champion_reply" property="championReply" />
+        <result column="details_delete" property="detailsDelete" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, activity_id, uid, reply_number, forward_number, give_like_number, create_time, state, has_point, works_title, img_number, img_url, img_remark, pohto_time, weather, address, taken_author, taken_tool, content, answer_one, answer_two, answer_three, answer_four, answer_five, answer_six
+        id, activity_id, uid, reply_number, forward_number, give_like_number, create_time, state, has_point, works_title, img_number, img_url, img_remark, pohto_time, weather, address, taken_author, taken_tool, content, answer_one, answer_two, answer_three, answer_four, answer_five, answer_six,champion_reply,details_delete
     </sql>
 
 </mapper>

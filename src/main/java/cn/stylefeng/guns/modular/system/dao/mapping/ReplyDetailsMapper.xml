@@ -13,11 +13,12 @@
         <result column="create_time" property="createTime" />
         <result column="reply_state" property="replyState" />
         <result column="give_like_number" property="giveLikeNumber" />
+        <result column="champion_reply" property="championReply" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, business_id, model, parent_id, uid, content, create_time, reply_state, give_like_number
+        id, business_id, model, parent_id, uid, content, create_time, reply_state, give_like_number,champion_reply
     </sql>
 
 </mapper>

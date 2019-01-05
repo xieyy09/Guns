@@ -60,7 +60,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         Page<WorksDetails> pages =  new Page<>(page,20);
         worksDetails.setUid(uid);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
-        worksDetailsEntityWrapper.where(worksDetails.getUid()!=null," uid ={0}",worksDetails.getUid())
+        worksDetailsEntityWrapper.where(worksDetails.getUid()!=null," uid ={0} and details_delete=0 ",worksDetails.getUid())
                 .orderBy(orderBycolnum);
         return worksDetailsService.selectPage(pages,worksDetailsEntityWrapper);
     }
@@ -73,7 +73,8 @@ public class WorksDetailsAuthcApi extends BaseController {
         if(uid!=worksDetails.getUid().longValue()){
             throw new ServiceException(BizExceptionEnum.NO_PERMITION);
         }
-        boolean b = worksDetailsService.deleteById(worksDetailsId);
+        worksDetails.setDetailsDelete(1);
+        boolean b = worksDetailsService.updateAllColumnById(worksDetails);
         return SUCCESS_TIP;
     }
 

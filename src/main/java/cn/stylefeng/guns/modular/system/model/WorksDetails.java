@@ -140,6 +140,15 @@ public class WorksDetails extends Model<WorksDetails> {
     @TableField("answer_six")
     private String answerSix;
 
+    /**
+     * 是否擂主回复
+     */
+    @TableField("champion_reply")
+    private Integer championReply;
+
+    @TableField("details_delete")
+    private Integer detailsDelete;
+
 
     public String getId() {
         return id;
@@ -339,6 +348,22 @@ public class WorksDetails extends Model<WorksDetails> {
 
     public void setAnswerSix(String answerSix) {
         this.answerSix = answerSix;
+    }
+
+    public Integer getChampionReply() {
+        return championReply;
+    }
+
+    public void setChampionReply(Integer championReply) {
+        this.championReply = championReply;
+    }
+
+    public Integer getDetailsDelete() {
+        return detailsDelete;
+    }
+
+    public void setDetailsDelete(Integer detailsDelete) {
+        this.detailsDelete = detailsDelete;
     }
 
     @Override

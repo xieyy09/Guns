@@ -69,6 +69,11 @@ public class Champion extends Model<Champion> {
     private Integer state;
 
     private String img;
+    /**
+     * 擂主对应的基地
+     */
+    @TableField("popular_ids")
+    private String popularIds;
 
     public String getPhone() {
         return phone;
@@ -164,6 +169,14 @@ public class Champion extends Model<Champion> {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public String getPopularIds() {
+        return popularIds;
+    }
+
+    public void setPopularIds(String popularIds) {
+        this.popularIds = popularIds;
     }
 
     @Override

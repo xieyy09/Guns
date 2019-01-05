@@ -16,11 +16,12 @@
         <result column="state" property="state" />
         <result column="img" property="img" />
         <result column="phone" property="phone" />
+        <result column="popular_ids" property="popularIds" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, champion_name, uid, champion_remark, professional_field, sign, create_time, create_uid, reply_number, state,img,phone
+        id, champion_name, uid, champion_remark, professional_field, sign, create_time, create_uid, reply_number, state,img,phone,popular_ids
     </sql>
 
 </mapper>
