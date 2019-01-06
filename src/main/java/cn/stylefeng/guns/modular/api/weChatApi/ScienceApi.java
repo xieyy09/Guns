@@ -1,6 +1,8 @@
 package cn.stylefeng.guns.modular.api.weChatApi;
 
+import cn.stylefeng.guns.modular.champion.service.IChampionService;
 import cn.stylefeng.guns.modular.science.service.IPopularScienceBaseService;
+import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.PopularScienceBase;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
@@ -25,6 +27,8 @@ import java.util.List;
 public class ScienceApi extends BaseController {
     @Autowired
     private IPopularScienceBaseService popularScienceBaseService;
+    @Autowired
+    private IChampionService championService;
 
     @GetMapping("/list")
     public Object findPopularScienceList(@RequestParam(value = "limit",defaultValue = "5") String limit){
@@ -43,6 +47,12 @@ public class ScienceApi extends BaseController {
     public Object findPopularScienceInfo(@RequestParam("id") String id){
         try {
             PopularScienceBase popularScienceBase = popularScienceBaseService.selectById(id);
+            // 获取基地和擂主关联关系
+            String id1 = popularScienceBase.getId();
+            Wrapper<Champion> wrapper = new EntityWrapper<>();
+            wrapper.where("state=1").like("popular_ids",id1);
+            List<Champion> champions = championService.selectList(wrapper);
+
             return popularScienceBase;
         }catch (Exception e){
             log.error(e.getMessage(),e);

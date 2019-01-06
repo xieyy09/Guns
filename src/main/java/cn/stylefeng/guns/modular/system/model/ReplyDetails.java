@@ -45,6 +45,12 @@ public class ReplyDetails extends Model<ReplyDetails> {
      * 评论内容
      */
     private String content;
+
+    /**
+     * 评论内容
+     */
+    @TableField("champion_reply")
+    private Integer championReply;
     /**
      * 评论时间
      */
@@ -132,6 +138,14 @@ public class ReplyDetails extends Model<ReplyDetails> {
 
     public void setGiveLikeNumber(Integer giveLikeNumber) {
         this.giveLikeNumber = giveLikeNumber;
+    }
+
+    public Integer getChampionReply() {
+        return championReply;
+    }
+
+    public void setChampionReply(Integer championReply) {
+        this.championReply = championReply;
     }
 
     @Override

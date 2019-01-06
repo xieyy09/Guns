@@ -54,4 +54,8 @@ public class ReplyDetailsDto {
      * 点赞数量
      */
     private Integer giveLikeNumber;
+    /**
+     * 是否擂主回复
+     */
+    private Integer championReply;
 }
