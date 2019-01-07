@@ -50,7 +50,7 @@ public class UserApi extends BaseController {
         String openId = super.getSession().getAttribute(AuthUtil.OPENID).toString();
         Wrapper<AccountExt> warpper=new EntityWrapper<>();
         AccountExt accountExt = accountExtService.selectOne(warpper);
-        Integer uid = accountExt.getUid();
+        Integer uid = accountExt.getId();
         User user = userService.selectById(uid);
         dataMap.put("name",user.getName());
         dataMap.put("sex",user.getSex());

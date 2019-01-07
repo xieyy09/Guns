@@ -4,7 +4,7 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.system.model.AccountExt">
-        <id column="uid" property="uid" />
+        <id column="id" property="id" />
         <result column="ban_reply" property="banReply" />
         <result column="ban_post" property="banPost" />
         <result column="ban_give_like" property="banGiveLike" />

@@ -23,7 +23,7 @@ public class AccountExt extends Model<AccountExt> {
     /**
      * uid
      */
-    private Integer uid;
+    private Integer id;
     /**
      * 禁止回帖(0允许1禁止)
      */
@@ -75,12 +75,12 @@ public class AccountExt extends Model<AccountExt> {
         this.isEdit = isEdit;
     }
 
-    public Integer getUid() {
-        return uid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUid(Integer uid) {
-        this.uid = uid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getBanReply() {
@@ -149,13 +149,13 @@ public class AccountExt extends Model<AccountExt> {
 
     @Override
     protected Serializable pkVal() {
-        return this.uid;
+        return this.id;
     }
 
     @Override
     public String toString() {
         return "AccountExt{" +
-        ", uid=" + uid +
+        ", id=" + id +
         ", banReply=" + banReply +
         ", banPost=" + banPost +
         ", banGiveLike=" + banGiveLike +
@@ -172,7 +172,7 @@ public class AccountExt extends Model<AccountExt> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountExt that = (AccountExt) o;
-        return Objects.equals(uid, that.uid) &&
+        return Objects.equals(id, that.id) &&
                 Objects.equals(banReply, that.banReply) &&
                 Objects.equals(banPost, that.banPost) &&
                 Objects.equals(banGiveLike, that.banGiveLike) &&
@@ -185,6 +185,6 @@ public class AccountExt extends Model<AccountExt> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(uid, banReply, banPost, banGiveLike, lastSpeakTime, webchatOpenId, webchatPohtoUrl, webchatName, nowGiveNumber);
+        return Objects.hash(id, banReply, banPost, banGiveLike, lastSpeakTime, webchatOpenId, webchatPohtoUrl, webchatName, nowGiveNumber);
     }
 }

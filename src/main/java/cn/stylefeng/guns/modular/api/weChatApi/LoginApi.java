@@ -3,6 +3,8 @@ package cn.stylefeng.guns.modular.api.weChatApi;
 import cn.stylefeng.guns.config.properties.GunsProperties;
 import cn.stylefeng.guns.config.util.AuthUtil;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
+import cn.stylefeng.guns.core.util.AesException;
+import cn.stylefeng.guns.core.util.WXPublicUtils;
 import cn.stylefeng.guns.modular.system.model.AccountExt;
 import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.User;
@@ -21,8 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,21 +82,48 @@ public class LoginApi  extends BaseController {
         }
 
     }
-
+    @RequestMapping(method = RequestMethod.GET, path = "/verify_wx_token")
+    public void verify_wx_token() throws AesException {
+        HttpServletRequest request = super.getHttpServletRequest();
+        HttpServletResponse response = super.getHttpServletResponse();
+        String msgSignature = request.getParameter("signature");
+        String msgTimestamp = request.getParameter("timestamp");
+        String msgNonce = request.getParameter("nonce");
+        String echostr = request.getParameter("echostr");
+        PrintWriter out = null;
+        try {
+            out=response.getWriter();
+            if (WXPublicUtils.verifyUrl(msgSignature, msgTimestamp, msgNonce)) {
+                out.print(echostr);
+            }
+        }catch (IOException e){
+            log.error(e.getMessage(),e);
+        }finally {
+            out.close();
+            out=null;
+        }
+    }
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
     public void callBack() {
         try {
             String code = super.getHttpServletRequest().getParameter("code");
+            HttpServletResponse response = super.getHttpServletResponse();
             if(code==null || code.equals("")){
-                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/weChatApi/callBack");
+                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/photo/weChatApi/callBack");
                 String redirectUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
-                        +"&redirect_uri="+wx_redirect_uri+"&reponse_type=code&scope=SCOPE&state=STATE#wechat_redirect";
-                super.getHttpServletResponse().sendRedirect(redirectUrl);
+                        +"&redirect_uri="+wx_redirect_uri+"&reponse_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+                response.sendRedirect(redirectUrl);
             }else {
                 if (log.isDebugEnabled()) {
                     log.debug("code:----->{}", code);
                 }
-
+                Object openId = super.getSession().getAttribute(AuthUtil.OPENID);
+                if(openId!=null){
+                    if (log.isDebugEnabled()) {
+                        log.debug("openId:----->{}", openId);
+                    }
+                    response.sendRedirect(AuthUtil.SERVER);
+                }
                 //获取code后，请求以下链接获取access_token
                 String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + AuthUtil.APPID
                         + "&secret=" + AuthUtil.APPSECRET
@@ -127,13 +161,14 @@ public class LoginApi  extends BaseController {
                     }
                 } else {
                     //已绑定
-                    nickname = setUserInfo(openid, userInfo, accountExt.getUid());
+                    nickname = setUserInfo(openid, userInfo, accountExt.getId());
                     if (log.isDebugEnabled()) {
                         log.debug("update ok:----->{}", openid);
                     }
                 }
                 super.getSession().setAttribute(AuthUtil.OPENID, openid);
                 super.getSession().setAttribute(AuthUtil.NICKNAME, nickname);
+                response.sendRedirect(AuthUtil.SERVER);
             }
         }catch (Exception e){
             log.error(e.getMessage(),e);
@@ -142,10 +177,10 @@ public class LoginApi  extends BaseController {
     }
     @RequestMapping(method = RequestMethod.GET, path = "/getNickname")
     @ResponseBody
-    public String getNickname() {
+    public Object getNickname() {
         Object attribute = super.getSession().getAttribute(AuthUtil.NICKNAME);
         if(attribute==null){
-            return null;
+            return new ErrorResponseData(500, "未登陆");
         }
         return attribute.toString();
     }
@@ -164,12 +199,14 @@ public class LoginApi  extends BaseController {
         accountExt.setWebchatPohtoUrl(headimgurl);
         if(id!=null){
             user.setId(id);
-            accountExt.setUid(user.getId());
+            user.setStatus(1);
+            user.setCreatetime(new Date());
+            accountExt.setId(user.getId());
             userService.updateById(user);
             accountExtService.updateById(accountExt);
         }else{
             userService.insert(user);
-            accountExt.setUid(user.getId());
+            accountExt.setId(user.getId());
             accountExtService.insert(accountExt);
         }
         return nickname;
