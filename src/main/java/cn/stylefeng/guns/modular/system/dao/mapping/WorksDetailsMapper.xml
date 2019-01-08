@@ -38,4 +38,42 @@
         id, activity_id, uid, reply_number, forward_number, give_like_number, create_time, state, has_point, works_title, img_number, img_url, img_remark, pohto_time, weather, address, taken_author, taken_tool, content, answer_one, answer_two, answer_three, answer_four, answer_five, answer_six,champion_reply,details_delete
     </sql>
 
+    <select id="selectById" resultMap="BaseResultMap">
+        select * from works_details  WHERE   id = #{var1}
+    </select>
+
+
+    <update id="updateById" >
+        UPDATE works_details  SET
+        <trim suffixOverrides=",">
+            <if test="id != null and id!=''">id=#{id}, </if>
+            <if test="replyNumber != null">reply_number=#{replyNumber}, </if>
+            <if test="forwardNumber != null">forward_number=#{forwardNumber}, </if>
+            <if test="giveLikeNumber != null">give_like_number=#{giveLikeNumber}, </if>
+            <if test="createTime != null">create_time=#{createTime}, </if>
+            <if test="state != null">state=#{state}, </if>
+            <if test="hasPoint != null">has_point=#{hasPoint}, </if>
+            <if test="worksTitle != null and worksTitle!=''">works_title=#{worksTitle}, </if>
+            <if test="imgNumber != null">img_number=#{imgNumber}, </if>
+            <if test="imgUrl != null and imgUrl!=''">img_url=#{imgUrl}, </if>
+            <if test="imgRemark != null and imgRemark!=''">img_remark=#{imgRemark}, </if>
+            <if test="pohtoTime != null">pohto_time=#{pohtoTime}, </if>
+            <if test="weather != null and weather!=''">weather=#{weather}, </if>
+            <if test="address != null and address!=''">address=#{address}, </if>
+            <if test="takenAuthor != null and takenAuthor!=''">taken_author=#{takenAuthor}, </if>
+            <if test="takenTool != null and takenTool!=''">taken_tool=#{takenTool}, </if>
+            <if test="content != null and content!=''">content=#{content}, </if>
+            <if test="answerOne != null and answerOne!=''">answer_one=#{answerOne}, </if>
+            <if test="answerTwo != null and answerTwo!=''">answer_two=#{answerTwo}, </if>
+            <if test="answerThree != null and answerThree!=''">answer_three=#{answerThree}, </if>
+            <if test="answerFour != null and answerFour!=''">answer_four=#{answerFour}, </if>
+            <if test="answerFive != null and answerFive!=''">answer_five=#{answerFive}, </if>
+            <if test="answerSix != null and answerSix!=''">answer_six=#{answerSix}, </if>
+            <if test="championReply != null">champion_reply=#{championReply}, </if>
+            <if test="detailsDelete != null">details_delete=#{detailsDelete}, </if>
+        </trim>
+        WHERE
+        id = #{id}
+    </update>
+
 </mapper>

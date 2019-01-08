@@ -6,6 +6,7 @@ import cn.stylefeng.guns.core.shiro.ShiroKit;
 import cn.stylefeng.guns.core.shiro.ShiroUser;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.system.model.*;
+import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.guns.modular.system.transfer.WorksDetailsDto;
 import cn.stylefeng.guns.modular.system.transfer.WorksImgDetailsDto;
@@ -22,6 +23,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import org.omg.CORBA.OBJ_ADAPTER;
+import org.omg.CORBA.Request;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -43,13 +45,15 @@ public class WorksDetailsAuthcApi extends BaseController {
     @Autowired
     private IUserService userService;
     @Autowired
+    private IAccountExtService accountExtService;
+    @Autowired
     private IReplyDetailsService replyDetailsService;
 
     /**
      * 获取我的作品管理列表
      */
     @RequestMapping(value = "/mylist")
-    public Page<WorksDetails> mylist(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String condition) {
+    public Object mylist(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
         String orderBycolnum = "create_time";
         WorksDetails worksDetails = new WorksDetails();
         ShiroUser user = ShiroKit.getUser();
@@ -57,31 +61,34 @@ public class WorksDetailsAuthcApi extends BaseController {
             throw new ServiceException(BizExceptionEnum.TOKEN_EXPIRED);
         }
         long uid = user.getId().longValue();
-        Page<WorksDetails> pages =  new Page<>(page,20);
+        Page<WorksDetails> pages =  new Page<>(page,12);
         worksDetails.setUid(uid);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
         worksDetailsEntityWrapper.where(worksDetails.getUid()!=null," uid ={0} and details_delete=0 ",worksDetails.getUid())
                 .orderBy(orderBycolnum);
-        return worksDetailsService.selectPage(pages,worksDetailsEntityWrapper);
+        Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
+        SuccessResponseData responseData = new SuccessResponseData();
+        responseData.setData(worksDetailsPage);
+        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
+        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
+        return responseData;
     }
 
-    @RequestMapping(value = "/delete/{worksDetailsId}")
+    @RequestMapping(value = "/delete/{worksDetailsId}",method = RequestMethod.DELETE)
     public Object delete(@PathVariable String worksDetailsId){
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
         long uid = ShiroKit.getUser().getId().longValue();
         // 不是本人作品
         if(uid!=worksDetails.getUid().longValue()){
-            throw new ServiceException(BizExceptionEnum.NO_PERMITION);
+            throw new ServiceException(702,"只能删除本人作品");
         }
         worksDetails.setDetailsDelete(1);
         boolean b = worksDetailsService.updateAllColumnById(worksDetails);
         return SUCCESS_TIP;
     }
 
-    @RequestMapping(value = "/add")
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object add(@RequestBody WorksDetailsDto worksDetailsDto){
-        //TODO 判断当前人是否能上传作品
-
 
         if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
@@ -95,12 +102,18 @@ public class WorksDetailsAuthcApi extends BaseController {
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
         }
-        worksDetailsDto.setUid(ShiroKit.getUser().getId().longValue());
+        long uid = ShiroKit.getUser().getId().longValue();
+        //TODO 判断当前人是否能上传作品
+        AccountExt accountExt = accountExtService.selectById(uid);
+        if(accountExt!=null&&accountExt.getBanPost()==1){
+            throw new ServiceException(701,"禁止上传作品");
+        }
+        worksDetailsDto.setUid(uid);
         worksDetailsService.insertWorksDetailsDto(worksDetailsDto);
         return SUCCESS_TIP;
     }
 
-    @RequestMapping(value = "/update/{worksDetailsId}")
+    @RequestMapping(value = "/update/{worksDetailsId}",method = RequestMethod.POST)
     public Object update(@PathVariable String worksDetailsId,@RequestBody WorksDetailsDto worksDetailsDto){
         if(worksDetailsDto==null  || worksDetailsDto.getWorksImgDetailsList().size()==0){
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
@@ -155,11 +168,14 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @param worksDetailsId
      * @return
      */
-    @RequestMapping(value = "/addGiveLike/{worksDetailsId}")
+    @RequestMapping(value = "/addGiveLike/{worksDetailsId}",method = RequestMethod.POST)
     public Object addGiveLike(@PathVariable String worksDetailsId){
         long uid = ShiroKit.getUser().getId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
-
+        AccountExt accountExt = accountExtService.selectById(uid);
+        if(accountExt==null||accountExt.getBanGiveLike()==1){
+            throw new ServiceException(701,"禁止点赞");
+        }
         // 判断当前是否已经点赞
         EntityWrapper<GiveLikeDetails> giveLikeDetailsWrapper = new EntityWrapper<>();
         GiveLikeDetails giveLikeDetails = new GiveLikeDetails();
@@ -190,6 +206,12 @@ public class WorksDetailsAuthcApi extends BaseController {
             // 数据不全
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
         }
+        long uid = ShiroKit.getUser().getId().longValue();
+        // 判断当前人员一天三次的点赞是否用尽
+        AccountExt accountExt = accountExtService.selectById(uid);
+        if(accountExt==null||accountExt.getBanReply()==1){
+            throw new ServiceException(701,"禁止回复");
+        }
         replyDetails.setModel(BUSINESS_MODE_ENUM.WORKS_DETAILS.name());
         replyDetails.setCreateTime(new Date());
         replyDetails.setReplyState(0);
@@ -200,7 +222,7 @@ public class WorksDetailsAuthcApi extends BaseController {
             replyDetails.setParentId("0");
         }
         replyDetails.setId(UUIDUtils.getBase64UUID());
-        replyDetails.setUid(ShiroKit.getUser().getId().longValue());
+        replyDetails.setUid(uid);
         replyDetailsService.insert(replyDetails);
         return SUCCESS_TIP;
     }

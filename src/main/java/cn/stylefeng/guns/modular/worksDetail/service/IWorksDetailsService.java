@@ -21,5 +21,4 @@ public interface IWorksDetailsService extends IService<WorksDetails> {
     boolean updateWorksDetailsDto(WorksDetailsDto worksDetailsDto);
 
     boolean updateorwardNumber(Serializable serializable);
-
 }
