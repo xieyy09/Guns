@@ -5,8 +5,11 @@ import cn.stylefeng.guns.modular.system.model.ActivityDetails;
 import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
+import cn.stylefeng.roses.core.reqres.response.ResponseData;
+import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,12 +31,17 @@ public class ActivityApi extends BaseController {
     private IActivityDetailsService activityDetailsService;
 
     @GetMapping("/list")
-    public Object findChampionList(@RequestParam(value = "limit",defaultValue = "5") String limit){
+    public Object findChampionList(@RequestParam(required=true,defaultValue="1") Integer page){
         try {
+            Page<ActivityDetails> pages =  new Page<>(page,12);
             Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
-//            wrapper.orderDesc(Arrays.asList("ind"));
-            List<ActivityDetails> activityDetailsList = activityDetailsService.selectList(wrapper);
-            return activityDetailsList;
+            wrapper.orderDesc(Arrays.asList("state","begin_time"));
+            Page<ActivityDetails> activityDetailsList = activityDetailsService.selectPage(pages,wrapper);
+            SuccessResponseData responseData = new SuccessResponseData();
+            responseData.setData(activityDetailsList);
+            responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
+            responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
+            return responseData;
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询活动列表失败！");
