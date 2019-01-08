@@ -67,11 +67,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         worksDetailsEntityWrapper.where(worksDetails.getUid()!=null," uid ={0} and details_delete=0 ",worksDetails.getUid())
                 .orderBy(orderBycolnum);
         Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(worksDetailsPage);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(worksDetailsPage);
     }
 
     @RequestMapping(value = "/delete/{worksDetailsId}",method = RequestMethod.DELETE)

@@ -43,11 +43,7 @@ public class ScienceApi extends BaseController {
             Wrapper<PopularScienceBase> wrapper = new EntityWrapper<>();
             wrapper.orderDesc(Arrays.asList("ind"));
             Page<PopularScienceBase> list = popularScienceBaseService.selectPage(pages,wrapper);
-            SuccessResponseData responseData = new SuccessResponseData();
-            responseData.setData(list);
-            responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-            responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-            return list;
+            return  new SuccessResponseData(list);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询科普基地列表失败！");

@@ -41,11 +41,7 @@ public class ChampionApi extends BaseController {
             Wrapper<Champion> wrapper=new EntityWrapper<>();
             wrapper.orderDesc(Arrays.asList("create_time"));
             Page<Champion> champions = championService.selectPage(pages,wrapper);
-            SuccessResponseData responseData = new SuccessResponseData();
-            responseData.setData(champions);
-            responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-            responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-            return responseData;
+            return  new SuccessResponseData(champions);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询擂主列表失败！");

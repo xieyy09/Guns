@@ -38,11 +38,7 @@ public class WikipediaApi extends BaseController {
             Wrapper<WikipediaHall> wrapper=new EntityWrapper<>();
             wrapper.orderDesc(Arrays.asList("ind"));
             Page<WikipediaHall> wikipediaHalls = wikipediaHallService.selectPage(pages,wrapper);
-            SuccessResponseData responseData = new SuccessResponseData();
-            responseData.setData(wikipediaHalls);
-            responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-            responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-            return responseData;
+            return  new SuccessResponseData(wikipediaHalls);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询百科讲堂列表失败！");

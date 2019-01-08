@@ -67,11 +67,7 @@ public class WorksDetailsApi {
         worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0} and details_delete=0",worksDetails.getState())
                 .orderBy(orderBycolnum);
         Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(worksDetailsPage);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(worksDetailsPage);
     }
 
 
@@ -109,11 +105,7 @@ public class WorksDetailsApi {
         resultMap.put("name",user.getName());
         resultMap.put("avatar",user.getAvatar());
         resultMap.put("worksDetails",worksDetailsDto);
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(resultMap);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(resultMap);
     }
 
     /**
@@ -148,11 +140,7 @@ public class WorksDetailsApi {
             }
             listDto.add(dto);
         }
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(listDto);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(listDto);
     }
 
     /**
@@ -203,11 +191,7 @@ public class WorksDetailsApi {
             }
             listDto.add(dto);
         }
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(listDto);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(listDto);
     }
 
 

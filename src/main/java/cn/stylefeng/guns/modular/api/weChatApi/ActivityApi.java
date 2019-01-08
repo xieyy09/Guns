@@ -38,11 +38,7 @@ public class ActivityApi extends BaseController {
             wrapper.where("state=1");
             wrapper.orderDesc(Arrays.asList("state","begin_time"));
             Page<ActivityDetails> activityDetailsList = activityDetailsService.selectPage(pages,wrapper);
-            SuccessResponseData responseData = new SuccessResponseData();
-            responseData.setData(activityDetailsList);
-            responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-            responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-            return responseData;
+            return  new SuccessResponseData(activityDetailsList);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询活动列表失败！");
