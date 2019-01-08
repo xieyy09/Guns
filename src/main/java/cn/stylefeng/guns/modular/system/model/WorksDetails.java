@@ -28,7 +28,7 @@ public class WorksDetails extends Model<WorksDetails> {
      * 活动ID
      */
     @TableId("activity_id")
-    private Long activityId;
+    private String activityId;
     /**
      * 用户ID
      */
@@ -158,11 +158,11 @@ public class WorksDetails extends Model<WorksDetails> {
         this.id = id;
     }
 
-    public Long getActivityId() {
+    public String getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(Long activityId) {
+    public void setActivityId(String activityId) {
         this.activityId = activityId;
     }
 

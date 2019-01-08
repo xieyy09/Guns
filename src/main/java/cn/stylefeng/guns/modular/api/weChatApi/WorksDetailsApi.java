@@ -52,20 +52,22 @@ public class WorksDetailsApi {
      * 获取作品管理列表
      */
     @RequestMapping(value = "/list")
-    public Page<WorksDetails> list(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
+    public Object list(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
         String orderBycolnum = "create_time";
         if(!StringUtils.isEmpty(orderBy) && "giveLike".toLowerCase().equals(orderBy.toLowerCase())){
             orderBycolnum ="give_like_number";
         }else if(!StringUtils.isEmpty(orderBy) && "champion".toLowerCase().equals(orderBy.toLowerCase())){
             orderBycolnum ="champion_reply,create_time";
         }
+
         Page<WorksDetails> pages =  new Page<>(page,12);
         WorksDetails worksDetails = new WorksDetails();
         worksDetails.setState(1);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
         worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0} and details_delete=0",worksDetails.getState())
                 .orderBy(orderBycolnum);
-        return worksDetailsService.selectPage(pages,worksDetailsEntityWrapper);
+        Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
+        return  new SuccessResponseData(worksDetailsPage);
     }
 
 
@@ -103,11 +105,7 @@ public class WorksDetailsApi {
         resultMap.put("name",user.getName());
         resultMap.put("avatar",user.getAvatar());
         resultMap.put("worksDetails",worksDetailsDto);
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(resultMap);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(resultMap);
     }
 
     /**
@@ -140,12 +138,9 @@ public class WorksDetailsApi {
                 dto.setUname(user.getName());
                 dto.setPhoto(user.getAvatar());
             }
+            listDto.add(dto);
         }
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(listDto);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(listDto);
     }
 
     /**
@@ -194,12 +189,9 @@ public class WorksDetailsApi {
                 dto.setUname(user.getName());
                 dto.setPhoto(user.getAvatar());
             }
+            listDto.add(dto);
         }
-        SuccessResponseData responseData = new SuccessResponseData();
-        responseData.setData(listDto);
-        responseData.setCode(ResponseData.DEFAULT_SUCCESS_CODE);
-        responseData.setMessage(ResponseData.DEFAULT_SUCCESS_MESSAGE);
-        return responseData;
+        return  new SuccessResponseData(listDto);
     }
 
 
