@@ -70,7 +70,7 @@ public class ChampionApi extends BaseController {
             }
             resultMap.put("champion",champion);
             resultMap.put("popularScienceBases",popularScienceBases);
-            return resultMap;
+            return new SuccessResponseData(resultMap);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询擂主详情失败！");

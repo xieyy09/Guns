@@ -53,7 +53,7 @@ public class WikipediaApi extends BaseController {
     public Object findChampionInfo(@RequestParam("id") String id){
         try {
             WikipediaHall wikipediaHall = wikipediaHallService.selectById(id);
-            return wikipediaHall;
+            return new SuccessResponseData(wikipediaHall);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询百科讲堂详情失败！");

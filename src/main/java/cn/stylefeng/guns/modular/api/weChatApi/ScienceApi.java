@@ -66,7 +66,7 @@ public class ScienceApi extends BaseController {
             Map<String,Object> resultMap = new HashMap<>();
             resultMap.put("popularScienceBase",popularScienceBase);
             resultMap.put("champions",champions);
-            return resultMap;
+            return new SuccessResponseData(resultMap);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询科普基地详情失败！");

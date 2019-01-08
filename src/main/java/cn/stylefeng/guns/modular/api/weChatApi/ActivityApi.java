@@ -35,6 +35,7 @@ public class ActivityApi extends BaseController {
         try {
             Page<ActivityDetails> pages =  new Page<>(page,12);
             Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
+            wrapper.where("state=1");
             wrapper.orderDesc(Arrays.asList("state","begin_time"));
             Page<ActivityDetails> activityDetailsList = activityDetailsService.selectPage(pages,wrapper);
             SuccessResponseData responseData = new SuccessResponseData();
@@ -52,7 +53,7 @@ public class ActivityApi extends BaseController {
     public Object findChampionInfo(@RequestParam("id") String id){
         try {
             ActivityDetails activityDetails = activityDetailsService.selectById(id);
-            return activityDetails;
+            return new SuccessResponseData(activityDetails);
         }catch (Exception e){
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "查询活动详情失败！");
