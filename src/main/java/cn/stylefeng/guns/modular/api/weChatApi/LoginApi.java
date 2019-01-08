@@ -12,6 +12,7 @@ import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
+import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
 import cn.stylefeng.roses.core.util.FileUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
@@ -103,28 +104,21 @@ public class LoginApi  extends BaseController {
     }
     @RequestMapping(method = RequestMethod.POST, path = "/userNameLogin")
     @ResponseBody
-    public Map<String,Object> userNameLogin(@RequestParam("username") String username,@RequestParam("password") String password) {
+    public Object userNameLogin(@RequestParam("username") String username,@RequestParam("password") String password) {
         Wrapper<User> wrapper=new EntityWrapper<>();
         Map<String,Object> data=new HashMap<>();
         try {
             User user = userService.selectOne(wrapper);
             if(user==null){
-                data.put("success",false);
-                data.put("message","未登陆");
-                return data;
+                return  new ErrorResponseData("账户或密码错误");
             }
             AccountExt accountExt = accountExtService.selectById(user.getId());
             super.getSession().setAttribute(AuthUtil.OPENID, accountExt.getWebchatOpenId());
             super.getSession().setAttribute(AuthUtil.NICKNAME, accountExt.getWebchatName());
-            data.put("success",true);
-            data.put("message","登陆成功");
-            data.put("data",accountExt.getWebchatName());
-            return data;
+            return  new SuccessResponseData(accountExt.getWebchatName());
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            data.put("success",false);
-            data.put("message","登陆失败");
-            return data;
+            return  new ErrorResponseData("登陆失败");
         }
 
     }
@@ -202,18 +196,13 @@ public class LoginApi  extends BaseController {
     }
     @RequestMapping(method = RequestMethod.GET, path = "/getNickname")
     @ResponseBody
-    public Map<String,Object> getNickname() {
+    public Object getNickname() {
         Map<String,Object> data=new HashMap<>();
         Object attribute = super.getSession().getAttribute(AuthUtil.NICKNAME);
         if(attribute==null){
-            data.put("success",false);
-            data.put("message","未登陆");
-            return data;
+            return  new ErrorResponseData("未登陆");
         }
-        data.put("success",true);
-        data.put("message","已登陆");
-        data.put("data",attribute.toString());
-        return data;
+        return new SuccessResponseData(attribute.toString());
     }
     private String setUserInfo(String openid, JSONObject userInfo,Integer id) {
         AccountExt accountExt=new AccountExt();

@@ -10,6 +10,7 @@ import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
+import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
 import cn.stylefeng.roses.core.util.FileUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
@@ -45,7 +46,7 @@ public class UserApi extends BaseController {
      */
     @RequestMapping(method = RequestMethod.GET, path = "/getUserInfo")
     @ResponseBody
-    public Map<String,Object> getUserInfo() {
+    public Object getUserInfo() {
         Map<String,Object> dataMap=new HashMap<>();
         String openId = super.getSession().getAttribute(AuthUtil.OPENID).toString();
         Wrapper<AccountExt> warpper=new EntityWrapper<>();
@@ -57,7 +58,7 @@ public class UserApi extends BaseController {
         dataMap.put("img",accountExt.getWebchatPohtoUrl());
         dataMap.put("webchatName",accountExt.getWebchatName());
         dataMap.put("phone",user.getPhone());
-        return dataMap;
+        return new SuccessResponseData(dataMap);
     }
 
     /**
@@ -78,13 +79,13 @@ public class UserApi extends BaseController {
             warpperCount.eq("phone",phone).and().notIn("id", uid);
             int count = userService.selectCount(warpperCount);
             if(count>0){
-                return new ErrorResponseData(500, "联系电话已经存在，请更换！");
+                return new ErrorResponseData( "联系电话已经存在，请更换！");
             }
             warpperCount=new EntityWrapper<>();
             warpperCount.eq("account",loginName).and().notIn("id", uid);
             int nameCount  = userService.selectCount(warpperCount);
             if(nameCount>0){
-                return new ErrorResponseData(500, "登陆账号已经存在，请更换！");
+                return new ErrorResponseData( "登陆账号已经存在，请更换！");
             }
             User user=new User();
             user.setId(uid);
@@ -105,10 +106,10 @@ public class UserApi extends BaseController {
                 accountExtNew.setIsEdit(1);
             }
             accountExtService.updateById(accountExtNew);
-            return true;
+            return new SuccessResponseData(true);
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return new ErrorResponseData(500, "更新信息失败！");
+            return new ErrorResponseData( "更新信息失败！");
         }
     }
     private Integer getUserId() {
