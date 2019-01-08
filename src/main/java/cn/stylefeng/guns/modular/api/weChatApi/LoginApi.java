@@ -29,9 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/weChatApi")
@@ -102,6 +100,33 @@ public class LoginApi  extends BaseController {
             out.close();
             out=null;
         }
+    }
+    @RequestMapping(method = RequestMethod.POST, path = "/userNameLogin")
+    @ResponseBody
+    public Map<String,Object> userNameLogin(@RequestParam("username") String username,@RequestParam("password") String password) {
+        Wrapper<User> wrapper=new EntityWrapper<>();
+        Map<String,Object> data=new HashMap<>();
+        try {
+            User user = userService.selectOne(wrapper);
+            if(user==null){
+                data.put("success",false);
+                data.put("message","未登陆");
+                return data;
+            }
+            AccountExt accountExt = accountExtService.selectById(user.getId());
+            super.getSession().setAttribute(AuthUtil.OPENID, accountExt.getWebchatOpenId());
+            super.getSession().setAttribute(AuthUtil.NICKNAME, accountExt.getWebchatName());
+            data.put("success",true);
+            data.put("message","登陆成功");
+            data.put("data",accountExt.getWebchatName());
+            return data;
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
+            data.put("success",false);
+            data.put("message","登陆失败");
+            return data;
+        }
+
     }
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
     public void callBack() {
@@ -177,12 +202,18 @@ public class LoginApi  extends BaseController {
     }
     @RequestMapping(method = RequestMethod.GET, path = "/getNickname")
     @ResponseBody
-    public Object getNickname() {
+    public Map<String,Object> getNickname() {
+        Map<String,Object> data=new HashMap<>();
         Object attribute = super.getSession().getAttribute(AuthUtil.NICKNAME);
         if(attribute==null){
-            return new ErrorResponseData(500, "未登陆");
+            data.put("success",false);
+            data.put("message","未登陆");
+            return data;
         }
-        return attribute.toString();
+        data.put("success",true);
+        data.put("message","已登陆");
+        data.put("data",attribute.toString());
+        return data;
     }
     private String setUserInfo(String openid, JSONObject userInfo,Integer id) {
         AccountExt accountExt=new AccountExt();
@@ -211,4 +242,5 @@ public class LoginApi  extends BaseController {
         }
         return nickname;
     }
+
 }

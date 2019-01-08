@@ -57,7 +57,6 @@ public class UserApi extends BaseController {
         dataMap.put("img",accountExt.getWebchatPohtoUrl());
         dataMap.put("webchatName",accountExt.getWebchatName());
         dataMap.put("phone",user.getPhone());
-        dataMap.put("uid",user.getId());
         return dataMap;
     }
 
@@ -71,22 +70,32 @@ public class UserApi extends BaseController {
                                  @RequestParam("img") String img,
                                  @RequestParam("webchatName") String webchatName,
                                  @RequestParam("phone") String phone,
-                                 @RequestParam("uid") Integer uid) {
+                                 @RequestParam("loginName") String loginName,
+                                 @RequestParam("loginPass") String loginPass) {
         try {
             Wrapper<User> warpperCount=new EntityWrapper<>();
-            warpperCount.eq("phone",phone).and().notIn("id",uid);
+            Integer uid = getUserId();
+            warpperCount.eq("phone",phone).and().notIn("id", uid);
             int count = userService.selectCount(warpperCount);
             if(count>0){
                 return new ErrorResponseData(500, "联系电话已经存在，请更换！");
             }
+            warpperCount=new EntityWrapper<>();
+            warpperCount.eq("account",loginName).and().notIn("id", uid);
+            int nameCount  = userService.selectCount(warpperCount);
+            if(nameCount>0){
+                return new ErrorResponseData(500, "登陆账号已经存在，请更换！");
+            }
             User user=new User();
             user.setId(uid);
             user.setName(name);
+            user.setAccount(loginName);
+            user.setPassword(loginPass);
             user.setSex(sex);
             user.setPhone(phone);
             userService.updateById(user);
             Wrapper<AccountExt> warpper=new EntityWrapper<>();
-            warpper.eq("uid",uid);
+            warpper.eq("id",uid);
             AccountExt accountExt = accountExtService.selectOne(warpper);
             AccountExt accountExtNew=new AccountExt();
             BeanUtils.copyProperties(accountExt,accountExtNew);
@@ -101,5 +110,15 @@ public class UserApi extends BaseController {
             log.error(e.getMessage(),e);
             return new ErrorResponseData(500, "更新信息失败！");
         }
+    }
+    private Integer getUserId() {
+        Object openId = super.getSession().getAttribute(AuthUtil.OPENID);
+        Wrapper<AccountExt> warpper=new EntityWrapper<>();
+        warpper.eq("webchat_open_id",openId.toString());
+        AccountExt accountExt = accountExtService.selectOne(warpper);
+        if(accountExt==null){
+            throw new ServiceException(BizExceptionEnum.TOKEN_EXPIRED);
+        }
+        return accountExt.getId();
     }
 }

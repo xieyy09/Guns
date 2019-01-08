@@ -1,5 +1,6 @@
 package cn.stylefeng.guns.modular.api.weChatApi;
 
+import cn.stylefeng.guns.config.util.AuthUtil;
 import cn.stylefeng.guns.config.util.UUIDUtils;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.shiro.ShiroKit;
@@ -56,11 +57,7 @@ public class WorksDetailsAuthcApi extends BaseController {
     public Object mylist(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
         String orderBycolnum = "create_time";
         WorksDetails worksDetails = new WorksDetails();
-        ShiroUser user = ShiroKit.getUser();
-        if(user==null){
-            throw new ServiceException(BizExceptionEnum.TOKEN_EXPIRED);
-        }
-        long uid = user.getId().longValue();
+        long uid = getUserId().longValue();
         Page<WorksDetails> pages =  new Page<>(page,12);
         worksDetails.setUid(uid);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
@@ -70,10 +67,21 @@ public class WorksDetailsAuthcApi extends BaseController {
         return  new SuccessResponseData(worksDetailsPage);
     }
 
+    private Integer getUserId() {
+        Object openId = super.getSession().getAttribute(AuthUtil.OPENID);
+        Wrapper<AccountExt> warpper=new EntityWrapper<>();
+        warpper.eq("webchat_open_id",openId.toString());
+        AccountExt accountExt = accountExtService.selectOne(warpper);
+        if(accountExt==null){
+            throw new ServiceException(BizExceptionEnum.TOKEN_EXPIRED);
+        }
+        return accountExt.getId();
+    }
+
     @RequestMapping(value = "/delete/{worksDetailsId}",method = RequestMethod.DELETE)
     public Object delete(@PathVariable String worksDetailsId){
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
-        long uid = ShiroKit.getUser().getId().longValue();
+        long uid = getUserId().longValue();
         // 不是本人作品
         if(uid!=worksDetails.getUid().longValue()){
             throw new ServiceException(702,"只能删除本人作品");
@@ -98,7 +106,7 @@ public class WorksDetailsAuthcApi extends BaseController {
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
         }
-        long uid = ShiroKit.getUser().getId().longValue();
+        long uid = getUserId().longValue();
         //TODO 判断当前人是否能上传作品
         AccountExt accountExt = accountExtService.selectById(uid);
         if(accountExt!=null&&accountExt.getBanPost()==1){
@@ -124,7 +132,7 @@ public class WorksDetailsAuthcApi extends BaseController {
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
         }
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
-        long uid = ShiroKit.getUser().getId().longValue();
+        long uid = getUserId().longValue();
         // 不是本人作品
         if(uid!=worksDetails.getUid().longValue()){
             throw new ServiceException(BizExceptionEnum.NO_PERMITION);
@@ -166,7 +174,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      */
     @RequestMapping(value = "/addGiveLike/{worksDetailsId}",method = RequestMethod.POST)
     public Object addGiveLike(@PathVariable String worksDetailsId){
-        long uid = ShiroKit.getUser().getId().longValue();
+        long uid = getUserId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
         AccountExt accountExt = accountExtService.selectById(uid);
         if(accountExt==null||accountExt.getBanGiveLike()==1){
@@ -202,7 +210,7 @@ public class WorksDetailsAuthcApi extends BaseController {
             // 数据不全
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
         }
-        long uid = ShiroKit.getUser().getId().longValue();
+        long uid = getUserId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
         AccountExt accountExt = accountExtService.selectById(uid);
         if(accountExt==null||accountExt.getBanReply()==1){

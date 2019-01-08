@@ -53,7 +53,7 @@ ChampionInfoDlg.collectData = function() {
     .set('img')
     .set('professionalField')
     .set('sign')
-    .set('phone')
+    .set('phone').set('popularIds')
     .set('createTime')
     .set('createUid')
     .set('replyNumber')

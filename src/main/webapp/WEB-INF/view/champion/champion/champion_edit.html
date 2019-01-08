@@ -21,6 +21,11 @@
                     <option value="0">未发布</option>
                 </#select>
                 <#input id="phone" name="联系电话" underline="true" value="${item.phone}"/>
+                <#select id="popularIds" name="选择基地" underline="true">
+                @for(p in psb){
+                <option value="${p.id}" ${p.id==item.popularIds?'selected':''}>${p.title}</option>
+                @}
+            </#select>
                 </div>
             </div>
             <div class="form-group">
