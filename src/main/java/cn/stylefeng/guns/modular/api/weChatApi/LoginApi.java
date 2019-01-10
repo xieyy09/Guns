@@ -108,6 +108,7 @@ public class LoginApi  extends BaseController {
         Wrapper<User> wrapper=new EntityWrapper<>();
         Map<String,Object> data=new HashMap<>();
         try {
+            wrapper.eq("account",username).and().eq("password",password);
             User user = userService.selectOne(wrapper);
             if(user==null){
                 return  new ErrorResponseData("账户或密码错误");
@@ -118,7 +119,7 @@ public class LoginApi  extends BaseController {
             return  new SuccessResponseData(accountExt.getWebchatName());
         }catch (Exception e){
             log.error(e.getMessage(),e);
-            return  new ErrorResponseData("登陆失败");
+            return  new ServiceException(500,"登陆失败");
         }
 
     }

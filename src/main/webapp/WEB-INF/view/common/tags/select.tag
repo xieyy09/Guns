@@ -4,10 +4,14 @@
     id : select的id
     underline : 是否带分割线
 @*/
-<div class="form-group">
+<div class="form-group" id="${id}div">
     <label class="col-sm-3 control-label">${name}</label>
     <div class="col-sm-9">
-        <select class="form-control" id="${id}" name="${id}">
+        <select class="form-control" id="${id}" name="${id}"
+                @if(isNotEmpty(onchange)){
+                    onchange="${onchange}"
+                @}
+        >
             ${tagBody!}
         </select>
         @if(isNotEmpty(hidden)){
@@ -16,7 +20,7 @@
     </div>
 </div>
 @if(isNotEmpty(underline) && underline == 'true'){
-    <div class="hr-line-dashed"></div>
+    <div class="hr-line-dashed" id="${id}divline"></div>
 @}
 
 

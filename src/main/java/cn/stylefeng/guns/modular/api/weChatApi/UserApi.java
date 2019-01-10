@@ -3,8 +3,10 @@ package cn.stylefeng.guns.modular.api.weChatApi;
 import cn.stylefeng.guns.config.properties.GunsProperties;
 import cn.stylefeng.guns.config.util.AuthUtil;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
+import cn.stylefeng.guns.modular.champion.service.IChampionService;
 import cn.stylefeng.guns.modular.system.model.AccountExt;
 import cn.stylefeng.guns.modular.system.model.ActivityDetails;
+import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
@@ -40,7 +42,8 @@ public class UserApi extends BaseController {
     private IAccountExtService accountExtService;
     @Autowired
     private IUserService userService;
-
+    @Autowired
+    private IChampionService championService;
     /**
      * 获取用户详细信息，根据openId
      */
@@ -106,6 +109,11 @@ public class UserApi extends BaseController {
                 accountExtNew.setIsEdit(1);
             }
             accountExtService.updateById(accountExtNew);
+            //更新擂主系统账户ID
+            Wrapper<Champion> champWarpper=new EntityWrapper<>();
+            Champion champion = championService.selectOne(champWarpper);
+            champion.setUid(uid);
+            championService.updateById(champion);
             return new SuccessResponseData(true);
         }catch (Exception e){
             log.error(e.getMessage(),e);

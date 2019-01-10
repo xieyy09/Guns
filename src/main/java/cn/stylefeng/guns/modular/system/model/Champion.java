@@ -31,7 +31,7 @@ public class Champion extends Model<Champion> {
     /**
      * 系统帐户ID
      */
-    private Long uid;
+    private Integer uid;
     /**
      * 擂主说明
      */
@@ -107,11 +107,11 @@ public class Champion extends Model<Champion> {
         this.championName = championName;
     }
 
-    public Long getUid() {
+    public Integer getUid() {
         return uid;
     }
 
-    public void setUid(Long uid) {
+    public void setUid(Integer uid) {
         this.uid = uid;
     }
 

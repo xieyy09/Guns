@@ -1,0 +1,49 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-6 b-r">
+                    <input class="form-control" type="hidden" id="id" name="id" value="${item.id}">
+
+                    <input type="hidden" id="statusValue" value='${item.status}'>
+                    <input type="hidden" id="moduleValue" value='${item.module}'>
+                    <input type="hidden" id="oidValue" value='${item.oid}'>
+                    <#input id="title" name="头条标题" underline="true" value="${item.title}"/>
+                    <#fileinput id="img" name="头条图片" path="headline"  value="${item.img}"/>
+                </div>
+                <div class="col-sm-6">
+                    <#select id="module" name="模块" underline="true" onchange="selModule(this)">
+                        <option value="activity">活动模块</option>
+                        <option value="champion">擂主模块</option>
+                        <option value="science">科普模块</option>
+                        <option value="worksDetail">作品模块</option>
+                        <option value="other">其他</option>
+                    </#select>
+                        <#select id="oid" name="头条数据" underline="true">
+                            <option value="">---请选择模块---</option>
+                            </#select>
+                                <#input id="url" ishidden="true" name="链接url" value="${item.url}" underline="true"/>
+                                <#select id="status" name="是否发布" underline="true">
+                                <option value="1">发布</option>
+                                <option value="0">未发布</option>
+                            </#select>
+                        <#textarea id="imgContent" name="图片描述" value="${item.imgContent}" underline="true"/>
+                    </div>
+                </div>
+
+    <div class="row btn-group-m-t">
+        <div class="col-sm-10">
+            <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="HeadlineInfoInfoDlg.addSubmit()"/>
+            <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="HeadlineInfoInfoDlg.close()"/>
+        </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<link href="${ctxPath}/static/css/plugins/bootstrap-fileinput.css" rel="stylesheet">
+<script src="${ctxPath}/static/js/plugins/bootstrap-fileinput.js"></script>
+<script src="${ctxPath}/static/modular/headline/headlineInfo/headlineInfo_info.js"></script>
+@}

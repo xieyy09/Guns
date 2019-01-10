@@ -1,13 +1,16 @@
 package cn.stylefeng.guns.modular.champion.controller;
 
 import cn.stylefeng.guns.config.util.UUIDUtils;
+import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.shiro.ShiroKit;
 import cn.stylefeng.guns.modular.science.service.IPopularScienceBaseService;
 import cn.stylefeng.guns.modular.system.model.PopularScienceBase;
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
@@ -94,6 +97,14 @@ public class ChampionController extends BaseController {
         champion.setId(UUIDUtils.getBase64UUID());
         champion.setCreateTime(new Date());
         champion.setCreateUid(Long.parseLong(ShiroKit.getUser().getId().toString()));
+        if(!StringUtils.isEmpty(champion.getPhone())){
+            Wrapper<Champion> warpper=new EntityWrapper<>();
+            warpper.eq("phone",champion.getPhone());
+            int i = championService.selectCount(warpper);
+            if(i>0){
+                throw new ServiceException(BizExceptionEnum.SPHONE_ERROR);
+            }
+        }
         championService.insert(champion);
         return SUCCESS_TIP;
     }
@@ -114,6 +125,14 @@ public class ChampionController extends BaseController {
     @RequestMapping(value = "/update")
     @ResponseBody
     public Object update(Champion champion) {
+        if(!StringUtils.isEmpty(champion.getPhone())){
+            Wrapper<Champion> warpper=new EntityWrapper<>();
+            warpper.eq("phone",champion.getPhone()).notIn("id",champion.getId());
+            int i = championService.selectCount(warpper);
+            if(i>0){
+                throw new ServiceException(BizExceptionEnum.SPHONE_ERROR);
+            }
+        }
         championService.updateById(champion);
         return SUCCESS_TIP;
     }

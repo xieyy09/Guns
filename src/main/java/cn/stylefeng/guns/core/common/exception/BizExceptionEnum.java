@@ -80,7 +80,10 @@ public enum BizExceptionEnum implements AbstractBaseExceptionEnum {
      * 签名异常
      */
     SIGN_ERROR(700, "签名验证失败"),
-
+    /**
+     * 电话存在
+     */
+    SPHONE_ERROR(700, "电话已经存在"),
     /**
      * 其他
      */
