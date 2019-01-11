@@ -90,7 +90,18 @@ public class WorksDetailsController extends BaseController {
         worksDetailsService.deleteById(worksDetailsId);
         return SUCCESS_TIP;
     }
-
+    /**
+     * 审核作品管理
+     */
+    @RequestMapping(value = "/review")
+    @ResponseBody
+    public Object delete(@RequestParam String worksDetailsId,@RequestParam String type) {
+        WorksDetails t=new WorksDetails();
+        t.setId(worksDetailsId);
+        t.setState(type.equals("tg")?1:-1);
+        worksDetailsService.updateById(t);
+        return SUCCESS_TIP;
+    }
     /**
      * 修改作品管理
      */

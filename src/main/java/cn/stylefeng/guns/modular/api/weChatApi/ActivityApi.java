@@ -44,7 +44,20 @@ public class ActivityApi extends BaseController {
             return new ErrorResponseData(500, "查询活动列表失败！");
         }
     }
-
+    @GetMapping("/processing")
+    public Object findChampionProcessingList(@RequestParam(required=true,defaultValue="1") Integer page){
+        try {
+            Page<ActivityDetails> pages =  new Page<>(page,12);
+            Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
+            wrapper.where("activity_state=1");
+            wrapper.orderDesc(Arrays.asList("state","begin_time"));
+            Page<ActivityDetails> activityDetailsList = activityDetailsService.selectPage(pages,wrapper);
+            return  new SuccessResponseData(activityDetailsList);
+        }catch (Exception e){
+            log.error(e.getMessage(),e);
+            return new ErrorResponseData(500, "查询活动列表失败！");
+        }
+    }
     @GetMapping("/info")
     public Object findChampionInfo(@RequestParam("id") String id){
         try {
