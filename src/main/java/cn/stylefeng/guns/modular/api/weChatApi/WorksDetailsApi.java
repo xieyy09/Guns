@@ -4,10 +4,7 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.system.model.*;
 import cn.stylefeng.guns.modular.system.service.IUserService;
-import cn.stylefeng.guns.modular.system.transfer.GiveLikeDetailsDto;
-import cn.stylefeng.guns.modular.system.transfer.ReplyDetailsDto;
-import cn.stylefeng.guns.modular.system.transfer.WorksDetailsDto;
-import cn.stylefeng.guns.modular.system.transfer.WorksImgDetailsDto;
+import cn.stylefeng.guns.modular.system.transfer.*;
 import cn.stylefeng.guns.modular.worksDetail.service.IGiveLikeDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IReplyDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksDetailsService;
@@ -52,22 +49,53 @@ public class WorksDetailsApi {
      * 获取作品管理列表
      */
     @RequestMapping(value = "/list")
-    public Object list(@RequestParam(required=true,defaultValue="1") Integer page, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
+    public Object list(@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=false,defaultValue="list") String type, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
         String orderBycolnum = "create_time";
         if(!StringUtils.isEmpty(orderBy) && "giveLike".toLowerCase().equals(orderBy.toLowerCase())){
             orderBycolnum ="give_like_number";
         }else if(!StringUtils.isEmpty(orderBy) && "champion".toLowerCase().equals(orderBy.toLowerCase())){
             orderBycolnum ="champion_reply,create_time";
         }
-
-        Page<WorksDetails> pages =  new Page<>(page,12);
+        Integer pageSize = 12;
+        if(!"list".equals(type)){
+            pageSize = 5;
+        }
+        Page<WorksDetails> pages =  new Page<>(page,pageSize);
         WorksDetails worksDetails = new WorksDetails();
         worksDetails.setState(1);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
         worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0} and details_delete=0",worksDetails.getState())
                 .orderBy(orderBycolnum);
         Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
-        return  new SuccessResponseData(worksDetailsPage);
+        Page<WorksDetailsBeanDto> resultPage = new Page<>();
+        BeanUtils.copyProperties(worksDetailsPage,resultPage);
+        List<WorksDetails> records = worksDetailsPage.getRecords();
+        int size = records.size();
+        List<WorksDetailsBeanDto> listWorksDetailsBeanDto = new ArrayList<>(size);
+        WorksDetailsBeanDto beanDto = null;
+        for(int i=0;i<size;i++){
+            beanDto = new WorksDetailsBeanDto();
+            WorksDetails worksDetails1 = records.get(i);
+            BeanUtils.copyProperties(worksDetails1,beanDto);
+            if(size>5 ){
+                if(size%2==0 && i==4){
+                    beanDto.setShowType(1);
+                }else if(i<3){
+                        beanDto.setShowType(3);
+                }else{
+                    beanDto.setShowType(2);
+                }
+            }else{
+                if(size%2!=0){
+                    beanDto.setShowType(size);
+                }else {
+                    beanDto.setShowType(2);
+                }
+            }
+            listWorksDetailsBeanDto.add(beanDto);
+        }
+        resultPage.setRecords(listWorksDetailsBeanDto);
+        return  new SuccessResponseData(resultPage);
     }
 
 
