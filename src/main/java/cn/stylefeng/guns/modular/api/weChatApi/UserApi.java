@@ -53,6 +53,7 @@ public class UserApi extends BaseController {
         Map<String,Object> dataMap=new HashMap<>();
         String openId = super.getSession().getAttribute(AuthUtil.OPENID).toString();
         Wrapper<AccountExt> warpper=new EntityWrapper<>();
+        warpper.eq("webchat_open_id",openId);
         AccountExt accountExt = accountExtService.selectOne(warpper);
         Integer uid = accountExt.getId();
         User user = userService.selectById(uid);

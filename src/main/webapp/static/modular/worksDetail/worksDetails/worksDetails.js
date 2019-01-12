@@ -107,6 +107,7 @@ WorksDetails.openWorksDetailsDetail = function (id) {
         maxmin: true,
         content: Feng.ctxPath + '/worksDetails/worksDetails_update/' + id
     });
+    layer.full(index);
     this.layerIndex = index;
 };
 
