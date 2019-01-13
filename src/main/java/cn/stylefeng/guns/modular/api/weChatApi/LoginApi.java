@@ -52,7 +52,7 @@ public class LoginApi  extends BaseController {
 
         String pictureName = UUID.randomUUID().toString() + "." + ToolUtil.getFileSuffix(picture.getOriginalFilename());
         try {
-            String path="worksdetail";
+            String path="worksdetails";
             String fileSavePath = gunsProperties.getFileUploadPath()+path;
             File file = new File(fileSavePath);
             if(!file.exists()){
