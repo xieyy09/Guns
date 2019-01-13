@@ -3,39 +3,62 @@
     <div class="ibox-content">
         <div class="form-horizontal">
 
-            <div class="row">
-                <div class="col-sm-6 b-r">
-                            <#input id="id" name="id" value="${item.id}" underline="true"/>
-                            <#input id="activityId" name="活动ID" value="${item.activityId}" underline="true"/>
-                            <#input id="uid" name="用户ID" value="${item.uid}" underline="true"/>
-                            <#input id="replyNumber" name="评论数量" value="${item.replyNumber}" underline="true"/>
-                            <#input id="forwardNumber" name="转发数量" value="${item.forwardNumber}" underline="true"/>
-                            <#input id="giveLikeNumber" name="点赞数量" value="${item.giveLikeNumber}" underline="true"/>
-                            <#input id="createTime" name="创建时间" value="${item.createTime}" underline="true"/>
-                            <#input id="state" name="审核状态(0待审核1通过-1不通过)" value="${item.state}" underline="true"/>
-                            <#input id="hasPoint" name="是否定位(0无定位1有定位)" value="${item.hasPoint}" underline="true"/>
-                            <#input id="worksTitle" name="作品名称" value="${item.worksTitle}" underline="true"/>
-                            <#input id="imgNumber" name="图片数量" value="${item.imgNumber}" underline="true"/>
-                            <#input id="imgUrl" name="第一个图片地址" value="${item.imgUrl}" underline="true"/>
-                            <#input id="imgRemark" name="图片说明" value="${item.imgRemark}" />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">一拍</h3>
+                </div>
+                <div class="panel-body">
+                    @for(img in itemImg){
+                    <img src="${ctxPath}/activityDetails/loadImg?path=worksdetail&filename=${img.detailImg!'noimage.png'}">
+                    <br/>
+                    @}
+                </div>
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>作品名称：</strong>${item.worksTitle}</li>
+                    <li class="list-group-item"><strong>拍摄时间：</strong>${item.pohtoTime,dateFormat="yyyy-MM-dd"}</li>
+                    <li class="list-group-item"><strong>拍摄地点：</strong>${item.address}&nbsp;${item.weather}</li>
+                    <li class="list-group-item"><strong>拍摄作者：</strong>${item.takenAuthor}</li>
+                    <li class="list-group-item"><strong>拍摄工具：</strong>${item.takenTool}</li>
+                </ul>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">二记</h3>
+                </div>
+                <div class="panel-body">
+                    ${item.content}
                 </div>
 
-                <div class="col-sm-6">
-                            <#input id="pohtoTime" name="拍摄时间" value="${item.pohtoTime}" underline="true"/>
-                            <#input id="weather" name="天气" value="${item.weather}" underline="true"/>
-                            <#input id="address" name="拍摄地点" value="${item.address}" underline="true"/>
-                            <#input id="takenAuthor" name="拍摄作者" value="${item.takenAuthor}" underline="true"/>
-                            <#input id="takenTool" name="拍摄工具" value="${item.takenTool}" underline="true"/>
-                            <#input id="content" name="二记" value="${item.content}" underline="true"/>
-                            <#input id="answerOne" name="问题1" value="${item.answerOne}" underline="true"/>
-                            <#input id="answerTwo" name="问题2" value="${item.answerTwo}" underline="true"/>
-                            <#input id="answerThree" name="问题3" value="${item.answerThree}" underline="true"/>
-                            <#input id="answerFour" name="问题4" value="${item.answerFour}" underline="true"/>
-                            <#input id="answerFive" name="问题5" value="${item.answerFive}" underline="true"/>
-                            <#input id="answerSix" name="问题6" value="${item.answerSix}" />
+            </div>
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <h3 class="panel-title">三问</h3>
                 </div>
+                <!-- List group -->
+                <ul class="list-group">
+                    <li class="list-group-item">${item.answerOne}</li>
+                    @if(isNotEmpty(item.answerTwo)){
+                    <li class="list-group-item">${item.answerOne}</li>
+                    @}
+                    @if(isNotEmpty(item.answerThree)){
+                    <li class="list-group-item">${item.answerThree}</li>
+                    @}
+                    @if(isNotEmpty(item.answerFour)){
+                    <li class="list-group-item">${item.answerFour}</li>
+                    @}
+                    @if(isNotEmpty(item.answerFive)){
+                    <li class="list-group-item">${item.answerFive}</li>
+                    @}
+                    @if(isNotEmpty(item.answerSix)){
+                    <li class="list-group-item">${item.answerSix}</li>
+                    @}
+                </ul>
             </div>
 
+            <!--<#input id="createTime" name="创建时间" value="${item.createTime}" underline="true"/>-->
+            <!--<#input id="worksTitle" name="作品名称" value="${item.worksTitle}" underline="true"/>-->
+            <!--<#input id="imgRemark" name="图片说明" value="${item.imgRemark}" />-->
         </div>
 
     </div>

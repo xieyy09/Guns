@@ -78,7 +78,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         return accountExt.getId();
     }
 
-    @RequestMapping(value = "/delete/{worksDetailsId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete/{worksDetailsId}",method = RequestMethod.GET)
     public Object delete(@PathVariable String worksDetailsId){
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
         long uid = getUserId().longValue();

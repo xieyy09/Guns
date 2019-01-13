@@ -1,6 +1,8 @@
 package cn.stylefeng.guns.modular.worksDetail.controller;
 
 import cn.stylefeng.guns.modular.system.model.ActivityDetails;
+import cn.stylefeng.guns.modular.system.model.WorksImgDetails;
+import cn.stylefeng.guns.modular.worksDetail.service.IWorksImgDetailsService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -14,6 +16,8 @@ import cn.stylefeng.guns.core.log.LogObjectHolder;
 import org.springframework.web.bind.annotation.RequestParam;
 import cn.stylefeng.guns.modular.system.model.WorksDetails;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksDetailsService;
+
+import java.util.List;
 
 /**
  * 作品管理控制器
@@ -29,7 +33,8 @@ public class WorksDetailsController extends BaseController {
 
     @Autowired
     private IWorksDetailsService worksDetailsService;
-
+    @Autowired
+    private IWorksImgDetailsService worksImgDetailsService;
     /**
      * 跳转到作品管理首页
      */
@@ -50,9 +55,15 @@ public class WorksDetailsController extends BaseController {
      * 跳转到修改作品管理
      */
     @RequestMapping("/worksDetails_update/{worksDetailsId}")
-    public String worksDetailsUpdate(@PathVariable Integer worksDetailsId, Model model) {
+    public String worksDetailsUpdate(@PathVariable String worksDetailsId, Model model) {
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
         model.addAttribute("item",worksDetails);
+        EntityWrapper<WorksImgDetails> worksImgDetailWrapper = new EntityWrapper<>();
+        WorksImgDetails worksImgDetails = new WorksImgDetails();
+        worksImgDetails.setWorksDetailsId(worksDetailsId);
+        worksImgDetailWrapper.setEntity(worksImgDetails);
+        List<WorksImgDetails> worksImgDetailsList = worksImgDetailsService.selectList(worksImgDetailWrapper);
+        model.addAttribute("itemImg",worksImgDetailsList);
         LogObjectHolder.me().set(worksDetails);
         return PREFIX + "worksDetails_edit.html";
     }
