@@ -6,7 +6,6 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.AesException;
 import cn.stylefeng.guns.core.util.WXPublicUtils;
 import cn.stylefeng.guns.modular.system.model.AccountExt;
-import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
@@ -123,15 +122,19 @@ public class LoginApi  extends BaseController {
         }
 
     }
+
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
     public void callBack() {
         try {
             String code = super.getHttpServletRequest().getParameter("code");
             HttpServletResponse response = super.getHttpServletResponse();
             if(code==null || code.equals("")){
-                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/photo/weChatApi/callBack");
-                String redirectUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
-                        +"&redirect_uri="+wx_redirect_uri+"&reponse_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/weChatApi/callBack");
+                String redirectUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
+                        + "&redirect_uri="+wx_redirect_uri
+                        + "&response_type=code"
+                        + "&scope=snsapi_userinfo"
+                        + "&state=STATE#wechat_redirect";
                 response.sendRedirect(redirectUrl);
             }else {
                 if (log.isDebugEnabled()) {
