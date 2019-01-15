@@ -29,7 +29,7 @@ public class WeChatController {
 	 * @author
 	 * @date 2016年3月19日 下午5:57:52
 	 */
-	@RequestMapping("jssdk")
+	@RequestMapping("/jssdk")
 	public Object JSSDK_config(
 			@RequestParam(value = "url", required = true) String url) {
 		try {
