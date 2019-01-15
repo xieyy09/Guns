@@ -6,10 +6,10 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.AesException;
 import cn.stylefeng.guns.core.util.WXPublicUtils;
 import cn.stylefeng.guns.modular.system.model.AccountExt;
-import cn.stylefeng.guns.modular.system.model.Champion;
 import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
+import cn.stylefeng.guns.wechat.util.SignUtil;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +33,7 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.*;
 
-@RestController
+@Controller
 @RequestMapping("/weChatApi")
 @Slf4j
 public class LoginApi  extends BaseController {
@@ -82,6 +83,7 @@ public class LoginApi  extends BaseController {
 
     }
     @RequestMapping(method = RequestMethod.GET, path = "/verify_wx_token")
+    @ResponseBody
     public void verify_wx_token() throws AesException {
         HttpServletRequest request = super.getHttpServletRequest();
         HttpServletResponse response = super.getHttpServletResponse();
@@ -92,7 +94,7 @@ public class LoginApi  extends BaseController {
         PrintWriter out = null;
         try {
             out=response.getWriter();
-            if (WXPublicUtils.verifyUrl(msgSignature, msgTimestamp, msgNonce)) {
+            if (SignUtil.checkSignature(msgSignature, msgTimestamp, msgNonce)) {
                 out.print(echostr);
             }
         }catch (IOException e){
@@ -123,15 +125,20 @@ public class LoginApi  extends BaseController {
         }
 
     }
+
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
+    @ResponseBody
     public void callBack() {
         try {
             String code = super.getHttpServletRequest().getParameter("code");
             HttpServletResponse response = super.getHttpServletResponse();
             if(code==null || code.equals("")){
-                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/photo/weChatApi/callBack");
-                String redirectUrl="https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
-                        +"&redirect_uri="+wx_redirect_uri+"&reponse_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+                String wx_redirect_uri= URLEncoder.encode(AuthUtil.REDIRECT_URI);
+                String redirectUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
+                        + "&redirect_uri="+wx_redirect_uri
+                        + "&response_type=code"
+                        + "&scope=snsapi_userinfo"
+                        + "&state=STATE#wechat_redirect";
                 response.sendRedirect(redirectUrl);
             }else {
                 if (log.isDebugEnabled()) {

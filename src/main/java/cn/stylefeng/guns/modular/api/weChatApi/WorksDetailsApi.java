@@ -85,6 +85,12 @@ public class WorksDetailsApi {
                 }else{
                     beanDto.setShowType(2);
                 }
+            }else if(size==5){
+                if(i<2){
+                    beanDto.setShowType(2);
+                }else {
+                    beanDto.setShowType(3);
+                }
             }else{
                 if(size%2!=0){
                     beanDto.setShowType(size);
