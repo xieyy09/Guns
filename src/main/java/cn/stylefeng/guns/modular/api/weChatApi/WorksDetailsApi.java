@@ -50,11 +50,13 @@ public class WorksDetailsApi {
      */
     @RequestMapping(value = "/list")
     public Object list(@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=false,defaultValue="list") String type, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
-        String orderBycolnum = "create_time";
+        List<String> orderList = new ArrayList<>();
+        orderList.add("create_time");
         if(!StringUtils.isEmpty(orderBy) && "giveLike".toLowerCase().equals(orderBy.toLowerCase())){
-            orderBycolnum ="give_like_number";
+            orderList.add("give_like_number");
         }else if(!StringUtils.isEmpty(orderBy) && "champion".toLowerCase().equals(orderBy.toLowerCase())){
-            orderBycolnum ="champion_reply,create_time";
+            orderList.add("champion_reply");
+            orderList.add("create_time");
         }
         Integer pageSize = 12;
         if(!"list".equals(type)){
@@ -65,7 +67,7 @@ public class WorksDetailsApi {
         worksDetails.setState(1);
         EntityWrapper<WorksDetails> worksDetailsEntityWrapper = new EntityWrapper<>();
         worksDetailsEntityWrapper.where(worksDetails.getState()!=null," state ={0} and details_delete=0",worksDetails.getState())
-                .orderBy(orderBycolnum);
+                .orderDesc(orderList);
         Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
         Page<WorksDetailsBeanDto> resultPage = new Page<>();
         BeanUtils.copyProperties(worksDetailsPage,resultPage);
