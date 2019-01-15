@@ -9,6 +9,7 @@ import cn.stylefeng.guns.modular.system.model.AccountExt;
 import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
+import cn.stylefeng.guns.wechat.util.SignUtil;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
@@ -91,7 +92,7 @@ public class LoginApi  extends BaseController {
         PrintWriter out = null;
         try {
             out=response.getWriter();
-            if (WXPublicUtils.verifyUrl(msgSignature, msgTimestamp, msgNonce)) {
+            if (SignUtil.checkSignature(msgSignature, msgTimestamp, msgNonce)) {
                 out.print(echostr);
             }
         }catch (IOException e){
@@ -129,7 +130,7 @@ public class LoginApi  extends BaseController {
             String code = super.getHttpServletRequest().getParameter("code");
             HttpServletResponse response = super.getHttpServletResponse();
             if(code==null || code.equals("")){
-                String wx_redirect_uri= URLEncoder.encode(AuthUtil.SERVER+"/weChatApi/callBack");
+                String wx_redirect_uri= URLEncoder.encode(AuthUtil.REDIRECT_URI);
                 String redirectUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+AuthUtil.APPID
                         + "&redirect_uri="+wx_redirect_uri
                         + "&response_type=code"
