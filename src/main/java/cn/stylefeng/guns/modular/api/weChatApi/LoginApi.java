@@ -9,6 +9,9 @@ import cn.stylefeng.guns.modular.system.model.AccountExt;
 import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
+import cn.stylefeng.guns.wechat.dispatcher.EventDispatcher;
+import cn.stylefeng.guns.wechat.dispatcher.MsgDispatcher;
+import cn.stylefeng.guns.wechat.util.MessageUtil;
 import cn.stylefeng.guns.wechat.util.SignUtil;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
@@ -16,6 +19,7 @@ import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
 import cn.stylefeng.roses.core.util.FileUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -126,6 +130,31 @@ public class LoginApi  extends BaseController {
 
     }
 
+    /**
+     * 接收微信端消息处理并做分发
+     */
+    @RequestMapping(method = RequestMethod.POST, path = "/verify_wx_token")
+    public void postCallBack(HttpServletRequest request,HttpServletResponse response) {
+        response.setCharacterEncoding("utf-8");
+        try{
+            Map<String, String> map=MessageUtil.parseXml(request);
+            log.debug(JSON.toJSON(map).toString());
+            String msgtype=map.get("MsgType");
+            if(MessageUtil.REQ_MESSAGE_TYPE_EVENT.equals(msgtype)){
+                String msgrsp= EventDispatcher.processEvent(map); //进入事件处理
+                PrintWriter out = response.getWriter();
+                out.print(msgrsp);
+                out.close();
+            }else{
+                String msgrsp= MsgDispatcher.processMessage(map); //进入消息处理
+                PrintWriter out = response.getWriter();
+                out.print(msgrsp);
+                out.close();
+            }
+        }catch(Exception e){
+            log.error(e.getMessage(),e);
+        }
+    }
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
     @ResponseBody
     public void callBack() {
@@ -166,7 +195,7 @@ public class LoginApi  extends BaseController {
                 String token = jsonObject.getString("access_token");
                 String openid = jsonObject.getString("openid");
                 // 第三步：刷新access_token（如果需要）
-
+                AuthUtil.ACCESS_TOKEN = token;
                 // 第四步：拉取用户信息(需scope为 snsapi_userinfo)
                 String infoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token
                         + "&openid=" + openid

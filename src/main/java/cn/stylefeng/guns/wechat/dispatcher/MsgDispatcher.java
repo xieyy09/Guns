@@ -1,12 +1,16 @@
 package cn.stylefeng.guns.wechat.dispatcher;
 
 
+import cn.stylefeng.guns.config.util.AuthUtil;
 import cn.stylefeng.guns.wechat.message.resp.Article;
 import cn.stylefeng.guns.wechat.message.resp.NewsMessage;
 import cn.stylefeng.guns.wechat.message.resp.TextMessage;
+import cn.stylefeng.guns.wechat.util.HttpUtils;
 import cn.stylefeng.guns.wechat.util.MessageUtil;
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,49 +48,59 @@ public class MsgDispatcher {
 			}else{
 				txtmsg.setContent("你好，欢迎你！");
 			}
+
+			TextMessage txtmsgSend=new TextMessage();
+			txtmsgSend.setCreateTime(new Date().getTime());
+			txtmsgSend.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_TEXT);
+			txtmsgSend.setContent("这是一条测试中奖信息");
+			txtmsgSend.setFromUserName(mpid);
+
+			try {
+				txtmsgSend.setToUserName("oW5mljp0STFOqHwr60iOxJrbC37Q");
+				log.debug(AuthUtil.ACCESS_TOKEN);
+				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_MESSAGE + AuthUtil.ACCESS_TOKEN, JSON.toJSON(txtmsgSend).toString());
+				log.debug(s);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			txtmsgSend.setToUserName("oW5mljpe9J8HsnTXUUtIirIk9Fh0");
+			try {
+				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_MESSAGE+AuthUtil.ACCESS_TOKEN,JSON.toJSON(txtmsgSend).toString());
+				log.debug(s);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			return MessageUtil.textMessageToXml(txtmsg);
-		}
-		
-		//对图文消息
-		NewsMessage newmsg=new NewsMessage();
-		newmsg.setToUserName(openid);
-		newmsg.setFromUserName(mpid);
-		newmsg.setCreateTime(new Date().getTime());
-		newmsg.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
-		
-		if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) { // 图片消息
+		}else if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_IMAGE)) { // 图片消息
+			//对图文消息
+			NewsMessage newmsg=new NewsMessage();
+			newmsg.setToUserName(openid);
+			newmsg.setFromUserName(mpid);
+			newmsg.setCreateTime(new Date().getTime());
+			newmsg.setMsgType(MessageUtil.RESP_MESSAGE_TYPE_NEWS);
 			log.debug("==============这是图片消息！");
 			Article article=new Article();
-			article.setDescription("这是图文消息1"); //图文消息的描述
-			article.setPicUrl(" "); //图文消息图片地址
-			article.setTitle("图文消息1");  //图文消息标题
-			article.setUrl("");  //图文url链接
+			article.setDescription("这是图文消息"); //图文消息的描述
+			article.setPicUrl(map.get("PicUrl")); //图文消息图片地址
+			article.setTitle("图文消息");  //图文消息标题
+			article.setUrl(map.get("PicUrl"));  //图文url链接
 			List<Article> list=new ArrayList<Article>();
 			list.add(article);     //这里发送的是单图文，如果需要发送多图文则在这里list中加入多个Article即可！
 			newmsg.setArticleCount(list.size());
 			newmsg.setArticles(list);
 			return MessageUtil.newsMessageToXml(newmsg);
-		}
-		
-		
-		if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) { // 链接消息
+		}else if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_LINK)) { // 链接消息
 			txtmsg.setContent("");
 			return MessageUtil.textMessageToXml(txtmsg);
-		}
-		
-		if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) { // 位置消息
+		}else if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_LOCATION)) { // 位置消息
 			log.debug("==============这是位置消息！");
-			return "";
-		}
-		
-		
-		if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_VIDEO)) { // 视频消息
+			txtmsg.setContent("位置已收到");
+			return MessageUtil.textMessageToXml(txtmsg);
+		}else if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_VIDEO)) { // 视频消息
 			log.debug("==============这是视频消息！");
-			return "";
-		}
-		
-		
-		if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) { // 语音消息
+			txtmsg.setContent("视频已收到");
+			return MessageUtil.textMessageToXml(txtmsg);
+		}else if (map.get("MsgType").equals(MessageUtil.REQ_MESSAGE_TYPE_VOICE)) { // 语音消息
 			log.debug("==============这是语音消息！");
 			return "";
 		}

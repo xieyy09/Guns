@@ -42,10 +42,10 @@ public class EventDispatcher {
 			try {
 					HashMap<String, String> userinfo= GetUseInfo.Openid_userinfo(openid);
 					Article article=new Article();
-					article.setDescription("欢迎来到崔用志的个人博客：菜鸟程序员成长之路！"); //图文消息的描述
+					article.setDescription("欢迎您的到来！"); //图文消息的描述
 					article.setPicUrl(userinfo.get("headimgurl")); //图文消息图片地址
 					article.setTitle("尊敬的："+userinfo.get("nickname")+",你好！");  //图文消息标题
-					article.setUrl("http://www.cuiyongzhi.com");  //图文url链接
+					article.setUrl("http://www.baidu.com");  //图文url链接
 					List<Article> list=new ArrayList<Article>();
 					list.add(article);     //这里发送的是单图文，如果需要发送多图文则在这里list中加入多个Article即可！
 					newmsg.setArticleCount(list.size());
@@ -90,9 +90,9 @@ public class EventDispatcher {
 			    log.debug("这里是回复图文消息!");
 			    Article article=new Article();
 				article.setDescription("这是图文消息1"); //图文消息的描述
-				article.setPicUrl("http://res.cuiyongzhi.com/2016/03/201603086749_6850.png"); //图文消息图片地址
+				article.setPicUrl(""); //图文消息图片地址
 				article.setTitle("图文消息1");  //图文消息标题
-				article.setUrl("http://www.cuiyongzhi.com");  //图文url链接
+				article.setUrl("http://www.baidu.com");  //图文url链接
 				List<Article> list=new ArrayList<Article>();
 				list.add(article);     //这里发送的是单图文，如果需要发送多图文则在这里list中加入多个Article即可！
 				newmsg.setArticleCount(list.size());
