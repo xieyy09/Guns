@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +33,7 @@ import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.*;
 
-@RestController
+@Controller
 @RequestMapping("/weChatApi")
 @Slf4j
 public class LoginApi  extends BaseController {
@@ -82,6 +83,7 @@ public class LoginApi  extends BaseController {
 
     }
     @RequestMapping(method = RequestMethod.GET, path = "/verify_wx_token")
+    @ResponseBody
     public void verify_wx_token() throws AesException {
         HttpServletRequest request = super.getHttpServletRequest();
         HttpServletResponse response = super.getHttpServletResponse();
@@ -125,6 +127,7 @@ public class LoginApi  extends BaseController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/callBack")
+    @ResponseBody
     public void callBack() {
         try {
             String code = super.getHttpServletRequest().getParameter("code");
