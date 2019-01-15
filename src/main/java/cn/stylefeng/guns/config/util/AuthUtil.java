@@ -31,6 +31,8 @@ public class AuthUtil {
     public static final String OPENIDUSERINFOURL = "https\\://api.weixin.qq.com/cgi-bin/user/info";
     // 获取jsticket的url
     public static final String TICKETURL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
+    // 发送消息
+    public static final String SEND_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=";
 
     public static JSONObject doGetJson(String url) throws ClientProtocolException, IOException {
         JSONObject jsonObject = null;
