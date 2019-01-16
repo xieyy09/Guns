@@ -1,7 +1,38 @@
 $(function(){
     init();
 })
-
+var page1 ={
+    activityId: {
+        validators: {
+            notEmpty: {
+                message: '请选择活动'
+            }
+        }
+    },
+    worksTitle: {
+        validators: {
+            notEmpty: {
+                message: '请输入作品名称'
+            }
+        }
+    }
+}
+var page2 ={
+    pohtoTime: {
+        validators: {
+            notEmpty: {
+                message: '请选择拍摄时间'
+            }
+        }
+    },
+    weather: {
+        validators: {
+            notEmpty: {
+                message: '请输入天气'
+            }
+        }
+    }
+}
 function init(){
     $.ajax({
         url : "/photo/weChatApi/jssdk",
@@ -21,7 +52,7 @@ function init(){
                 jsApiList : ['chooseImage',
                     'previewImage',
                     'uploadImage',
-                    'downloadImage']
+                    'downloadImage','getLocation']
             });
         }
     });
@@ -57,6 +88,19 @@ function uploadImage(localIds){
         },
         fail: function (res) {
             alertModal('上传图片失败，请重试')
+        }
+    });
+}
+
+function getLocation(){
+    wx.getLocation({
+        type : 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        success : function(res) {
+            //使用微信内置地图查看位置接口
+            wx.openLocation(res);
+        },
+        cancel : function(res) {
+            //用户拒绝授权获取地理位置
         }
     });
 }
