@@ -55,11 +55,12 @@ public class LoginApi  extends BaseController {
      */
     @RequestMapping(method = RequestMethod.POST, path = "/upload")
     @ResponseBody
-    public String upload(@RequestParam("mediaId") String mediaId,@RequestParam("path") String path) {
+    public Object upload(@RequestParam("mediaId") String mediaId,@RequestParam("path") String path) {
         try {
-            return downloadImageUtil.getImageFromWechat(mediaId,path);
+            String filename=downloadImageUtil.getImageFromWechat(mediaId,path);
+            return new SuccessResponseData(filename);
         } catch (Exception e) {
-            throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);
+            return  new ServiceException(500,"上传失败");
         }
     }
     /**

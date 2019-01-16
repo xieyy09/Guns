@@ -47,7 +47,7 @@ public class ActivityApi extends BaseController {
     @GetMapping("/processing")
     public Object findChampionProcessingList(@RequestParam(required=true,defaultValue="1") Integer page){
         try {
-            Page<ActivityDetails> pages =  new Page<>(page,12);
+            Page<ActivityDetails> pages =  new Page<>(page,30);
             Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
             wrapper.where("activity_state=1");
             wrapper.orderDesc(Arrays.asList("state","begin_time"));

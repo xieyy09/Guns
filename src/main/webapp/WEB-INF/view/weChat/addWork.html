@@ -15,15 +15,166 @@
     <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <script src="${ctxPath}/static/js/plugins/validate/bootstrapValidator.min.js"></script>
     <script src="${ctxPath}/static/js/common/Feng.js"></script>
+
+    <style>
+        html {
+            font-size: 100px;
+        }
+
+        body {
+            background: rgb(239, 239, 239);
+        }
+        body,
+        a,
+        h3,
+        span {
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+        }
+        .header {
+            background:#68320C;;
+            height: 0.44rem;
+            font-size: 0.18rem;
+            padding-left: 0.17rem;
+            padding-right: 0.25rem;
+            color: white;
+            text-align: center;
+            line-height: 0.44rem;
+        }
+
+        .header2 {
+            background: #26A69A;
+            height: 0.44rem;
+            font-size: 0.14rem;
+            color: white;
+            padding-left: 0.17rem;
+            padding-right: 0.25rem;
+            text-align: left;
+            line-height: 0.44rem;
+        }
+        .mui-btn {
+            font-size: 16px;
+            padding: 8px;
+            margin: 3px;
+        }
+        h5.mui-content-padded {
+            margin-left: 3px;
+            margin-top: 20px !important;
+        }
+        h5.mui-content-padded:first-child {
+            margin-top: 12px !important;
+        }
+        .ui-alert {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 16px;
+        }
+    </style>
+
 </head>
 <body>
-<form action="#">
-<div id="div1">
-    <table class="table">
-       <a onclick="chooseImage()">再来一张</a>
-    </table>
+<form action="#" id="dataForm">
+    <div id="page1">
+        <div class="header">
+            作品上传
+        </div>
 
-</div>
+        <div style="padding: 11px;">
+            <div style="height: 44px;" >
+                <div style="font-size: 16px;text-align: center;line-height: 44px;">
+                    <!--活动选择 <a style="color: red;">﹀</a>-->
+                    <select name="activityId" id="activityId">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div  style="padding-left: 11px;padding-right: 11px;">
+        <!-- 图片选择 -->
+        <div>
+            <div style="background-color: white;border-radius: 6px 6px 6px 6px;">
+                <!--<div style="padding: 5px;">-->
+                <!--<input id="titile" type="text" name="threequetion" placeholder="请输入作品标题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;">-->
+                <!--</div>-->
+                <!-- 点击增加按钮事件 -->
+                <img style="margin-left: 11px;width: 55px;height: 55px;" onclick="chooseImage(this)" src="/photo/static/img/addzuopin.png" />
+            </div>
+            <table>
+                <tr>
+                    <td>拍摄时间</td>
+                    <td><input type="text" name="pohtoTime"/></td>
+                </tr>
+                <tr>
+                    <td>拍摄地址</td>
+                    <td><input type="text" name="address"/></td>
+                </tr>
+                <tr>
+                    <td>天气</td>
+                    <td><input type="text" name="weather"/></td>
+                </tr>
+                <tr>
+                    <td>作品名称</td>
+                    <td><input type="text" name="worksTitle"/></td>
+                </tr>
+                <tr>
+                    <td>作者</td>
+                    <td><input type="text" name="takenAuthor"/></td>
+                </tr>
+
+                <tr>
+                    <td>拍摄工具</td>
+                    <td><input type="text" name="takenTool"/></td>
+                </tr>
+            </table>
+
+        </div>
+        <!-- 按钮 -->
+        <div style="padding-top: 11px;padding-bottom: 11px;height: 122px;">
+            <!--<button style="width: 100%;height: 44px;background: #007AFF;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;">再来一张</button>-->
+            <a style="width: 100%;height: 44px;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;" onclick="nextMiaoshuEvent()">下一步</a>
+        </div>
+    </div>
+
+    </div>
+    <div id="page2" style="display:none">
+        <!-- 描述 -->
+        <div style="background: white;border-radius: 6px 6px 6px 6px;height: 222px;padding: 11px;">
+            <img style="width: 22px;height: 22px;"  src="/photo/static/img/maioshu.png" /><br>
+            <textarea id="miaoshu" name="content" style="width: 100%;height: 177px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px"></textarea><br>
+        </div>
+        <!-- 下一步 -->
+        <div style="margin-top: 66px;">
+            <a style="width: 100%;height: 44px;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;" onclick="nextQuestionEvent()">下一步</a>
+        </div>
+    </div>
+    <div id="page3" style="display:none">
+        <!-- 问题 -->
+        <div style="margin-top: 11px;background: white;border-radius: 6px 6px 6px 6px;padding: 11px;">
+            <img style="width: 22px;height: 22px;"  src="/photo/static/img/wenti.png" /><br>
+            <input id="qu1" type="text" name="answerOne" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+
+            <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+            <input id="qu2" type="text" name="answerTwo" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+
+            <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+            <input id="qu3" type="text" name="answerThree" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+            <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+            <input id="qu4" type="text" name="answerFour" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+            <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+            <input id="qu5" type="text" name="answerFive" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+            <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+            <input id="qu6" type="text" name="answerSix" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+        </div>
+        <!-- 提交 -->
+        <div style="margin-top: 22px;">
+            <a style="width: 100%;height: 44px;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;" onclick="submitEvent()">提交作品</a>
+        </div>
+    </div>
 </form>
 <script src="${ctxPath}/static/js/weChat/addWork.js"></script>
 </body>

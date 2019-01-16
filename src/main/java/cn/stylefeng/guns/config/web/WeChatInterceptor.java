@@ -21,10 +21,10 @@ public class WeChatInterceptor extends HandlerInterceptorAdapter {
         }
         Object attribute = request.getSession().getAttribute(AuthUtil.OPENID);
         if(attribute==null){
-            response.setStatus(403);
-            return false;
-//            request.getSession().setAttribute(AuthUtil.OPENID,"oronv1EbxSldBgO9kar4B7XGBC5w");
-//            request.getSession().setAttribute(AuthUtil.NICKNAME, "刘修吉");
+//            response.setStatus(403);
+//            return false;
+            request.getSession().setAttribute(AuthUtil.OPENID,"oronv1EbxSldBgO9kar4B7XGBC5w");
+            request.getSession().setAttribute(AuthUtil.NICKNAME, "刘修吉");
         }
         if(log.isDebugEnabled()){
             log.debug("weChat Interceptor openId -->{}",attribute);
