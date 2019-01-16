@@ -4,6 +4,7 @@ import cn.stylefeng.guns.config.properties.GunsProperties;
 import cn.stylefeng.guns.config.util.AuthUtil;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.AesException;
+import cn.stylefeng.guns.core.util.DownloadImageUtil;
 import cn.stylefeng.guns.core.util.WXPublicUtils;
 import cn.stylefeng.guns.modular.system.model.AccountExt;
 import cn.stylefeng.guns.modular.system.model.User;
@@ -47,27 +48,19 @@ public class LoginApi  extends BaseController {
     private IAccountExtService accountExtService;
     @Autowired
     private IUserService userService;
-
+    @Autowired
+    private DownloadImageUtil downloadImageUtil;
     /**
      * 上传图片
      */
     @RequestMapping(method = RequestMethod.POST, path = "/upload")
     @ResponseBody
-    public String upload(@RequestPart("file") MultipartFile picture) {
-
-        String pictureName = UUID.randomUUID().toString() + "." + ToolUtil.getFileSuffix(picture.getOriginalFilename());
+    public String upload(@RequestParam("mediaId") String mediaId,@RequestParam("path") String path) {
         try {
-            String path="worksdetails";
-            String fileSavePath = gunsProperties.getFileUploadPath()+path;
-            File file = new File(fileSavePath);
-            if(!file.exists()){
-                file.mkdirs();
-            }
-            picture.transferTo(new File(fileSavePath +File.separator+ pictureName));
+            return downloadImageUtil.getImageFromWechat(mediaId,path);
         } catch (Exception e) {
             throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);
         }
-        return pictureName;
     }
     /**
      * 加载图片
@@ -195,7 +188,7 @@ public class LoginApi  extends BaseController {
                 String token = jsonObject.getString("access_token");
                 String openid = jsonObject.getString("openid");
                 // 第三步：刷新access_token（如果需要）
-                AuthUtil.ACCESS_TOKEN = token;
+//                AuthUtil.ACCESS_TOKEN = token;
                 // 第四步：拉取用户信息(需scope为 snsapi_userinfo)
                 String infoUrl = "https://api.weixin.qq.com/sns/userinfo?access_token=" + token
                         + "&openid=" + openid

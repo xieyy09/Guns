@@ -148,9 +148,9 @@ public class MessageUtil {
 		List<Element> elementList = root.elements();
 
 		// 遍历所有子节点
-		for (Element e : elementList)
+		for (Element e : elementList) {
 			map.put(e.getName(), e.getText());
-
+		}
 		// 释放资源
 		inputStream.close();
 		inputStream = null;
@@ -235,16 +235,19 @@ public class MessageUtil {
 	 * 对象到xml的处理
 	 */
 	private static XStream xstream = new XStream(new XppDriver() {
+		@Override
 		public HierarchicalStreamWriter createWriter(Writer out) {
 			return new PrettyPrintWriter(out) {
 				// 对所有xml节点的转换都增加CDATA标记
 				boolean cdata = true;
 
+				@Override
 				@SuppressWarnings("rawtypes")
 				public void startNode(String name, Class clazz) {
 					super.startNode(name, clazz);
 				}
 
+				@Override
 				protected void writeText(QuickWriter writer, String text) {
 					if (cdata) {
 						writer.write("<![CDATA[");

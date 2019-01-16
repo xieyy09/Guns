@@ -6,8 +6,10 @@ import java.util.Map;
 import cn.stylefeng.guns.wechat.common.JSSDK_Config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 /**
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Slf4j
 @Controller
-@RequestMapping("/wechatconfig")
+@RequestMapping("/weChatApi")
 public class WeChatController {
 	/**
 	 * @Description: 前端获取微信JSSDK的配置参数
@@ -30,6 +32,7 @@ public class WeChatController {
 	 * @date 2016年3月19日 下午5:57:52
 	 */
 	@RequestMapping("/jssdk")
+	@ResponseBody
 	public Object JSSDK_config(
 			@RequestParam(value = "url", required = true) String url) {
 		try {

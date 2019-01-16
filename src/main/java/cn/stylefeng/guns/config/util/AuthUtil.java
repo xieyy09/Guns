@@ -14,14 +14,14 @@ import java.io.IOException;
 public class AuthUtil {
     public static final String OPENID = "OPENID";
     public static final String NICKNAME = "NICKNAME";
-    public static final String APPID = "wx8212f6198zd8e227";
-    public static final String APPSECRET = "8de6z459ef5b8c0cf4f90eb46cb69ez6";
+    public static final String APPID = "wx3b769c8acd1ae583";
+    public static final String APPSECRET = "435a0c05ca697079f9c267955c219cd9";
 //    public static final String SERVER = "http://193.112.92.40/photo";
     public static final String SERVER = "http://ycsshj.oicp.net/photo";
     public static final String REDIRECT_URI = "http://ycsshj.oicp.net/photo/weChatApi/callBack";
     public static final String TOKEN = "weixi";
     public static  String ACCESS_TOKEN = null;
-    public static  String TIMESTAMP = null;
+    public static  String TIMESTAMP = "7200";
     public static  String JSAPI_TICKET = null;
     // 获取token的url
     public static final String TOKENURL = "https://api.weixin.qq.com/cgi-bin/token";
