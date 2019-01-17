@@ -30,11 +30,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
@@ -164,11 +166,27 @@ public class LoginApi  extends BaseController {
                         + "&state=STATE#wechat_redirect";
                 response.sendRedirect(redirectUrl);
             }else {
+                Cookie[] cookies = super.getHttpServletRequest().getCookies();
+                String cookieJsonStr =null;
+                //判断cookie中是否存在openid 若存在则直接跳过，不存在则获取一次
+                if(cookies!=null){
+                    for(Cookie cookie : cookies){
+                        if(cookie.getName().equals(AuthUtil.OPENID+AuthUtil.NICKNAME)){
+                            cookieJsonStr = cookie.getValue();
+                        }
+                    }
+                }
                 if (log.isDebugEnabled()) {
                     log.debug("code:----->{}", code);
                 }
-                Object openId = super.getSession().getAttribute(AuthUtil.OPENID);
-                if(openId!=null){
+                if(cookieJsonStr!=null){
+                    cookieJsonStr =  URLDecoder.decode(cookieJsonStr,"utf-8");
+                    JSONObject jsonObject = JSON.parseObject(cookieJsonStr);
+                    String openId = jsonObject.getString(AuthUtil.OPENID);
+                    String nickname = jsonObject.getString(AuthUtil.NICKNAME);
+
+                    super.getSession().setAttribute(AuthUtil.OPENID,openId);
+                    super.getSession().setAttribute(AuthUtil.NICKNAME,nickname);
                     if (log.isDebugEnabled()) {
                         log.debug("openId:----->{}", openId);
                     }
@@ -216,6 +234,15 @@ public class LoginApi  extends BaseController {
                         log.debug("update ok:----->{}", openid);
                     }
                 }
+                Map<String,Object> cookieMap = new HashMap<>();
+                cookieMap.put(AuthUtil.OPENID,openid);
+                cookieMap.put(AuthUtil.NICKNAME,nickname);
+                String encode = URLEncoder.encode(JSON.toJSONString(cookieMap), "utf-8");
+                //获取微信用户openid存储在cookie中的信息
+                Cookie userCookie=new Cookie(AuthUtil.OPENID+AuthUtil.NICKNAME,encode);
+                userCookie.setMaxAge(Integer.MAX_VALUE);
+                userCookie.setPath("/");
+                response.addCookie(userCookie);
                 super.getSession().setAttribute(AuthUtil.OPENID, openid);
                 super.getSession().setAttribute(AuthUtil.NICKNAME, nickname);
                 response.sendRedirect(AuthUtil.SERVER);
