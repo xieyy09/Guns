@@ -185,8 +185,11 @@ public class WorksDetailsApi {
      * @return
      */
     private Map<Long,User> getMapUserInfoByUserIdList(Set<Long> userIdList) {
-        List<User> users = userService.selectBatchIds(userIdList);
         Map<Long,User> userInfoMap = new HashMap<>();
+        if(userIdList==null || userIdList.size()==0){
+            return userInfoMap;
+        }
+        List<User> users = userService.selectBatchIds(userIdList);
         for(User user : users){
             userInfoMap.put(Long.valueOf(user.getId()),user);
         }
