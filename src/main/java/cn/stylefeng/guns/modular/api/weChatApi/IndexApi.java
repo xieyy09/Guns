@@ -19,10 +19,10 @@ public class IndexApi extends BaseController {
 
     @RequestMapping("/addWork")
     public String addWork() {
-        Object attribute = super.getSession().getAttribute(AuthUtil.OPENID);
-        if(attribute == null){
-            return PREFIX + "login.html";
-        }
+//        Object attribute = super.getSession().getAttribute(AuthUtil.OPENID);
+//        if(attribute == null){
+//            return PREFIX + "login.html";
+//        }
         return PREFIX + "addWork.html";
     }
 }
