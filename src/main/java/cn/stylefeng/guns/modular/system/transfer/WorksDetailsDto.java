@@ -1,6 +1,5 @@
 package cn.stylefeng.guns.modular.system.transfer;
 
-import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -20,7 +19,7 @@ public class WorksDetailsDto {
     /**
      * 活动ID
      */
-    Long activityId;
+    String activityId;
     /**
      * 用户ID
      */

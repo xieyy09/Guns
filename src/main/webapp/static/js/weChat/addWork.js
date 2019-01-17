@@ -10,28 +10,28 @@ $(function() {
             }
         }
     });
-    $.ajaxSetup({
-        contentType: 'application/json'
-    });
-    (function($){
-        $.fn.serializeJson=function(){
-            var serializeObj={};
-            var array=this.serializeArray();
-            var str=this.serialize();
-            $(array).each(function(){
-                if(serializeObj[this.name]){
-                    if($.isArray(serializeObj[this.name])){
-                        serializeObj[this.name].push(this.value);
-                    }else{
-                        serializeObj[this.name]=[serializeObj[this.name],this.value];
-                    }
-                }else{
-                    serializeObj[this.name]=this.value;
-                }
-            });
-            return serializeObj;
-        };
-    })(jQuery);
+    // $.ajaxSetup({
+    //     contentType: 'application/json'
+    // });
+    // (function($){
+    //     $.fn.serializeJson=function(){
+    //         var serializeObj={};
+    //         var array=this.serializeArray();
+    //         var str=this.serialize();
+    //         $(array).each(function(){
+    //             if(serializeObj[this.name]){
+    //                 if($.isArray(serializeObj[this.name])){
+    //                     serializeObj[this.name].push(this.value);
+    //                 }else{
+    //                     serializeObj[this.name]=[serializeObj[this.name],this.value];
+    //                 }
+    //             }else{
+    //                 serializeObj[this.name]=this.value;
+    //             }
+    //         });
+    //         return serializeObj;
+    //     };
+    // })(jQuery);
 });
 var page1 ={
     activityId: {
@@ -156,10 +156,10 @@ function nextQuestionEvent(){
     $("#page3").show();
 }
 function submitEvent() {
-    var obj =$("#dataForm").serializeJson();
-    console.log($("#dataForm").serializeJson())
-    console.log(JSON.stringify(obj));
-    $.post("/photo/weChatApi/authc/worksdetails/add",JSON.stringify(obj),function(data){
+    // var obj =$("#dataForm").serializeJson();
+    // console.log($("#dataForm").serializeJson())
+    // console.log(JSON.stringify(obj));
+    $.post("/photo/weChatApi/authc/worksdetails/add",$("#dataForm").serialize(),function(data){
         console.log(data)
     });
 }
