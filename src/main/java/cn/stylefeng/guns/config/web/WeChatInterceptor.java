@@ -1,8 +1,6 @@
 package cn.stylefeng.guns.config.web;
 
 import cn.stylefeng.guns.config.util.AuthUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -49,10 +47,10 @@ public class WeChatInterceptor extends HandlerInterceptorAdapter {
         Object attribute = attribute1;
         if(request.getRequestURL().toString().contains("/authc/")) {
             if (attribute == null) {
-//            response.setStatus(403);
-//            return false;
-                request.getSession().setAttribute(AuthUtil.OPENID, "oronv1EbxSldBgO9kar4B7XGBC5w");
-                request.getSession().setAttribute(AuthUtil.NICKNAME, "刘修吉");
+                response.setStatus(403);
+                return false;
+//            request.getSession().setAttribute(AuthUtil.OPENID,"oronv1EbxSldBgO9kar4B7XGBC5w");
+//            request.getSession().setAttribute(AuthUtil.NICKNAME, "刘修吉");
             }
         }
         if(log.isDebugEnabled()){

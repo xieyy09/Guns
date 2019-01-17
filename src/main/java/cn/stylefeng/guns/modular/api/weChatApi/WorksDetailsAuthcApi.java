@@ -27,6 +27,8 @@ import org.omg.CORBA.OBJ_ADAPTER;
 import org.omg.CORBA.Request;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -40,16 +42,15 @@ public class WorksDetailsAuthcApi extends BaseController {
     @Autowired
     private IWorksDetailsService worksDetailsService;
     @Autowired
-    private IWorksImgDetailsService worksImgDetailsService;
-    @Autowired
     private IGiveLikeDetailsService giveLikeDetailsService;
-    @Autowired
-    private IUserService userService;
     @Autowired
     private IAccountExtService accountExtService;
     @Autowired
     private IReplyDetailsService replyDetailsService;
-
+    @InitBinder
+    public void intDate(WebDataBinder dataBinder){
+        dataBinder.addCustomFormatter(new DateFormatter("yyyy-MM-dd"));
+    }
     /**
      * 获取我的作品管理列表
      */
@@ -92,7 +93,7 @@ public class WorksDetailsAuthcApi extends BaseController {
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Object add(@RequestBody WorksDetailsDto worksDetailsDto){
+    public Object add(WorksDetailsDto worksDetailsDto){
 
         if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
