@@ -95,7 +95,7 @@ public class WorksDetailsAuthcApi extends BaseController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object add(WorksDetailsDto worksDetailsDto){
 
-        if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
+        if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
             throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
         }
         WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
