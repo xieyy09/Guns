@@ -14,10 +14,10 @@ import java.io.IOException;
 public class AuthUtil {
     public static final String OPENID = "OPENID";
     public static final String NICKNAME = "NICKNAME";
-    public static final String APPID = "wx3b769c8acd1ae583";
-    public static final String APPSECRET = "435a0c05ca697079f9c267955c219cd9";
+    public static final String APPID = "wx30ae73e897e2951c";
+    public static final String APPSECRET = "7d08f1cc9ca8e6c188f491dc2ba9583d9";
 //    public static final String SERVER = "http://193.112.92.40/photo";
-    public static final String SERVER = "http://ycsshj.oicp.net/photo";
+    public static final String SERVER = "http://ycsshj.oicp.net/";
     public static final String REDIRECT_URI = "http://ycsshj.oicp.net/photo/weChatApi/callBack";
     public static final String TOKEN = "weixi";
     public static  String ACCESS_TOKEN = null;
@@ -33,6 +33,8 @@ public class AuthUtil {
     public static final String TICKETURL = "https://api.weixin.qq.com/cgi-bin/ticket/getticket";
     // 发送消息
     public static final String SEND_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=";
+    // 发送模板消息
+    public static final String SEND_TEMPLATE_MESSAGE = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=";
 
     public static JSONObject doGetJson(String url) throws ClientProtocolException, IOException {
         JSONObject jsonObject = null;

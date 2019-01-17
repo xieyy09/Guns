@@ -7,14 +7,13 @@ import cn.stylefeng.guns.wechat.message.resp.NewsMessage;
 import cn.stylefeng.guns.wechat.message.resp.TextMessage;
 import cn.stylefeng.guns.wechat.util.HttpUtils;
 import cn.stylefeng.guns.wechat.util.MessageUtil;
+import cn.stylefeng.guns.wechat.util.TemplateMessageUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ClassName: MsgDispatcher
@@ -24,6 +23,45 @@ import java.util.Map;
  */
 @Slf4j
 public class MsgDispatcher {
+
+	static String ModelMessage(String openid){
+		Map wechatTemplate = new HashMap();
+		wechatTemplate.put("template_id", "ty-40NAjq_GqQ_Z7XJuyKkPrUBqADnOaKI00CH9gtd8");
+		wechatTemplate.put("touser", openid);//获取用户的openid
+
+		Map<String,TemplateMessageUtil> mapdata = new HashMap<>();
+
+		TemplateMessageUtil first  = new TemplateMessageUtil();
+		first.setColor("#173177");
+		first.setValue("发货通知");
+		mapdata.put("first", first);
+
+		TemplateMessageUtil text1  = new TemplateMessageUtil();
+		text1.setColor("#173177");
+		text1.setValue("您好，您所购买的商品已发货。");
+		mapdata.put("text1", text1);
+
+		TemplateMessageUtil text2  = new TemplateMessageUtil();
+		text2.setColor("#173177");
+		text2.setValue("測試");
+		mapdata.put("text2", text2);
+
+		TemplateMessageUtil text3  = new TemplateMessageUtil();
+		text3.setColor("#173177");
+		text3.setValue("12345678");
+		mapdata.put("text3", text3);
+
+		TemplateMessageUtil remark = new TemplateMessageUtil();
+		remark.setColor("#173177");
+		remark.setValue("请保持电话畅通>>");
+		mapdata.put("remark", remark);
+
+		JSONObject json = new JSONObject();
+		json.put("data",mapdata);
+		json.putAll(wechatTemplate);
+		return json.toJSONString();
+	}
+
 	public static String processMessage(Map<String, String> map) {
 		String openid=map.get("FromUserName"); //用户openid
 		String mpid=map.get("ToUserName");   //公众号原始ID
@@ -58,14 +96,16 @@ public class MsgDispatcher {
 			try {
 				txtmsgSend.setToUserName("oW5mljp0STFOqHwr60iOxJrbC37Q");
 				log.debug(AuthUtil.ACCESS_TOKEN);
-				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_MESSAGE + AuthUtil.ACCESS_TOKEN, JSON.toJSON(txtmsgSend).toString());
+//				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_MESSAGE + AuthUtil.ACCESS_TOKEN, "{\"touser\" :\"oW5mljp0STFOqHwr60iOxJrbC37Q\",\"msgtype\":\"text\",\"text\":{\"content\":\"这是一条测试中奖信息\"}}");
+				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_TEMPLATE_MESSAGE + AuthUtil.ACCESS_TOKEN, ModelMessage("oW5mljp0STFOqHwr60iOxJrbC37Q"));
 				log.debug(s);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			txtmsgSend.setToUserName("oW5mljpe9J8HsnTXUUtIirIk9Fh0");
 			try {
-				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_MESSAGE+AuthUtil.ACCESS_TOKEN,JSON.toJSON(txtmsgSend).toString());
+//				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_MESSAGE + AuthUtil.ACCESS_TOKEN, "{\"touser\" :\"oW5mljpe9J8HsnTXUUtIirIk9Fh0\",\"msgtype\":\"text\",\"text\":{\"content\":\"这是一条测试中奖信息\"}}");
+				String s = HttpUtils.sendPostBuffer(AuthUtil.SEND_TEMPLATE_MESSAGE + AuthUtil.ACCESS_TOKEN, ModelMessage("oW5mljpe9J8HsnTXUUtIirIk9Fh0"));
 				log.debug(s);
 			} catch (IOException e) {
 				e.printStackTrace();
