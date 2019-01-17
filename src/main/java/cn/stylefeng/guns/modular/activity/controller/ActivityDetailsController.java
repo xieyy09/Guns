@@ -6,6 +6,7 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.log.LogObjectHolder;
 import cn.stylefeng.guns.modular.activity.service.IActivityDetailsService;
 import cn.stylefeng.guns.modular.system.model.ActivityDetails;
+import cn.stylefeng.guns.modular.util.ImageThumUtil;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.util.FileUtil;
 import cn.stylefeng.roses.core.util.ToolUtil;
@@ -146,7 +147,13 @@ public class ActivityDetailsController extends BaseController {
             if(!file.exists()){
                 file.mkdirs();
             }
-            picture.transferTo(new File(fileSavePath +File.separator+ pictureName));
+            String pathname = fileSavePath + File.separator + pictureName;
+            File file1 = new File(pathname);
+            picture.transferTo(file1);
+            String picType = ImageThumUtil.getPicType(file1);
+            if(picType!=null && !picType.equals(ImageThumUtil.TYPE_UNKNOWN)){
+                ImageThumUtil.uploadFileAndCreateThumbnail(file1,pathname);
+            }
         } catch (Exception e) {
             throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);
         }
