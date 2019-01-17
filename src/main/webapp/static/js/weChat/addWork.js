@@ -160,6 +160,12 @@ function submitEvent() {
     // console.log($("#dataForm").serializeJson())
     // console.log(JSON.stringify(obj));
     $.post("/photo/weChatApi/authc/worksdetails/add",$("#dataForm").serialize(),function(data){
-        console.log(data)
+        if(data.success){
+            alert("添加成功！")
+            location.href="/";
+
+        }else{
+            alert(data.message)
+        }
     });
 }
