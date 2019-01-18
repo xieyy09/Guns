@@ -216,7 +216,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @return
      */
     @RequestMapping(value = "/addReplyDetails/{worksDetailsId}_{parentId}")
-    public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable String parentId,@RequestBody ReplyDetails replyDetails){
+    public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable(required = false) String parentId,@RequestBody ReplyDetails replyDetails){
         if(ToolUtil.isOneEmpty(replyDetails,replyDetails.getBusinessId(),replyDetails.getContent())){
             // 数据不全
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
@@ -232,7 +232,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         replyDetails.setCreateTime(new Date());
         replyDetails.setReplyState(0);
         replyDetails.setGiveLikeNumber(0);
-        if(ToolUtil.isEmpty(parentId)) {
+        if(ToolUtil.isNotEmpty(parentId)) {
             replyDetails.setParentId(parentId);
         }else{
             replyDetails.setParentId("0");
