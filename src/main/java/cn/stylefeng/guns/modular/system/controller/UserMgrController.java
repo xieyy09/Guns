@@ -31,6 +31,7 @@ import cn.stylefeng.guns.modular.system.model.User;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.guns.modular.system.transfer.UserDto;
 import cn.stylefeng.guns.modular.system.warpper.UserWarpper;
+import cn.stylefeng.guns.modular.util.ImageThumUtil;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.datascope.DataScope;
 import cn.stylefeng.roses.core.reqres.response.ResponseData;
@@ -360,7 +361,13 @@ public class UserMgrController extends BaseController {
         String pictureName = UUID.randomUUID().toString() + "." + ToolUtil.getFileSuffix(picture.getOriginalFilename());
         try {
             String fileSavePath = gunsProperties.getFileUploadPath();
-            picture.transferTo(new File(fileSavePath + pictureName));
+            String pathname = fileSavePath + File.separator + pictureName;
+            File file = new File(pathname);
+            picture.transferTo(file);
+            String picType = ImageThumUtil.getPicType(file);
+            if(picType!=null && !picType.equals(ImageThumUtil.TYPE_UNKNOWN)){
+                ImageThumUtil.uploadFileAndCreateThumbnail(file,pathname);
+            }
         } catch (Exception e) {
             throw new ServiceException(BizExceptionEnum.UPLOAD_ERROR);
         }

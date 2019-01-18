@@ -115,18 +115,21 @@ function uploadImage(localIds,obj){
             var mediaId = res.serverId; // 返回图片的服务器端ID，即mediaId
             //将获取到的 mediaId 传入后台 方法savePicture
             $.post("/photo/weChatApi/upload",{mediaId:mediaId,"path":"worksdetails"},function(res){
+                try{
                 if(res.success){
+                    var resultData = res.data;
                     var index=$(".js_picDiv").length;
                     var html='<div style="padding: 5px;" class="js_picDiv"><img style="margin-left: 11px;width: 55px;height: 55px;" ' +
-                        'src="/photo/weChatApi/loadImg?path=worksdetails&filename='+result.data+'" />' +
-                        '<input name="worksImgDetailsList['+index+'].detailImg" type="hidden" value="'+result.data+'"/>' +
+                        'src="/photo/weChatApi/loadImg?path=worksdetails&filename='+resultData+'" />' +
+                        '<input name="worksImgDetailsList['+index+'].detailImg" type="hidden" value="'+resultData+'"/>' +
                         '<input name="worksImgDetailsList['+index+'].detailIndex" type="hidden" value="'+index+'"/>' +
                         '<input id="titile" type="text" name="worksImgDetailsList['+index+'].remark" placeholder="请输入图片说明" ' +
                         '  style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>';
-                    $(obj).append(html);
+                    $(obj).before(html);
                 }else{
-                    alert(res.message)
+                    alert(res["message"])
                 }
+                }catch (e){}
             })
         },
         fail: function (res) {
