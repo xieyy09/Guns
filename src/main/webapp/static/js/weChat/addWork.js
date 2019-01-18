@@ -119,7 +119,7 @@ function uploadImage(localIds,obj){
                 if(res.success){
                     var resultData = res.data;
                     var index=$(".js_picDiv").length;
-                    var html='<div style="padding: 5px;" class="js_picDiv"><img style="margin-left: 11px;width: 55px;height: 55px;" ' +
+                    var html='<div style="padding: 5px;" class="js_picDiv"><img style="width: 100%;height: 100%;" ' +
                         'src="/photo/weChatApi/loadImg?path=worksdetails&filename='+resultData+'" />' +
                         '<input name="worksImgDetailsList['+index+'].detailImg" type="hidden" value="'+resultData+'"/>' +
                         '<input name="worksImgDetailsList['+index+'].detailIndex" type="hidden" value="'+index+'"/>' +
