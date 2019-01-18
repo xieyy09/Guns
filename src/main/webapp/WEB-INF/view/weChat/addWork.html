@@ -105,7 +105,7 @@
                     <table style="width:100%;border-collapse:separate; border-spacing:0px 10px;">
                         <tr>
                             <td style="font-size: 16px">拍摄时间
-                                <input type="text" name="pohtoTime" onClick="WdatePicker()" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" name="pohtoTime" readonly onClick="WdatePicker()" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
@@ -159,14 +159,14 @@
         <div style="margin-top: 66px;">
             <a style="display:block;width: 100%;height: 44px;line-height: 44px;;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="nextQuestionEvent()">下一步</a>
 
-            <a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" >上一步</a>
+            <!--<a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" >上一步</a>-->
         </div>
     </div>
     <div id="page3" style="display:none">
         <!-- 问题 -->
         <div style="margin-top: 11px;background: white;border-radius: 6px 6px 6px 6px;padding: 11px;">
             <img style="width: 22px;height: 22px;"  src="/photo/static/img/wenti.png" /><br>
-            <input id="qu1" type="text" name="answerOne" placeholder="输入问题" style="max-width: 19px;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+            <input id="qu1" type="text" name="answerOne" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
 
             <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
             <input id="qu2" type="text" name="answerTwo" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
@@ -187,7 +187,7 @@
         <!-- 提交 -->
         <div style="margin-top: 22px;">
             <a style="display:block;width: 100%;height: 44px;line-height: 44px;;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="submitEvent()">提交作品</a>
-            <a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" >上一步</a>
+            <!--<a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" >上一步</a>-->
         </div>
     </div>
 </form>
