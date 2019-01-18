@@ -76,7 +76,7 @@ function init(){
         },
         success : function(data) {
             wx.config({
-                debug : true,
+                debug : false,
                 appId : data.appId,
                 timestamp : data.timestamp,
                 nonceStr : data.nonceStr,
