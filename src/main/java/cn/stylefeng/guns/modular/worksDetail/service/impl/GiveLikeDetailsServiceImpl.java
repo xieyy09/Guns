@@ -39,7 +39,7 @@ public class GiveLikeDetailsServiceImpl extends ServiceImpl<GiveLikeDetailsMappe
             WorksDetails worksDetails = worksDetailsMapper.selectById(giveLikeDetails.getBusinessId());
             int giveLikeNumber = worksDetails.getGiveLikeNumber()+1;
             worksDetails.setGiveLikeNumber(giveLikeNumber);
-            worksDetailsMapper.updateAllColumnById(worksDetails);
+            worksDetailsMapper.updateById(worksDetails);
         }
         giveLikeDetailsMapper.insert(giveLikeDetails);
         flage = Boolean.TRUE;

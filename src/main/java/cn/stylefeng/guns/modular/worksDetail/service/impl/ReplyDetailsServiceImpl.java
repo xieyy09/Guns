@@ -66,9 +66,10 @@ public class ReplyDetailsServiceImpl extends ServiceImpl<ReplyDetailsMapper, Rep
     )
     public boolean updateById(ReplyDetails replyDetails) {
        boolean flage = Boolean.FALSE;
-       // 更新作品的回复数量
-        if(replyDetails.getModel().equals(BUSINESS_MODE_ENUM.WORKS_DETAILS.name()) && 1==replyDetails.getReplyState()){
-            WorksDetails worksDetails = worksDetailsMapper.selectById(replyDetails.getBusinessId());
+        ReplyDetails replyDetailsTemp = replyDetailsMapper.selectById(replyDetails.getId());
+        // 更新作品的回复数量
+        if(replyDetailsTemp.getModel().equals(BUSINESS_MODE_ENUM.WORKS_DETAILS.name()) && 1==replyDetails.getReplyState()){
+            WorksDetails worksDetails = worksDetailsMapper.selectById(replyDetailsTemp.getBusinessId());
             Integer replyNumber = worksDetails.getReplyNumber();
             replyNumber++;
             worksDetails.setReplyNumber(replyNumber);
