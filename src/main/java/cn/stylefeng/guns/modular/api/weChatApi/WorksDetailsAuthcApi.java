@@ -16,6 +16,7 @@ import cn.stylefeng.guns.modular.worksDetail.service.IReplyDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksImgDetailsService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import cn.stylefeng.roses.core.reqres.response.ResponseData;
 import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
 import cn.stylefeng.roses.core.util.ToolUtil;
@@ -85,7 +86,8 @@ public class WorksDetailsAuthcApi extends BaseController {
         long uid = getUserId().longValue();
         // 不是本人作品
         if(uid!=worksDetails.getUid().longValue()){
-            throw new ServiceException(702,"只能删除本人作品");
+//            throw new ServiceException(702,"只能删除本人作品");
+            return new ErrorResponseData(403,"无权操作");
         }
         worksDetails.setDetailsDelete(1);
         boolean b = worksDetailsService.updateAllColumnById(worksDetails);
@@ -96,16 +98,19 @@ public class WorksDetailsAuthcApi extends BaseController {
     public Object add(WorksDetailsDto worksDetailsDto){
 
         if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
         if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
                 worksDetailsDto.getWeather(),worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         long uid = getUserId().longValue();
         //TODO 判断当前人是否能上传作品
@@ -121,22 +126,26 @@ public class WorksDetailsAuthcApi extends BaseController {
     @RequestMapping(value = "/update/{worksDetailsId}",method = RequestMethod.POST)
     public Object update(@PathVariable String worksDetailsId,@RequestBody WorksDetailsDto worksDetailsDto){
         if(worksDetailsDto==null  || worksDetailsDto.getWorksImgDetailsList().size()==0){
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
         if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
                 worksDetailsDto.getWeather(),worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
         long uid = getUserId().longValue();
         // 不是本人作品
         if(uid!=worksDetails.getUid().longValue()){
-            throw new ServiceException(BizExceptionEnum.NO_PERMITION);
+            return new ErrorResponseData(403,"无权操作");
+//            throw new ServiceException(BizExceptionEnum.NO_PERMITION);
         }
         worksDetailsDto.setId(worksDetailsId);
         worksDetailsDto.setUid(uid);
@@ -154,8 +163,7 @@ public class WorksDetailsAuthcApi extends BaseController {
     public Object auditWorksDetails(@PathVariable String worksDetailsId,@PathVariable String auditType){
         WorksDetails worksDetails = worksDetailsService.selectById(worksDetailsId);
         if(worksDetails==null){
-            // 数据不全
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(401,"作品查询错误");
         }
         WorksDetails worksDetail = new WorksDetails();
         worksDetail.setId(worksDetailsId);
@@ -179,7 +187,8 @@ public class WorksDetailsAuthcApi extends BaseController {
         // 判断当前人员一天三次的点赞是否用尽
         AccountExt accountExt = accountExtService.selectById(uid);
         if(accountExt==null||accountExt.getBanGiveLike()==1){
-            throw new ServiceException(701,"禁止点赞");
+            return new ErrorResponseData(701,"禁止点赞");
+//            throw new ServiceException(701,"禁止点赞");
         }
         // 判断当前是否已经点赞
         EntityWrapper<GiveLikeDetails> giveLikeDetailsWrapper = new EntityWrapper<>();
@@ -191,7 +200,8 @@ public class WorksDetailsAuthcApi extends BaseController {
         List<GiveLikeDetails> giveLikeDetailss = giveLikeDetailsService.selectList(giveLikeDetailsWrapper);
         if(giveLikeDetailss!=null && giveLikeDetailss.size()>0){
             // 已经点赞不能在进行点赞
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(702,"今天点赞达到上限");
         }
         //点赞
         giveLikeDetails.setCreateTime(new Date());
@@ -209,7 +219,8 @@ public class WorksDetailsAuthcApi extends BaseController {
     public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable String parentId,@RequestBody ReplyDetails replyDetails){
         if(ToolUtil.isOneEmpty(replyDetails,replyDetails.getBusinessId(),replyDetails.getContent())){
             // 数据不全
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         long uid = getUserId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
@@ -243,7 +254,8 @@ public class WorksDetailsAuthcApi extends BaseController {
         ReplyDetails replyDetailsOld = replyDetailsService.selectById(replyDetailsId);
         if(replyDetailsOld==null){
             // 数据不全
-            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
         }
         ReplyDetails replyDetails = new ReplyDetails();
         replyDetails.setId(replyDetailsId);
