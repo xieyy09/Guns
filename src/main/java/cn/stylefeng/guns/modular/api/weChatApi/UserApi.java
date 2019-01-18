@@ -71,7 +71,7 @@ public class UserApi extends BaseController {
     @RequestMapping(method = RequestMethod.POST, path = "/updateUserInfo")
     @ResponseBody
     public Object updateUserInfo(@RequestParam("name") String name,
-                                 @RequestParam("sex") Integer sex,
+//                                 @RequestParam("sex") Integer sex,
                                  @RequestParam("img") String img,
                                  @RequestParam("webchatName") String webchatName,
                                  @RequestParam("phone") String phone,
@@ -96,7 +96,7 @@ public class UserApi extends BaseController {
             user.setName(name);
             user.setAccount(loginName);
             user.setPassword(loginPass);
-            user.setSex(sex);
+//            user.setSex(sex);
             user.setPhone(phone);
             userService.updateById(user);
             Wrapper<AccountExt> warpper=new EntityWrapper<>();
