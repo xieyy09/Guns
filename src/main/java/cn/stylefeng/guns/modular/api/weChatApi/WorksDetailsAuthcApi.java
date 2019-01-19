@@ -228,7 +228,10 @@ public class WorksDetailsAuthcApi extends BaseController {
         if(accountExt==null||accountExt.getBanReply()==1){
             throw new ServiceException(701,"禁止回复");
         }
-        replyDetails.setModel(BUSINESS_MODE_ENUM.WORKS_DETAILS.name());
+        if(ToolUtil.isEmpty(replyDetails.getModel())){
+            replyDetails.setModel(BUSINESS_MODE_ENUM.WORKS_DETAILS.name());
+        }
+        replyDetails.setBusinessId(worksDetailsId);
         replyDetails.setCreateTime(new Date());
         replyDetails.setReplyState(0);
         replyDetails.setGiveLikeNumber(0);
