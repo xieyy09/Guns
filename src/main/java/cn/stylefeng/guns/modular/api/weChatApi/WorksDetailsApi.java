@@ -51,11 +51,12 @@ public class WorksDetailsApi {
     @RequestMapping(value = "/list")
     public Object list(@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=false,defaultValue="list") String type, @RequestParam(required=false,defaultValue="create_time") String orderBy) {
         List<String> orderList = new ArrayList<>();
-        orderList.add("create_time");
         if(!StringUtils.isEmpty(orderBy) && "giveLike".toLowerCase().equals(orderBy.toLowerCase())){
             orderList.add("give_like_number");
         }else if(!StringUtils.isEmpty(orderBy) && "champion".toLowerCase().equals(orderBy.toLowerCase())){
             orderList.add("champion_reply");
+            orderList.add("create_time");
+        }else{
             orderList.add("create_time");
         }
         Integer pageSize = 12;

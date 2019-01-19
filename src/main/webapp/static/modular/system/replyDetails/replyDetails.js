@@ -106,11 +106,11 @@ ReplyDetails.openReplyDetailsDetail = function (id) {
 };
 
 
-WorksDetails.reviewData=function(id,type){
+ReplyDetails.reviewData=function(id,type){
     var messageType=type=="tg"?'通过':'驳回';
     var ajax = new $ax(Feng.ctxPath + "/replyDetails/review", function (data) {
         Feng.success(messageType+"成功!");
-        WorksDetails.table.refresh();
+        ReplyDetails.table.refresh();
     }, function (data) {
         Feng.error(messageType+"失败!" + data.responseJSON.message + "!");
     });

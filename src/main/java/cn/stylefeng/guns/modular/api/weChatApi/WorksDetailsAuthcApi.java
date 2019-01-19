@@ -181,7 +181,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @param worksDetailsId
      * @return
      */
-    @RequestMapping(value = "/addGiveLike/{worksDetailsId}",method = RequestMethod.POST)
+    @RequestMapping(value = "/addGiveLike/{worksDetailsId}",method = RequestMethod.GET)
     public Object addGiveLike(@PathVariable String worksDetailsId){
         long uid = getUserId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
@@ -201,7 +201,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         if(giveLikeDetailss!=null && giveLikeDetailss.size()>0){
             // 已经点赞不能在进行点赞
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            return new ErrorResponseData(702,"今天点赞达到上限");
+            return new ErrorResponseData(702,"您之前已点赞");
         }
         //点赞
         giveLikeDetails.setCreateTime(new Date());
@@ -215,7 +215,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @param parentId 可以为空
      * @return
      */
-    @RequestMapping(value = "/addReplyDetails/{worksDetailsId}_{parentId}")
+    @RequestMapping(value = "/addReplyDetails/{worksDetailsId}_{parentId}",method=RequestMethod.POST)
     public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable(required = false) String parentId,@RequestBody ReplyDetails replyDetails){
         if(ToolUtil.isOneEmpty(replyDetails,replyDetails.getBusinessId(),replyDetails.getContent())){
             // 数据不全
@@ -228,7 +228,10 @@ public class WorksDetailsAuthcApi extends BaseController {
         if(accountExt==null||accountExt.getBanReply()==1){
             throw new ServiceException(701,"禁止回复");
         }
-        replyDetails.setModel(BUSINESS_MODE_ENUM.WORKS_DETAILS.name());
+        if(ToolUtil.isEmpty(replyDetails.getModel())){
+            replyDetails.setModel(BUSINESS_MODE_ENUM.WORKS_DETAILS.name());
+        }
+        replyDetails.setBusinessId(worksDetailsId);
         replyDetails.setCreateTime(new Date());
         replyDetails.setReplyState(0);
         replyDetails.setGiveLikeNumber(0);

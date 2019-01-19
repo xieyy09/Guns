@@ -25,6 +25,7 @@ public class WeChatInterceptor extends HandlerInterceptorAdapter {
         }
         Cookie[] cookies = request.getCookies();
         String cookieJsonStr=null;
+        //request.getSession().setAttribute(AuthUtil.OPENID,"oW5mljpe9J8HsnTXUUtIirIk9Fh0");
         Object attribute1 = request.getSession().getAttribute(AuthUtil.OPENID);
         //判断cookie中是否存在openid 若存在则直接跳过，不存在则授权获取一次
         if(cookies!=null&&attribute1==null){
