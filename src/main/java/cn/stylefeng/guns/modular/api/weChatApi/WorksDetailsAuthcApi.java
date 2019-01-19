@@ -181,7 +181,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @param worksDetailsId
      * @return
      */
-    @RequestMapping(value = "/addGiveLike/{worksDetailsId}",method = RequestMethod.POST)
+    @RequestMapping(value = "/addGiveLike/{worksDetailsId}",method = RequestMethod.GET)
     public Object addGiveLike(@PathVariable String worksDetailsId){
         long uid = getUserId().longValue();
         // 判断当前人员一天三次的点赞是否用尽
@@ -215,7 +215,7 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @param parentId 可以为空
      * @return
      */
-    @RequestMapping(value = "/addReplyDetails/{worksDetailsId}_{parentId}")
+    @RequestMapping(value = "/addReplyDetails/{worksDetailsId}_{parentId}",method=RequestMethod.POST)
     public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable(required = false) String parentId,@RequestBody ReplyDetails replyDetails){
         if(ToolUtil.isOneEmpty(replyDetails,replyDetails.getBusinessId(),replyDetails.getContent())){
             // 数据不全
