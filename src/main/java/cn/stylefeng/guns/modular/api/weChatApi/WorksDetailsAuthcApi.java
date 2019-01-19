@@ -201,7 +201,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         if(giveLikeDetailss!=null && giveLikeDetailss.size()>0){
             // 已经点赞不能在进行点赞
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            return new ErrorResponseData(702,"今天点赞达到上限");
+            return new ErrorResponseData(702,"您之前已点赞");
         }
         //点赞
         giveLikeDetails.setCreateTime(new Date());
