@@ -25,7 +25,7 @@ public class ReplyDetailsDto {
     /**
      * 父评论ID
      */
-    private Long parentId;
+    private String parentId;
     /**
      * 评论人id
      */
