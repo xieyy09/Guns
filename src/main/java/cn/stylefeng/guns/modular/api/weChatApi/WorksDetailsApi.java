@@ -209,7 +209,7 @@ public class WorksDetailsApi {
         ReplyDetails replyDetails = new ReplyDetails();
         replyDetails.setModel(BUSINESS_MODE_ENUM.WORKS_DETAILS.name());
         replyDetails.setBusinessId(worksDetailsId);
-        wrapper.where("model = {0} and business_id = {1}",replyDetails.getModel(),replyDetails.getBusinessId())
+        wrapper.where("model = {0} and business_id = {1} and reply_state = 1 ",replyDetails.getModel(),replyDetails.getBusinessId())
                 .orderBy("create_time",false);
         List<ReplyDetails> replyDetailss = replyDetailsService.selectList(wrapper);
 //        // 根据用户ID 获取用户信息

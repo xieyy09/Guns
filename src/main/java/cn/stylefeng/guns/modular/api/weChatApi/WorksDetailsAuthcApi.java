@@ -216,8 +216,8 @@ public class WorksDetailsAuthcApi extends BaseController {
      * @return
      */
     @RequestMapping(value = "/addReplyDetails/{worksDetailsId}_{parentId}",method=RequestMethod.POST)
-    public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable(required = false) String parentId,@RequestBody ReplyDetails replyDetails){
-        if(ToolUtil.isOneEmpty(replyDetails,replyDetails.getBusinessId(),replyDetails.getContent())){
+    public Object addReplyDetails(@PathVariable String worksDetailsId,@PathVariable(required = false) String parentId,ReplyDetails replyDetails){
+        if(ToolUtil.isOneEmpty(replyDetails,replyDetails.getContent())){
             // 数据不全
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
             return new ErrorResponseData(400,"数据错误");

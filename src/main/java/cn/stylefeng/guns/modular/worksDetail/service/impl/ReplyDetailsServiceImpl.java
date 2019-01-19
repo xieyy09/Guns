@@ -53,7 +53,7 @@ public class ReplyDetailsServiceImpl extends ServiceImpl<ReplyDetailsMapper, Rep
                 WorksDetails worksDetails = worksDetailsMapper.selectById(entity.getBusinessId());
                 if(worksDetails!=null) {
                     worksDetails.setChampionReply(1);
-                    worksDetailsMapper.updateAllColumnById(worksDetails);
+                    worksDetailsMapper.updateById(worksDetails);
                 }
             }
         }
