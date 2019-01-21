@@ -48,7 +48,6 @@ WorksDetails.initColumn = function () {
                     if(row.state==0) {
                         html += '<button type="button" class="btn btn-danger" onclick="WorksDetails.reviewData(\'' + value + '\',\'bh\')">驳回</button>';
                     }
-                    console.log(row)
                     return html;
                 }}
     ];
