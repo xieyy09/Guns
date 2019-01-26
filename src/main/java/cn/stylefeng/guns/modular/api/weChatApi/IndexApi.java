@@ -28,6 +28,7 @@ public class IndexApi extends BaseController {
             return PREFIX + "login.html";
         }
         model.addAttribute("activityId",activityId);
+        model.addAttribute("activityName",activityName);
         return PREFIX + "addWork.html";
     }
 }

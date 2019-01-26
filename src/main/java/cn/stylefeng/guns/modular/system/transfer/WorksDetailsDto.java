@@ -1,5 +1,6 @@
 package cn.stylefeng.guns.modular.system.transfer;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import lombok.Data;
 
 import java.util.Date;
@@ -127,4 +128,21 @@ public class WorksDetailsDto {
      * 问题图片集和
      */
     List<WorksImgDetailsDto> worksImgDetailsList;
+
+    /**
+     * 联系方式
+     */
+    String contact;
+    /**
+     * 所在学校
+     */
+    String authorSchool;
+    /**
+     * 作者年级
+     */
+    String authorAge;
+    /**
+     * 辅导老师
+     */
+    String authorTeacher;
 }

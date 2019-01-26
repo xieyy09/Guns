@@ -1,38 +1,3 @@
-$(function() {
-    init();
-    Feng.initValidator("page1Form", page1);
-    // $.get("/photo/weChatApi/activity/processing", function (data) {
-    //     if (data.success) {
-    //         var arr = data.data.records;
-    //         for (var i = 0; i < arr.length; i++) {
-    //             var option = '<option value="' + arr[i]["id"] + '">' + arr[i]["title"] + '</option>';
-    //             $("#activityId").append(option);
-    //         }
-    //     }
-    // });
-    // $.ajaxSetup({
-    //     contentType: 'application/json'
-    // });
-    // (function($){
-    //     $.fn.serializeJson=function(){
-    //         var serializeObj={};
-    //         var array=this.serializeArray();
-    //         var str=this.serialize();
-    //         $(array).each(function(){
-    //             if(serializeObj[this.name]){
-    //                 if($.isArray(serializeObj[this.name])){
-    //                     serializeObj[this.name].push(this.value);
-    //                 }else{
-    //                     serializeObj[this.name]=[serializeObj[this.name],this.value];
-    //                 }
-    //             }else{
-    //                 serializeObj[this.name]=this.value;
-    //             }
-    //         });
-    //         return serializeObj;
-    //     };
-    // })(jQuery);
-});
 var page1 ={
     worksTitle: {
         validators: {
@@ -40,9 +5,7 @@ var page1 ={
                 message: '请输入作品名称'
             }
         }
-    }
-}
-var page2 ={
+    },
     pohtoTime: {
         validators: {
             notEmpty: {
@@ -50,10 +13,93 @@ var page2 ={
             }
         }
     },
-    weather: {
+    address: {
         validators: {
             notEmpty: {
-                message: '请输入天气'
+                message: '请输入拍摄地址'
+            }
+        }
+    },
+    takenAuthor: {
+        validators: {
+            notEmpty: {
+                message: '请输入作者名称'
+            }
+        }
+    },
+    authorSchool: {
+        validators: {
+            notEmpty: {
+                message: '请输入所在学校'
+            }
+        }
+    },
+    authorAge: {
+        validators: {
+            notEmpty: {
+                message: '请输入作者年龄'
+            },
+            regexp: {
+                regexp: /^[0-9]+$/,
+                message: '只能输入数字'
+            }
+        }
+    },
+    authorTeacher: {
+        validators: {
+            notEmpty: {
+                message: '请输入辅导老师'
+            }
+        }
+    },
+    takenTool: {
+        validators: {
+            notEmpty: {
+                message: '请输入拍摄工具'
+            }
+        }
+    },
+    contact: {
+        validators: {
+            notEmpty: {
+                message: '请输入联系方式'
+            }
+        }
+    }
+}
+var page2 ={
+    content: {
+        validators: {
+            notEmpty: {
+                message: '请输入作品描述'
+            },
+            stringLength: {/*长度提示*/
+                min: 6,
+                max: 200,
+                message: '描述最少6个字符,最多200个字符'
+            }/*最后一个没有逗号*/
+        }
+    }
+}
+var page3 ={
+    answerOne: {
+        validators: {
+            notEmpty: {
+                message: '请输入问题'
+            }
+        }
+    },
+    answerTwo: {
+        validators: {
+            notEmpty: {
+                message: '请输入问题'
+            }
+        }
+    },
+    answerThree: {
+        validators: {
+            notEmpty: {
+                message: '请输入问题'
             }
         }
     }
@@ -167,7 +213,7 @@ function submitEvent() {
     // console.log(JSON.stringify(obj));
     $('#page3Form').data("bootstrapValidator").resetForm();
     $('#page3Form').bootstrapValidator('validate');
-    var valid=$("#page1Form").data('bootstrapValidator').isValid();
+    var valid=$("#page3Form").data('bootstrapValidator').isValid();
     if(!valid) {
         return ;
     }
@@ -189,3 +235,41 @@ function backEvent(){
     $("#page2").show();
     $("#page3").hide();
 }
+
+$(function() {
+    init();
+    Feng.initValidator("page1Form", page1);
+    Feng.initValidator("page2Form", page2);
+    Feng.initValidator("page3Form", page3);
+    // $.get("/photo/weChatApi/activity/processing", function (data) {
+    //     if (data.success) {
+    //         var arr = data.data.records;
+    //         for (var i = 0; i < arr.length; i++) {
+    //             var option = '<option value="' + arr[i]["id"] + '">' + arr[i]["title"] + '</option>';
+    //             $("#activityId").append(option);
+    //         }
+    //     }
+    // });
+    // $.ajaxSetup({
+    //     contentType: 'application/json'
+    // });
+    // (function($){
+    //     $.fn.serializeJson=function(){
+    //         var serializeObj={};
+    //         var array=this.serializeArray();
+    //         var str=this.serialize();
+    //         $(array).each(function(){
+    //             if(serializeObj[this.name]){
+    //                 if($.isArray(serializeObj[this.name])){
+    //                     serializeObj[this.name].push(this.value);
+    //                 }else{
+    //                     serializeObj[this.name]=[serializeObj[this.name],this.value];
+    //                 }
+    //             }else{
+    //                 serializeObj[this.name]=this.value;
+    //             }
+    //         });
+    //         return serializeObj;
+    //     };
+    // })(jQuery);
+});
