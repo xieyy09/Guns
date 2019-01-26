@@ -85,8 +85,8 @@
             <div style="height: 44px;" >
                 <div style="font-size: 16px;text-align: center;line-height: 44px;">
                     <!--活动选择 <a style="color: red;">﹀</a>-->
-                    <select name="activityId" id="activityId">
-                    </select>
+                    <input type="hidden" value="${activityId}" name="activityId" id="activityId"/>
+                    <label>${activityName}</label>
                 </div>
             </div>
         </div>
@@ -101,6 +101,7 @@
                     <!-- 点击增加按钮事件 -->
                     <img style="margin-left: 40%;width: 55px;height: 55px;" onclick="chooseImage(this)" src="/photo/static/img/addzuopin.png" />
                 </div>
+                <form id="page1Form">
                 <div style="background-color: white;border-radius: 6px 6px 6px 6px;padding: 5px;margin-top: 11px">
                     <table style="width:100%;border-collapse:separate; border-spacing:0px 10px;">
                         <tr>
@@ -114,11 +115,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="font-size: 16px">天气情况:
-                                <input type="text" name="weather" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
-                            </td>
-                        </tr>
-                        <tr>
                             <td style="font-size: 16px">作品名称:
                                 <input type="text" name="worksTitle" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
@@ -128,17 +124,37 @@
                                 <input type="text" name="takenAuthor" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
-
+                        <tr>
+                            <td style="font-size: 16px">所在学校:
+                                <input type="text" name="authorSchool" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px">作者年龄:
+                                <input type="text" name="authorAge" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px">辅导老师:
+                                <input type="text" name="authorTeacher" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
                         <tr>
                             <td style="font-size: 16px">拍摄工具:
                                 <input type="text" name="takenTool" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
+                        <tr>
+                            <td style="font-size: 16px">联系方式:
+                                <input type="text" name="contact" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
                     </table>
                 </div>
+
+                </form>
                 <!-- 按钮 -->
                 <div style="width: 100%;margin-bottom: 11px;margin-top: 33px">
-                    <!--<button style="width: 100%;height: 44px;background: #007AFF;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;">再来一张</button>-->
                     <a style="display:block;width: 100%;height: 44px;line-height: 44px;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="nextMiaoshuEvent()">下一步</a>
 
                 </div>
@@ -159,7 +175,7 @@
         <div style="margin-top: 66px;">
             <a style="display:block;width: 100%;height: 44px;line-height: 44px;;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="nextQuestionEvent()">下一步</a>
 
-            <!--<a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" >上一步</a>-->
+            <a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="backIndexEvent()" >上一步</a>
         </div>
     </div>
     <div id="page3" style="display:none">
@@ -187,7 +203,7 @@
         <!-- 提交 -->
         <div style="margin-top: 22px;">
             <a style="display:block;width: 100%;height: 44px;line-height: 44px;;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="submitEvent()">提交作品</a>
-            <!--<a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" >上一步</a>-->
+            <a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center"  onclick="backEvent()">上一步</a>
         </div>
     </div>
 </form>

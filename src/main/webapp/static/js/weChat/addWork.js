@@ -1,15 +1,15 @@
 $(function() {
     init();
-
-    $.get("/photo/weChatApi/activity/processing", function (data) {
-        if (data.success) {
-            var arr = data.data.records;
-            for (var i = 0; i < arr.length; i++) {
-                var option = '<option value="' + arr[i]["id"] + '">' + arr[i]["title"] + '</option>';
-                $("#activityId").append(option);
-            }
-        }
-    });
+    Feng.initValidator("page1Form", page1);
+    // $.get("/photo/weChatApi/activity/processing", function (data) {
+    //     if (data.success) {
+    //         var arr = data.data.records;
+    //         for (var i = 0; i < arr.length; i++) {
+    //             var option = '<option value="' + arr[i]["id"] + '">' + arr[i]["title"] + '</option>';
+    //             $("#activityId").append(option);
+    //         }
+    //     }
+    // });
     // $.ajaxSetup({
     //     contentType: 'application/json'
     // });
@@ -34,13 +34,6 @@ $(function() {
     // })(jQuery);
 });
 var page1 ={
-    activityId: {
-        validators: {
-            notEmpty: {
-                message: '请选择活动'
-            }
-        }
-    },
     worksTitle: {
         validators: {
             notEmpty: {
@@ -151,17 +144,33 @@ function getLocation(){
     });
 }
 function nextMiaoshuEvent(){
-    $("#page1").hide();
-    $("#page2").show();
+    $('#page1Form').data("bootstrapValidator").resetForm();
+    $('#page1Form').bootstrapValidator('validate');
+    var valid=$("#page1Form").data('bootstrapValidator').isValid();
+    if(valid) {
+        $("#page1").hide();
+        $("#page2").show();
+    }
 }
 function nextQuestionEvent(){
-    $("#page2").hide();
-    $("#page3").show();
+    $('#page2Form').data("bootstrapValidator").resetForm();
+    $('#page2Form').bootstrapValidator('validate');
+    var valid=$("#page2Form").data('bootstrapValidator').isValid();
+    if(valid) {
+        $("#page2").hide();
+        $("#page3").show();
+    }
 }
 function submitEvent() {
     // var obj =$("#dataForm").serializeJson();
     // console.log($("#dataForm").serializeJson())
     // console.log(JSON.stringify(obj));
+    $('#page3Form').data("bootstrapValidator").resetForm();
+    $('#page3Form').bootstrapValidator('validate');
+    var valid=$("#page1Form").data('bootstrapValidator').isValid();
+    if(!valid) {
+        return ;
+    }
     $.post("/photo/weChatApi/authc/worksdetails/add",$("#dataForm").serialize(),function(data){
         if(data.success){
             alert("添加成功！")
@@ -171,4 +180,12 @@ function submitEvent() {
             alert(data.message)
         }
     });
+}
+function backIndexEvent(){
+    $("#page1").show();
+    $("#page2").hide();
+}
+function backEvent(){
+    $("#page2").show();
+    $("#page3").hide();
 }

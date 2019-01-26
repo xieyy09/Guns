@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +18,7 @@ import java.io.Serializable;
  * @since 2018-12-22
  */
 @TableName("works_details")
+@Data
 public class WorksDetails extends Model<WorksDetails> {
 
     private static final long serialVersionUID = 1L;
@@ -150,221 +153,18 @@ public class WorksDetails extends Model<WorksDetails> {
     private Integer detailsDelete;
 
 
-    public String getId() {
-        return id;
-    }
+    @TableField("contact")
+    private String contact;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    @TableField("author_school")
+    private String authorSchool;
 
-    public String getActivityId() {
-        return activityId;
-    }
+    @TableField("author_age")
+    private String authorAge;
 
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
-    }
+    @TableField("author_teacher")
+    private String authorTeacher;
 
-    public Long getUid() {
-        return uid;
-    }
-
-    public void setUid(Long uid) {
-        this.uid = uid;
-    }
-
-    public Integer getReplyNumber() {
-        return replyNumber;
-    }
-
-    public void setReplyNumber(Integer replyNumber) {
-        this.replyNumber = replyNumber;
-    }
-
-    public Integer getForwardNumber() {
-        return forwardNumber;
-    }
-
-    public void setForwardNumber(Integer forwardNumber) {
-        this.forwardNumber = forwardNumber;
-    }
-
-    public Integer getGiveLikeNumber() {
-        return giveLikeNumber;
-    }
-
-    public void setGiveLikeNumber(Integer giveLikeNumber) {
-        this.giveLikeNumber = giveLikeNumber;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Integer getHasPoint() {
-        return hasPoint;
-    }
-
-    public void setHasPoint(Integer hasPoint) {
-        this.hasPoint = hasPoint;
-    }
-
-    public String getWorksTitle() {
-        return worksTitle;
-    }
-
-    public void setWorksTitle(String worksTitle) {
-        this.worksTitle = worksTitle;
-    }
-
-    public Integer getImgNumber() {
-        return imgNumber;
-    }
-
-    public void setImgNumber(Integer imgNumber) {
-        this.imgNumber = imgNumber;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public String getImgRemark() {
-        return imgRemark;
-    }
-
-    public void setImgRemark(String imgRemark) {
-        this.imgRemark = imgRemark;
-    }
-
-    public Date getPohtoTime() {
-        return pohtoTime;
-    }
-
-    public void setPohtoTime(Date pohtoTime) {
-        this.pohtoTime = pohtoTime;
-    }
-
-    public String getWeather() {
-        return weather;
-    }
-
-    public void setWeather(String weather) {
-        this.weather = weather;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getTakenAuthor() {
-        return takenAuthor;
-    }
-
-    public void setTakenAuthor(String takenAuthor) {
-        this.takenAuthor = takenAuthor;
-    }
-
-    public String getTakenTool() {
-        return takenTool;
-    }
-
-    public void setTakenTool(String takenTool) {
-        this.takenTool = takenTool;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getAnswerOne() {
-        return answerOne;
-    }
-
-    public void setAnswerOne(String answerOne) {
-        this.answerOne = answerOne;
-    }
-
-    public String getAnswerTwo() {
-        return answerTwo;
-    }
-
-    public void setAnswerTwo(String answerTwo) {
-        this.answerTwo = answerTwo;
-    }
-
-    public String getAnswerThree() {
-        return answerThree;
-    }
-
-    public void setAnswerThree(String answerThree) {
-        this.answerThree = answerThree;
-    }
-
-    public String getAnswerFour() {
-        return answerFour;
-    }
-
-    public void setAnswerFour(String answerFour) {
-        this.answerFour = answerFour;
-    }
-
-    public String getAnswerFive() {
-        return answerFive;
-    }
-
-    public void setAnswerFive(String answerFive) {
-        this.answerFive = answerFive;
-    }
-
-    public String getAnswerSix() {
-        return answerSix;
-    }
-
-    public void setAnswerSix(String answerSix) {
-        this.answerSix = answerSix;
-    }
-
-    public Integer getChampionReply() {
-        return championReply;
-    }
-
-    public void setChampionReply(Integer championReply) {
-        this.championReply = championReply;
-    }
-
-    public Integer getDetailsDelete() {
-        return detailsDelete;
-    }
-
-    public void setDetailsDelete(Integer detailsDelete) {
-        this.detailsDelete = detailsDelete;
-    }
 
     @Override
     protected Serializable pkVal() {
