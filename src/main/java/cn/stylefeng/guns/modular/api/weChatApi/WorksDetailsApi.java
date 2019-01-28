@@ -233,7 +233,10 @@ public class WorksDetailsApi {
             User user = mapUserInfoByUserIdList.get(dto.getUid());
             if(user!=null){
                 dto.setUname(user.getName());
-                dto.setPhoto(user.getAvatar());
+                AccountExt accountExt = accountExtService.selectById(user.getId());
+                if(accountExt!=null){
+                    dto.setPhoto(accountExt.getWebchatPohtoUrl());
+                }
             }
             listDto.add(dto);
         }
