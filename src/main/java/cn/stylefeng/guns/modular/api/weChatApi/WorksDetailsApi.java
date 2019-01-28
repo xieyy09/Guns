@@ -3,6 +3,7 @@ package cn.stylefeng.guns.modular.api.weChatApi;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.system.model.*;
+import cn.stylefeng.guns.modular.system.service.IAccountExtService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.guns.modular.system.transfer.*;
 import cn.stylefeng.guns.modular.worksDetail.service.IGiveLikeDetailsService;
@@ -44,7 +45,8 @@ public class WorksDetailsApi {
     private IUserService userService;
     @Autowired
     private IReplyDetailsService replyDetailsService;
-
+    @Autowired
+    private IAccountExtService accountExtService;
     /**
      * 获取作品管理列表
      */
@@ -172,8 +174,12 @@ public class WorksDetailsApi {
             BeanUtils.copyProperties(details,dto);
             User user = mapUserInfoByUserIdList.get(dto.getUid());
             if(user!=null){
+                AccountExt accountExt = accountExtService.selectById(user.getId());
+                if(accountExt!=null){
+                    dto.setPhoto(accountExt.getWebchatPohtoUrl());
+                }
                 dto.setUname(user.getName());
-                dto.setPhoto(user.getAvatar());
+
             }
             listDto.add(dto);
         }
