@@ -88,7 +88,7 @@ public class ChampionApi extends BaseController {
                 List<ReplyDetails> replyDetailss = replyDetailsService.selectList(wrapper);
                 List<String> listDetailId = new ArrayList<>();
                 for(ReplyDetails reply : replyDetailss){
-                    listDetailId.add(reply.getId());
+                    listDetailId.add(reply.getBusinessId());
                 }
                 if(listDetailId.size()>0){
                     Wrapper<WorksDetails> worksDetailsWarp = new EntityWrapper();
@@ -99,6 +99,7 @@ public class ChampionApi extends BaseController {
                     for(WorksDetails details : worksDetailss){
                         mapInfo = new HashedMap();
                         mapInfo.put("id",details.getId());
+                        mapInfo.put("title",details.getWorksTitle());
                         mapInfo.put("imgUrl",details.getImgUrl());
                         mapInfo.put("imgRemark",details.getImgRemark());
                         mapInfo.put("createTime",details.getCreateTime());
