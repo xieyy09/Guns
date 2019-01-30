@@ -16,6 +16,7 @@ import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
 import cn.stylefeng.roses.core.reqres.response.ResponseData;
 import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
+import com.baomidou.mybatisplus.enums.SqlLike;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -48,10 +49,13 @@ public class ChampionApi extends BaseController {
     @Autowired
     private IPopularScienceBaseService popularScienceBaseService;
     @GetMapping("/list")
-    public Object findChampionList(@RequestParam(required=true,defaultValue="1") Integer page){
+    public Object findChampionList(@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=false,defaultValue="") String name ){
         try {
             Page<Champion> pages =  new Page<>(page,12);
             Wrapper<Champion> wrapper=new EntityWrapper<>();
+            if (name.trim().length()>0){
+                wrapper.like("champion_name",name.trim(), SqlLike.DEFAULT);
+            }
             wrapper.orderDesc(Arrays.asList("create_time"));
             Page<Champion> champions = championService.selectPage(pages,wrapper);
             return  new SuccessResponseData(champions);
