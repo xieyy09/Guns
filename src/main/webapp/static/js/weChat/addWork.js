@@ -74,9 +74,9 @@ var page2 ={
                 message: '请输入作品描述'
             },
             stringLength: {/*长度提示*/
-                min: 6,
-                max: 200,
-                message: '描述最少6个字符,最多200个字符'
+                min: 80,
+                max: 150,
+                message: '描述最少6个字,最多200个字'
             }/*最后一个没有逗号*/
         }
     }
