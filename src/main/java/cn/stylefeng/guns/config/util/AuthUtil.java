@@ -17,7 +17,7 @@ public class AuthUtil {
     public static final String APPID = "wx70ae73e897e2951c";
     public static final String APPSECRET = "9d0f1cc9ca8e6c188f491dc2ba9583d9";
 //    public static final String SERVER = "http://193.112.92.40/photo";
-    public static final String SERVER = "http://www.bkqs8.com//index.html";
+    public static final String SERVER = "http://www.bkqs8.com/index.html";
     public static final String REDIRECT_URI = "http://www.bkqs8.com/photo/weChatApi/callBack";
     public static final String TOKEN = "weixi";
     public static  String ACCESS_TOKEN = null;
