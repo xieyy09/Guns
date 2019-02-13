@@ -74,10 +74,10 @@ public class ChampionApi extends BaseController {
             if(champions!=null && champions.size()>0){
                 Champion champion = champions.get(0);
                 String id = champion.getId();
-                return findChampionInfo(id);
+                return new SuccessResponseData(id);
             }
         }
-        return new ErrorResponseData(500, "查询擂主详情失败！");
+        return new ErrorResponseData(500, "查询擂主信息失败！");
     }
 
     @GetMapping("/info")
