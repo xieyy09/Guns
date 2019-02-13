@@ -65,6 +65,21 @@ public class ChampionApi extends BaseController {
         }
     }
 
+    @GetMapping("/infoByUid")
+    public Object findChampionInfoByUid(@RequestParam("uid") Integer uid){
+        if(uid!=null) {
+            Wrapper<Champion> wrapper = new EntityWrapper<>();
+            wrapper.where("uid={0}", uid);
+            List<Champion> champions = championService.selectList(wrapper);
+            if(champions!=null && champions.size()>0){
+                Champion champion = champions.get(0);
+                String id = champion.getId();
+                return findChampionInfo(id);
+            }
+        }
+        return new ErrorResponseData(500, "查询擂主详情失败！");
+    }
+
     @GetMapping("/info")
     public Object findChampionInfo(@RequestParam("id") String id){
         try {
