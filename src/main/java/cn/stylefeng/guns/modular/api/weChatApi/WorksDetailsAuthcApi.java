@@ -24,6 +24,7 @@ import cn.stylefeng.roses.kernel.model.exception.ServiceException;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import lombok.extern.slf4j.Slf4j;
 import org.omg.CORBA.OBJ_ADAPTER;
 import org.omg.CORBA.Request;
 import org.springframework.beans.BeanUtils;
@@ -39,6 +40,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/weChatApi/authc/worksdetails")
+@Slf4j
 public class WorksDetailsAuthcApi extends BaseController {
     @Autowired
     private IWorksDetailsService worksDetailsService;
@@ -99,17 +101,20 @@ public class WorksDetailsAuthcApi extends BaseController {
 
         if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            log.error("========={}",worksDetailsDto.getWorksImgDetailsList());
             return new ErrorResponseData(400,"数据错误");
         }
         WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
         if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            log.error("-------------{}",worksDetailsDto.getWorksImgDetailsList());
             return new ErrorResponseData(400,"数据错误");
         }
         if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
-                worksDetailsDto.getWeather(),worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
+                worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            log.error("!!!!!!!!!!{}",worksDetailsDto);
             return new ErrorResponseData(400,"数据错误");
         }
         long uid = getUserId().longValue();
