@@ -112,22 +112,22 @@ public class WorksDetailsController extends BaseController {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
     }
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Object add(WorksDetailsDto worksDetailsDto){
+    @ResponseBody
+    public Object add(@RequestBody WorksDetailsDto worksDetailsDto){
 
         if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            return new ErrorResponseData(400,"数据错误");
+            return new ErrorResponseData(500,"数据错误");
         }
         WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
         if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            return new ErrorResponseData(400,"数据错误");
+            return new ErrorResponseData(500,"数据错误");
         }
-        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
-                worksDetailsDto.getWeather(),worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime() ,worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            return new ErrorResponseData(400,"数据错误");
+            return new ErrorResponseData(500,"数据错误");
         }
         worksDetailsService.insertWorksDetailsDto(worksDetailsDto);
         return SUCCESS_TIP;

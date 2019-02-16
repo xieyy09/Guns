@@ -72,7 +72,9 @@
     </style>
 
 </head>
-<body id="mybody">
+<body>
+<div id="mybody">
+
     <div id="page1">
         <!--<div style="tab-size: 19px;font-size: 20px"> <div style="float:left;width: 3px;height: 18px; background: orange;margin-right: 5px"></div>一拍 </div>-->
         <div style="tab-size: 19px;margin-bottom: 5px;"><img src="/photo/static/img/zuopin1.png" style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">一拍(40分)</label> </div>
@@ -97,32 +99,32 @@
                     <!--</div>-->
                     <div style="padding: 5px;" class="js_picDiv">
                         <#fileinput id="img" name="图片1" path="worksdetails" underline="true"/>
-                        <input name="detailImg" type="hidden" value="0"/>
+                        <input name="detailImg" type="hidden" value=""/>
                         <input type="text" name="remark"   maxlength="200" placeholder="请输入图片1说明,最多输入200个字符"
                                style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
                     <div style="padding: 5px;" class="js_picDiv">
                         <#fileinput id="img" name="图片2" path="worksdetails" underline="true"/>
-                        <input name="detailImg" type="hidden" value="0"/>
+                        <input name="detailImg" type="hidden" value=""/>
                         <input type="text" name="remark"   maxlength="200" placeholder="请输入图片2说明,最多输入200个字符"
                                style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
                     <div style="padding: 5px;" class="js_picDiv">
                         <#fileinput id="img" name="图片3" path="worksdetails" underline="true"/>
-                        <input name="detailImg" type="hidden" value="0"/>
+                        <input name="detailImg" type="hidden" value=""/>
                         <input type="text" name="remark"   maxlength="200" placeholder="请输入图片3说明,最多输入200个字符"
                                style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
                     <div style="padding: 5px;" class="js_picDiv">
                         <#fileinput id="img" name="图片4" path="worksdetails" underline="true"/>
-                        <input name="detailImg" type="hidden" value="0"/>
+                        <input name="detailImg" type="hidden" value=""/>
                         <input  type="text" name="remark"   maxlength="200" placeholder="请输入图片4说明,最多输入200个字符"
                                style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
                     <div style="padding: 5px;" class="js_picDiv">
                         <#fileinput id="img" name="图片5" path="worksdetails" underline="true"/>
-                        <input name="detailImg" type="hidden" value="0"/>
+                        <input name="detailImg" type="hidden" value=""/>
                         <input  type="text" name="remark"   maxlength="200" placeholder="请输入图片5说明,最多输入200个字符"
                                style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
                     <div style="padding: 5px;" class="js_picDiv">
                         <#fileinput id="img" name="图片6" path="worksdetails" underline="true"/>
-                        <input name="detailImg" type="hidden" value="0"/>
+                        <input name="detailImg" type="hidden" value=""/>
                         <input type="text" name="remark"   maxlength="200" placeholder="请输入图片6说明,最多输入200个字符"
                                style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
 
@@ -218,27 +220,27 @@
             <div style="margin-top: 11px;background: white;border-radius: 6px 6px 6px 6px;padding: 11px;">
                 <div  class="form-group">
                     <img style="width: 22px;height: 22px;"  src="/photo/static/img/wenti.png" /><br>
-                    <input id="qu1" type="text" name="answerOne" id="answerOne"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+                    <input type="text" name="answerOne" id="answerOne"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
                 </div>
                 <div  class="form-group">
                     <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                    <input id="qu2" type="text" name="answerTwo" id="answerTwo" maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+                    <input type="text" name="answerTwo" id="answerTwo" maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
                 </div>
                 <div  class="form-group">
                     <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                    <input id="qu3" type="text" name="answerThree" id="answerThree"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                    <input type="text" name="answerThree" id="answerThree"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
                 </div>
                 <div  class="form-group">
                 <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                <input id="qu4" type="text" name="answerFour" id="answerFour"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                <input type="text" name="answerFour" id="answerFour"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
                 </div>
                 <div  class="form-group">
                 <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                <input id="qu5" type="text" name="answerFive" id="answerFive"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                <input type="text" name="answerFive" id="answerFive"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
                 </div>
                 <div  class="form-group">
                 <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                <input id="qu6" type="text" name="answerSix" id="answerSix"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                <input type="text" name="answerSix" id="answerSix"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
                 </div>
             </div>
 
@@ -255,7 +257,8 @@
             <span>查阅百科等图书，或上网找不到答案的创新问题。</span>
         </div>
     </div>
-
+</div>
+<form action="#" id="myForm"></form>
 <link href="${ctxPath}/static/css/plugins/bootstrap-fileinput.css" rel="stylesheet">
 <script src="${ctxPath}/static/modular/worksDetail/worksDetails/addWorkDetail.js"></script>
 <script src="${ctxPath}/static/js/plugins/bootstrap-fileinput.js"></script>
