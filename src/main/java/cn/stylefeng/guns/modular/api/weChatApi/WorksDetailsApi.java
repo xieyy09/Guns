@@ -61,7 +61,7 @@ public class WorksDetailsApi {
         }else{
             orderList.add("create_time");
         }
-        Integer pageSize = 12;
+        Integer pageSize = 8;
         if(!"list".equals(type)){
             pageSize = 5;
         }
@@ -83,7 +83,7 @@ public class WorksDetailsApi {
             WorksDetails worksDetails1 = records.get(i);
             BeanUtils.copyProperties(worksDetails1,beanDto);
             if(size>5 ){
-                if(size%2==0 && i==4){
+                if(size%2==0 && i==5){
                     beanDto.setShowType(1);
                 }else if(i<3){
                         beanDto.setShowType(3);
