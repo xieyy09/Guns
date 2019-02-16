@@ -61,7 +61,7 @@ public class WorksDetailsApi {
         }else{
             orderList.add("create_time");
         }
-        Integer pageSize = 12;
+        Integer pageSize = 8;
         if(!"list".equals(type)){
             pageSize = 5;
         }
