@@ -75,7 +75,7 @@
 <form action="#" id="dataForm">
     <div id="page1">
         <!--<div style="tab-size: 19px;font-size: 20px"> <div style="float:left;width: 3px;height: 18px; background: orange;margin-right: 5px"></div>一拍 </div>-->
-        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin1.png" style="width: 30px;"><label style="margin-left: 35%">一拍(40分)</label> </div>
+        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin1.png"  style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">一拍(40分)</label> </div>
         <div style="padding: 11px;">
             <div style="height: 44px;" >
                 <div style="font-size: 16px;text-align: center;line-height: 44px;">
@@ -100,7 +100,7 @@
                     <table style="width:100%;border-collapse:separate; border-spacing:0px 10px;">
                         <tr>
                             <td style="font-size: 16px" class="form-group">作品名称:
-                                <input type="text" id="worksTitle" name="worksTitle" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="worksTitle" maxlength="50" placeholder="作品名称,最多输入50个字符" name="worksTitle" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
@@ -110,37 +110,37 @@
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">拍摄地址:
-                                <input type="text" id="address" name="address" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="address" name="address"  maxlength="50" placeholder="拍摄地址,最多输入50个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">作者名称:
-                                <input type="text" id="takenAuthor" name="takenAuthor" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="takenAuthor" maxlength="50" placeholder="作者名称,最多输入50个字符" name="takenAuthor" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">所在学校:
-                                <input type="text" id="authorSchool" name="authorSchool" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="authorSchool" name="authorSchool" maxlength="100" placeholder="所在学校,最多输入100个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">作者年龄:
-                                <input type="text" id="authorAge" name="authorAge" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="authorAge" maxlength="3" name="authorAge" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">辅导老师:
-                                <input type="text" id="authorTeacher" name="authorTeacher" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="authorTeacher" maxlength="100" placeholder="辅导老师,最多输入100个字符" name="authorTeacher" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">拍摄工具:
-                                <input type="text" id="takenTool" name="takenTool" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="takenTool" name="takenTool" maxlength="50" placeholder="拍摄工具,最多输入50个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                         <tr>
                             <td style="font-size: 16px" class="form-group">联系方式:
-                                <input type="text" id="contact" name="contact" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                                <input type="text" id="contact" name="contact" maxlength="100" placeholder="联系方式,最多输入100个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
                             </td>
                         </tr>
                     </table>
@@ -154,21 +154,12 @@
 
         </div>
         <div style="margin-left: 5px;margin-top: 10px">
-            <strong>一拍摄影作品</strong><br/>
-            &nbsp;&nbsp;举起相机(手机)拍下让你感到奇妙的自然影像;<br/>
-            &nbsp;&nbsp;参数作品要求<span style="color: red">真实原创</span>,须由作者亲自拍摄。<br/>
-            &nbsp;&nbsp;相机、手机均可作为拍摄工具，为数码作品(JPG格式)，彩色、黑白不限。<br/>
-            &nbsp;&nbsp;摄影作品单幅、组图均可，最多可以上传<span style="color: red">6张图片</span>，每张图片不小于500万像素。<br/>
-            &nbsp;&nbsp;作品谢绝提供电脑创意和改变原始影像的作品，图片除可做亮度、对比度、色饱和度<br/>
-            &nbsp;&nbsp;的适度调整及构图剪裁外，不得使用电脑技术做合成、添加、删除大幅度改变色彩等技术处理。<br/>
-            <strong>艺术性</strong><br/>
-            &nbsp;&nbsp;图片有一定审美价值，以独特视角、构图展现科学现象。<br/>
             <span style="color: red">请认真填写作品信息，保证上传信息真实有效，否则如无法正常联系到获奖作者，本组委会概不负责。</span><br/>
             <span style="color: red">如照片像素大于5M上传缓慢，可将照片和一拍二记三问等作品信息发送到<label>2478887625\@qq.com</label></span>
         </div>
     </div>
     <div id="page2" style="display:none">
-        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin2.png" style="width: 30px;"><label style="margin-left: 35%">二记(20分)</label> </div>
+        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin2.png"  style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">二记(20分)</label> </div>
         <div id="page2Form">
             <!-- 描述 -->
             <div style="background: white;border-radius: 6px 6px 6px 6px;height: 222px;padding: 11px;" class="form-group">
@@ -184,34 +175,34 @@
         </div>
         <div style="margin-left: 5px;margin-top: 10px">
             <span>从科学的角度记录、描述你拍下的影像。</span><br/>
-            <span>记录文字准确、精炼，描述图片内容并说明科学原理。不超过150字且不小于80字。</span>
+            <span>记录文字准确、精炼，描述图片内容并说明科学原理。不小于80字且不超过150字。</span>
         </div>
     </div>
     <div id="page3" style="display:none">
-        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin3.png" style="width: 30px;"><label style="margin-left: 35%">三问(40分)</label></div>
+        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin3.png"  style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">三问(40分)</label></div>
         <div id="page3Form">
             <!-- 问题 -->
             <div style="margin-top: 11px;background: white;border-radius: 6px 6px 6px 6px;padding: 11px;">
                 <div  class="form-group">
                     <img style="width: 22px;height: 22px;"  src="/photo/static/img/wenti.png" /><br>
-                    <input id="qu1" type="text" name="answerOne" id="answerOne" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+                    <input id="qu1" type="text" name="answerOne" id="answerOne" maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
                 </div>
                 <div  class="form-group">
                     <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                    <input id="qu2" type="text" name="answerTwo" id="answerTwo" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+                    <input id="qu2" type="text" name="answerTwo" id="answerTwo"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
                 </div>
                 <div  class="form-group">
                     <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                    <input id="qu3" type="text" name="answerThree" id="answerThree" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                    <input id="qu3" type="text" name="answerThree" id="answerThree"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
                 </div>
                 <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                <input id="qu4" type="text" name="answerFour" id="answerFour" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                <input id="qu4" type="text" name="answerFour" id="answerFour"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
 
                 <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                <input id="qu5" type="text" name="answerFive" id="answerFive" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                <input id="qu5" type="text" name="answerFive" id="answerFive"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
 
                 <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
-                <input id="qu6" type="text" name="answerSix" id="answerSix" placeholder="输入问题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                <input id="qu6" type="text" name="answerSix" id="answerSix"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
 
             </div>
 
@@ -223,11 +214,9 @@
         </div>
         <div style="margin-left: 5px;margin-top: 10px">
             <span>围绕拍摄对象，向科普专家们提出“百科全书不知道”答案的各种奇思妙问。提出的创新问题有创新性、独特性、科普价值。</span><br/>
-            <ul>
-                <li>参赛者观察了解拍摄对象，自己动脑提出的问题。</li>
-                <li>身边的同学、老师、家长想不到，答不出的问题。</li>
-                <li>查阅百科等图书，或上网找不到答案的创新问题。</li>
-            </ul>
+            <span>参赛者观察了解拍摄对象，自己动脑提出的问题。</span><br/>
+            <span>身边的同学、老师、家长想不到，答不出的问题。</span><br/>
+            <span>查阅百科等图书，或上网找不到答案的创新问题。</span>
         </div>
     </div>
 </form>

@@ -1,50 +1,260 @@
-@layout("/common/_container.html"){
-<div class="ibox float-e-margins">
-    <div class="ibox-content">
-        <div class="form-horizontal">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>上传作品</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/static/css/bootstrap.min.css">
+    <link href="${ctxPath}/static/css/plugins/validate/bootstrapValidator.min.css" rel="stylesheet">
+    <!-- 全局js -->
+    <script src="${ctxPath}/static/js/jquery.min.js?v=2.1.4"></script>
+    <script src="${ctxPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${ctxPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/validate/bootstrapValidator.min.js"></script>
+    <script src="${ctxPath}/static/js/plugins/validate/zh_CN.js"></script>
+    <script src="${ctxPath}/static/js/plugins/My97DatePicker/WdatePicker.js"></script>
+    <script src="${ctxPath}/static/js/common/Feng.js"></script>
 
-            <div class="row">
-                <div class="col-sm-6 b-r">
-                            <#input id="id" name="id" underline="true"/>
-                            <#input id="activityId" name="活动ID" underline="true"/>
-                            <#input id="uid" name="用户ID" underline="true"/>
-                            <#input id="replyNumber" name="评论数量" underline="true"/>
-                            <#input id="forwardNumber" name="转发数量" underline="true"/>
-                            <#input id="giveLikeNumber" name="点赞数量" underline="true"/>
-                            <#input id="createTime" name="创建时间" underline="true"/>
-                            <#input id="state" name="审核状态(0待审核1通过-1不通过)" underline="true"/>
-                            <#input id="hasPoint" name="是否定位(0无定位1有定位)" underline="true"/>
-                            <#input id="worksTitle" name="作品名称" underline="true"/>
-                            <#input id="imgNumber" name="图片数量" underline="true"/>
-                            <#input id="imgUrl" name="第一个图片地址" underline="true"/>
-                            <#input id="imgRemark" name="图片说明"/>
+    <style>
+        body {
+            background: rgb(239, 239, 239);
+        }
+        body,
+        a,
+        h3,
+        span {
+            padding: 0;
+            margin: 0;
+            text-decoration: none;
+        }
+        .header {
+            background:#478CF7;;
+            height: 0.44rem;
+            font-size: 0.18rem;
+            padding-left: 0.17rem;
+            padding-right: 0.25rem;
+            color: white;
+            text-align: center;
+            line-height: 0.44rem;
+        }
+
+        .header2 {
+            background: #26A69A;
+            height: 0.44rem;
+            font-size: 0.14rem;
+            color: white;
+            padding-left: 0.17rem;
+            padding-right: 0.25rem;
+            text-align: left;
+            line-height: 0.44rem;
+        }
+        .mui-btn {
+            font-size: 16px;
+            padding: 8px;
+            margin: 3px;
+        }
+        h5.mui-content-padded {
+            margin-left: 3px;
+            margin-top: 20px !important;
+        }
+        h5.mui-content-padded:first-child {
+            margin-top: 12px !important;
+        }
+        .ui-alert {
+            text-align: center;
+            padding: 20px 10px;
+            font-size: 16px;
+        }
+    </style>
+
+</head>
+<body>
+<form action="#" id="dataForm">
+    <div id="page1">
+        <!--<div style="tab-size: 19px;font-size: 20px"> <div style="float:left;width: 3px;height: 18px; background: orange;margin-right: 5px"></div>一拍 </div>-->
+        <div style="tab-size: 19px;margin-bottom: 5px;"><img src="/photo/static/img/zuopin1.png" style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">一拍(40分)</label> </div>
+        <div  style="padding-left: 11px;padding-right: 11px;">
+            <!-- 图片选择 -->
+            <div>
+                <div style="background-color: white;border-radius: 6px 6px 6px 6px;">
+                    <div style="padding: 5px;" class="js_picDiv">
+                            <#select id="activityId" name="活动名称" underline="true">
+                            @for(p in activityDetails){
+                            <option value="${p.id}">${p.title}</option>
+                            @}
+                        </#select>
+                        <#select id="uid" name="上传作者" underline="true" >
+                        @for(p in accountExts){
+                        <option value="${p.id}">${p.webchatName}</option>
+                        @}
+                    </#select>
                 </div>
+                    <!--<div style="padding: 5px;">-->
+                    <!--<input id="titile" type="text" name="threequetion" placeholder="请输入作品标题" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;">-->
+                    <!--</div>-->
+                    <div style="padding: 5px;" class="js_picDiv">
+                        <#fileinput id="img" name="图片1" path="worksdetails" underline="true"/>
+                        <input name="detailImg" type="hidden" value="0"/>
+                        <input type="text" name="remark"   maxlength="200" placeholder="请输入图片1说明,最多输入200个字符"
+                               style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
+                    <div style="padding: 5px;" class="js_picDiv">
+                        <#fileinput id="img" name="图片2" path="worksdetails" underline="true"/>
+                        <input name="detailImg" type="hidden" value="0"/>
+                        <input type="text" name="remark"   maxlength="200" placeholder="请输入图片2说明,最多输入200个字符"
+                               style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
+                    <div style="padding: 5px;" class="js_picDiv">
+                        <#fileinput id="img" name="图片3" path="worksdetails" underline="true"/>
+                        <input name="detailImg" type="hidden" value="0"/>
+                        <input type="text" name="remark"   maxlength="200" placeholder="请输入图片3说明,最多输入200个字符"
+                               style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
+                    <div style="padding: 5px;" class="js_picDiv">
+                        <#fileinput id="img" name="图片4" path="worksdetails" underline="true"/>
+                        <input name="detailImg" type="hidden" value="0"/>
+                        <input  type="text" name="remark"   maxlength="200" placeholder="请输入图片4说明,最多输入200个字符"
+                               style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
+                    <div style="padding: 5px;" class="js_picDiv">
+                        <#fileinput id="img" name="图片5" path="worksdetails" underline="true"/>
+                        <input name="detailImg" type="hidden" value="0"/>
+                        <input  type="text" name="remark"   maxlength="200" placeholder="请输入图片5说明,最多输入200个字符"
+                               style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
+                    <div style="padding: 5px;" class="js_picDiv">
+                        <#fileinput id="img" name="图片6" path="worksdetails" underline="true"/>
+                        <input name="detailImg" type="hidden" value="0"/>
+                        <input type="text" name="remark"   maxlength="200" placeholder="请输入图片6说明,最多输入200个字符"
+                               style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>
 
-                <div class="col-sm-6">
-                            <#input id="pohtoTime" name="拍摄时间" underline="true"/>
-                            <#input id="weather" name="天气" underline="true"/>
-                            <#input id="address" name="拍摄地点" underline="true"/>
-                            <#input id="takenAuthor" name="拍摄作者" underline="true"/>
-                            <#input id="takenTool" name="拍摄工具" underline="true"/>
-                            <#input id="content" name="二记" underline="true"/>
-                            <#input id="answerOne" name="问题1" underline="true"/>
-                            <#input id="answerTwo" name="问题2" underline="true"/>
-                            <#input id="answerThree" name="问题3" underline="true"/>
-                            <#input id="answerFour" name="问题4" underline="true"/>
-                            <#input id="answerFive" name="问题5" underline="true"/>
-                            <#input id="answerSix" name="问题6" underline="true"/>
+                    <!-- 点击增加按钮事件 -->
+                   <!-- <img style="margin-left: 40%;width: 55px;height: 55px;" onclick="chooseImage(this)" src="/photo/static/img/addzuopin.png" /> -->
+                </div>
+                <div style="background-color: white;border-radius: 6px 6px 6px 6px;padding: 5px;margin-top: 11px" id="page1Form">
+                    <table style="width:100%;border-collapse:separate; border-spacing:0px 10px;">
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">作品名称:
+                                <input type="text" id="worksTitle" maxlength="50" placeholder="作品名称,最多输入50个字符" name="worksTitle" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">拍摄时间:
+                                <input type="text" id="pohtoTime" name="pohtoTime" readonly onClick="WdatePicker()" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">拍摄地址:
+                                <input type="text" id="address" name="address"  maxlength="50" placeholder="拍摄地址,最多输入50个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">作者名称:
+                                <input type="text" id="takenAuthor" maxlength="50" placeholder="作者名称,最多输入50个字符" name="takenAuthor" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">所在学校:
+                                <input type="text" id="authorSchool" name="authorSchool" maxlength="100" placeholder="所在学校,最多输入100个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">作者年龄:
+                                <input type="text" id="authorAge" maxlength="3" name="authorAge" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">辅导老师:
+                                <input type="text" id="authorTeacher" maxlength="100" placeholder="辅导老师,最多输入100个字符" name="authorTeacher" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">拍摄工具:
+                                <input type="text" id="takenTool" name="takenTool" maxlength="50" placeholder="拍摄工具,最多输入50个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 16px" class="form-group">联系方式:
+                                <input type="text" id="contact" name="contact" maxlength="100" placeholder="联系方式,最多输入100个字符" style="border: 1px solid #ccc;border-radius: 6px 6px 6px 6px;width: 70%;height: 33px;"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- 按钮 -->
+                <div style="width: 100%;margin-bottom: 11px;margin-top: 33px">
+                    <button style="display:block;width: 100%;height: 44px;line-height: 44px;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" type="button" onclick="nextMiaoshuEvent()">下一步</button>
+
                 </div>
             </div>
 
-            <div class="row btn-group-m-t">
-                <div class="col-sm-10">
-                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="WorksDetailsInfoDlg.addSubmit()"/>
-                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="WorksDetailsInfoDlg.close()"/>
-                </div>
+        </div>
+        <div style="margin-left: 5px;margin-top: 10px">
+            <span style="color: red">请认真填写作品信息，保证上传信息真实有效，否则如无法正常联系到获奖作者，本组委会概不负责。</span><br/>
+            <span style="color: red">如照片像素大于5M上传缓慢，可将照片和一拍二记三问等作品信息发送到<label>2478887625\@qq.com</label></span>
+        </div>
+    </div>
+    <div id="page2" style="display:none">
+        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin2.png" style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">二记(20分)</label> </div>
+        <div id="page2Form">
+            <!-- 描述 -->
+            <div style="background: white;border-radius: 6px 6px 6px 6px;height: 222px;padding: 11px;" class="form-group">
+                <!--<img style="width: 22px;height: 22px;"  src="/photo/static/img/maioshu.png" /><br>-->
+                <textarea id="content" name="content" style="width: 100%;height: 177px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px"></textarea><br>
+            </div>
+            <!-- 下一步 -->
+            <div style="margin-top: 66px;">
+                <a style="display:block;width: 100%;height: 44px;line-height: 44px;;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="nextQuestionEvent()">下一步</a>
+
+                <a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="backIndexEvent()" >上一步</a>
             </div>
         </div>
-
+        <div style="margin-left: 5px;margin-top: 10px">
+            <span>从科学的角度记录、描述你拍下的影像。</span><br/>
+            <span>记录文字准确、精炼，描述图片内容并说明科学原理。不小于80字且不超过150字。</span>
+        </div>
     </div>
-</div>
-<script src="${ctxPath}/static/modular/worksDetail/worksDetails/worksDetails_info.js"></script>
-@}
+    <div id="page3" style="display:none">
+        <div style="tab-size: 19px;margin-bottom: 5px;"> <img src="/photo/static/img/zuopin3.png" style="width: 30px; margin-left:20px;"><label style="margin-top:5px;;margin-left: 35%;font-size:20px;">三问(40分)</label></div>
+        <div id="page3Form">
+            <!-- 问题 -->
+            <div style="margin-top: 11px;background: white;border-radius: 6px 6px 6px 6px;padding: 11px;">
+                <div  class="form-group">
+                    <img style="width: 22px;height: 22px;"  src="/photo/static/img/wenti.png" /><br>
+                    <input id="qu1" type="text" name="answerOne" id="answerOne"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+                </div>
+                <div  class="form-group">
+                    <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+                    <input id="qu2" type="text" name="answerTwo" id="answerTwo" maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;"><br>
+                </div>
+                <div  class="form-group">
+                    <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+                    <input id="qu3" type="text" name="answerThree" id="answerThree"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+                </div>
+                <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+                <input id="qu4" type="text" name="answerFour" id="answerFour"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+                <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+                <input id="qu5" type="text" name="answerFive" id="answerFive"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+                <img style="width: 22px;height: 22px;margin-top: 5px;"  src="/photo/static/img/wenti.png" /><br>
+                <input id="qu6" type="text" name="answerSix" id="answerSix"  maxlength="100" placeholder="输入问题,最多输入100个字符" style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;">
+
+            </div>
+
+            <!-- 提交 -->
+            <div style="margin-top: 22px;">
+                <a style="display:block;width: 100%;height: 44px;line-height: 44px;;background: #008000;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center" onclick="submitEvent()">提交作品</a>
+                <a style="margin-top: 18px;display:block;width: 100%;height: 44px;line-height: 44px;;background: #7f7f7f;color: white;font-size: 14px;border-radius: 6px 6px 6px 6px ;text-align: center"  onclick="backEvent()">上一步</a>
+            </div>
+        </div>
+        <div style="margin-left: 5px;margin-top: 10px">
+            <span>围绕拍摄对象，向科普专家们提出“百科全书不知道”答案的各种奇思妙问。提出的创新问题有创新性、独特性、科普价值。</span><br/>
+            <span>参赛者观察了解拍摄对象，自己动脑提出的问题。</span><br/>
+            <span>身边的同学、老师、家长想不到，答不出的问题。</span><br/>
+            <span>查阅百科等图书，或上网找不到答案的创新问题。</span>
+        </div>
+    </div>
+</form>
+
+<link href="${ctxPath}/static/css/plugins/bootstrap-fileinput.css" rel="stylesheet">
+<script src="${ctxPath}/static/modular/worksDetail/worksDetails/addWorkDetail.js"></script>
+<script src="${ctxPath}/static/js/plugins/bootstrap-fileinput.js"></script>
+</body>
+</html>
