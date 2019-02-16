@@ -88,20 +88,6 @@ var page3 ={
                 message: '请输入问题'
             }
         }
-    },
-    answerTwo: {
-        validators: {
-            notEmpty: {
-                message: '请输入问题'
-            }
-        }
-    },
-    answerThree: {
-        validators: {
-            notEmpty: {
-                message: '请输入问题'
-            }
-        }
     }
 }
 function init(){
@@ -162,7 +148,7 @@ function uploadImage(localIds,obj){
                         'src="/photo/weChatApi/loadImg?path=worksdetails&filename='+resultData+'" />' +
                         '<input name="worksImgDetailsList['+index+'].detailImg" type="hidden" value="'+resultData+'"/>' +
                         '<input name="worksImgDetailsList['+index+'].detailIndex" type="hidden" value="'+index+'"/>' +
-                        '<input id="titile" type="text" name="worksImgDetailsList['+index+'].remark" placeholder="请输入图片说明" ' +
+                        '<input id="titile" type="text" name="worksImgDetailsList['+index+'].remark"  maxlength="200" placeholder="请输入图片说明,最多输入200个字符" ' +
                         '  style="max-width: 13;margin-top: 5px;border: 1px solid #ccc;border-top: 1px solid white;border-left: 1px solid white;border-right: 1px solid white;border-radius: 3px 3px 3px 3px;width: 100%;height: 33px;margin-right: 5px;"></div>';
                     $(obj).before(html);
                 }else{

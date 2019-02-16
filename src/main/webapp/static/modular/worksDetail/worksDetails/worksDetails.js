@@ -82,17 +82,17 @@ WorksDetails.reviewData=function(id,type){
 /**
  * 点击添加作品管理
  */
-// WorksDetails.openAddWorksDetails = function () {
-//     var index = layer.open({
-//         type: 2,
-//         title: '添加作品管理',
-//         area: ['800px', '420px'], //宽高
-//         fix: false, //不固定
-//         maxmin: true,
-//         content: Feng.ctxPath + '/worksDetails/worksDetails_add'
-//     });
-//     this.layerIndex = index;
-// };
+ WorksDetails.openAddWorksDetails = function () {
+     var index = layer.open({
+         type: 2,
+         title: '添加作品管理',
+         area: ['800px', '420px'], //宽高
+         fix: false, //不固定
+         maxmin: true,
+         content: Feng.ctxPath + '/worksDetails/worksDetails_add'
+     });
+     this.layerIndex = index;
+ };
 
 /**
  * 打开查看作品管理详情

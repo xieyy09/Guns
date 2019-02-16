@@ -1,23 +1,31 @@
 package cn.stylefeng.guns.modular.worksDetail.controller;
 
-import cn.stylefeng.guns.modular.system.model.ActivityDetails;
-import cn.stylefeng.guns.modular.system.model.WorksImgDetails;
+import cn.stylefeng.guns.modular.activity.service.IActivityDetailsService;
+import cn.stylefeng.guns.modular.system.model.*;
+import cn.stylefeng.guns.modular.system.service.IAccountExtService;
+import cn.stylefeng.guns.modular.system.transfer.WorksDetailsDto;
+import cn.stylefeng.guns.modular.system.transfer.WorksImgDetailsDto;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksImgDetailsService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
+import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
+import cn.stylefeng.roses.core.util.ToolUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.beans.factory.annotation.Autowired;
 import cn.stylefeng.guns.core.log.LogObjectHolder;
-import org.springframework.web.bind.annotation.RequestParam;
-import cn.stylefeng.guns.modular.system.model.WorksDetails;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksDetailsService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作品管理控制器
@@ -35,6 +43,13 @@ public class WorksDetailsController extends BaseController {
     private IWorksDetailsService worksDetailsService;
     @Autowired
     private IWorksImgDetailsService worksImgDetailsService;
+
+    @Autowired
+    private IActivityDetailsService activityDetailsService;
+
+    @Autowired
+    private IAccountExtService accountExtService;
+    
     /**
      * 跳转到作品管理首页
      */
@@ -47,7 +62,15 @@ public class WorksDetailsController extends BaseController {
      * 跳转到添加作品管理
      */
     @RequestMapping("/worksDetails_add")
-    public String worksDetailsAdd() {
+    public String worksDetailsAdd(Model model) {
+        Map<String, Object> param=new HashMap<>();
+        List<ActivityDetails> activityDetails = activityDetailsService.selectByMap(param);
+        model.addAttribute("activityDetails",activityDetails);
+       // param.put("")
+        Wrapper<AccountExt> accountExtWrapper= new EntityWrapper<AccountExt>();
+        accountExtWrapper.where("webchat_open_id!=''");
+        List<AccountExt> accountExts = accountExtService.selectList(accountExtWrapper);
+        model.addAttribute("accountExts",accountExts);
         return PREFIX + "worksDetails_add.html";
     }
 
@@ -82,15 +105,35 @@ public class WorksDetailsController extends BaseController {
 
     }
 
-    /**
-     * 新增作品管理
-     */
-    @RequestMapping(value = "/add")
-    @ResponseBody
-    public Object add(WorksDetails worksDetails) {
-        worksDetailsService.insert(worksDetails);
+    @InitBinder
+    protected void init(HttpServletRequest request, ServletRequestDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+    }
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    public Object add(WorksDetailsDto worksDetailsDto){
+
+        if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
+        }
+        WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
+        if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
+                worksDetailsDto.getWeather(),worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
+                worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            return new ErrorResponseData(400,"数据错误");
+        }
+        worksDetailsService.insertWorksDetailsDto(worksDetailsDto);
         return SUCCESS_TIP;
     }
+
+
 
     /**
      * 删除作品管理
