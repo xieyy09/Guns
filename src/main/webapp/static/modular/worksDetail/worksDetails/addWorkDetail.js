@@ -119,7 +119,7 @@ function submitEvent() {
     if(!valid) {
         return ;
     }
-    $.post("/photo/worksDetails/add",$("#dataForm").serialize(),function(data){
+    $.post("/photo/worksDetails/add",$("#mybody").serialize(),function(data){
         if(data.success){
             alert("添加成功！")
             location.href="/";
