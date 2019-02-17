@@ -140,7 +140,7 @@ public class WorksDetailsAuthcApi extends BaseController {
             return new ErrorResponseData(400,"数据错误");
         }
         if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
-                worksDetailsDto.getWeather(),worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
+                worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
                 worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
 //            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
             return new ErrorResponseData(400,"数据错误");
