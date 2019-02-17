@@ -92,6 +92,16 @@ var page3 ={
 }
 
 function nextMiaoshuEvent(){
+var imgurl= "";
+$("input[name=detailImg]").each(function(){
+    if($(this).val().length>0){
+        imgurl = "1";
+    }
+})
+if(imgurl.length==0){
+    alert("请上传照片")
+    return;
+}
     $('#page1Form').data("bootstrapValidator").resetForm();
     $('#page1Form').bootstrapValidator('validate');
     var valid=$("#page1Form").data('bootstrapValidator').isValid();
@@ -110,6 +120,7 @@ function nextQuestionEvent(){
     }
 }
 function submitEvent() {
+$("#myForm").html();
     // var obj =$("#dataForm").serializeJson();
     // console.log($("#dataForm").serializeJson())
     // console.log(JSON.stringify(obj));
@@ -119,16 +130,68 @@ function submitEvent() {
     if(!valid) {
         return ;
     }
-    $.post("/photo/worksDetails/add",$("#dataForm").serialize(),function(data){
-        if(data.success){
-            alert("添加成功！")
-            location.href="/";
-
-        }else{
-            alert(data.message)
+    var worksDetailsDto = {};
+    var imgremark = [];
+    var index = 0;
+    $(".js_picDiv").each(function(i,div){
+        var detailImg = $(div).find("input[name=detailImg]").val();
+        var remark = $(div).find("input[name=remark]").val();
+        if(detailImg!=undefined && detailImg.length>0){
+            index = index +1;
+            var remarkDto = {};
+            remarkDto["detailIndex"]=index;
+            remarkDto["detailImg"]=detailImg;
+            remarkDto["remark"]=remark;
+            imgremark.push(remarkDto);
         }
-    });
-}
+    })
+    worksDetailsDto["worksTitle"]=$("#worksTitle").val();
+    worksDetailsDto["uid"]=$("#uid").find("option:selected").val();
+    worksDetailsDto["activityId"]=$("#activityId").find("option:selected").val();
+    worksDetailsDto["pohtoTime"]=$("#pohtoTime").val();
+    worksDetailsDto["address"]=$("#address").val();
+    worksDetailsDto["takenAuthor"]=$("#takenAuthor").val();
+    worksDetailsDto["authorSchool"]=$("#authorSchool").val();
+    worksDetailsDto["authorAge"]=$("#authorAge").val();
+    worksDetailsDto["authorTeacher"]=$("#authorTeacher").val();
+    worksDetailsDto["takenTool"]=$("#takenTool").val();
+    worksDetailsDto["contact"]=$("#contact").val();
+    worksDetailsDto["content"]=$("#content").val();
+    worksDetailsDto["answerOne"]=$("#answerOne").val();
+    worksDetailsDto["answerTwo"]=$("#answerTwo").val();
+    worksDetailsDto["answerThree"]=$("#answerThree").val();
+    worksDetailsDto["answerFour"]=$("#answerFour").val();
+    worksDetailsDto["answerFive"]=$("#answerFive").val();
+    worksDetailsDto["answerSix"]=$("#answerSix").val();
+    worksDetailsDto["takenTool"]=$("#takenTool").val();
+    worksDetailsDto["hasPoint"]="0";
+    worksDetailsDto["worksImgDetailsList"]=imgremark;
+    worksDetailsDto["imgNumber"]=imgremark.length;
+    worksDetailsDto["imgUrl"]=imgremark[0]["detailImg"];
+    worksDetailsDto["imgRemark"]=imgremark[0]["remark"];
+
+
+    $.ajax({
+        type:"POST",
+        url: "/photo/worksDetails/add",
+        data:JSON.stringify(worksDetailsDto),
+        dataType: "json",
+        contentType:"application/json",
+        success:function(data){
+            if(data.success){
+                    Feng.success("添加成功！")
+                    window.parent.WorksDetails.table.refresh();
+                           parent.layer.close(window.parent.WorksDetails.layerIndex);
+                }else{
+                    alert(data.message)
+                }
+        },
+        error:function(){
+            alert("提交失败");
+        }
+    })
+    }
+
 function backIndexEvent(){
     $("#page1").show();
     $("#page2").hide();

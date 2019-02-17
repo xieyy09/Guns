@@ -42,17 +42,17 @@ public class WechatSecurity {
 			@RequestParam(value = "timestamp", required = true) String timestamp,
 			@RequestParam(value = "nonce", required = true) String nonce,
 			@RequestParam(value = "echostr", required = true) String echostr) {
-		try {
-			if (SignUtil.checkSignature(signature, timestamp, nonce)) {
-				PrintWriter out = response.getWriter();
-				out.print(echostr);
-				out.close();
-			} else {
-				log.info("这里存在非法请求！");
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
+//		try {
+//			if (SignUtil.checkSignature(signature, timestamp, nonce)) {
+//				PrintWriter out = response.getWriter();
+//				out.print(echostr);
+//				out.close();
+//			} else {
+//				log.info("这里存在非法请求！");
+//			}
+//		} catch (Exception e) {
+//			log.error(e.getMessage());
+//		}
 	}
 
 	/**
@@ -64,23 +64,23 @@ public class WechatSecurity {
 	 */
 	@RequestMapping(value = "security", method = RequestMethod.POST)
 	public void DoPost(HttpServletRequest request,HttpServletResponse response) {
-		response.setCharacterEncoding("utf-8");
-		try{
-			Map<String, String> map= MessageUtil.parseXml(request);
-			String msgtype=map.get("MsgType");
-			if(MessageUtil.REQ_MESSAGE_TYPE_EVENT.equals(msgtype)){
-				String msgrsp= EventDispatcher.processEvent(map); //进入事件处理
-				PrintWriter out = response.getWriter();
-				out.print(msgrsp);
-				out.close();
-			}else{
-				String msgrsp= MsgDispatcher.processMessage(map); //进入消息处理
-				PrintWriter out = response.getWriter();
-				out.print(msgrsp);
-				out.close();
-			}
-		}catch(Exception e){
-			log.error(e.getMessage());
-		}
+//		response.setCharacterEncoding("utf-8");
+//		try{
+//			Map<String, String> map= MessageUtil.parseXml(request);
+//			String msgtype=map.get("MsgType");
+//			if(MessageUtil.REQ_MESSAGE_TYPE_EVENT.equals(msgtype)){
+//				String msgrsp= EventDispatcher.processEvent(map); //进入事件处理
+//				PrintWriter out = response.getWriter();
+//				out.print(msgrsp);
+//				out.close();
+//			}else{
+//				String msgrsp= MsgDispatcher.processMessage(map); //进入消息处理
+//				PrintWriter out = response.getWriter();
+//				out.print(msgrsp);
+//				out.close();
+//			}
+//		}catch(Exception e){
+//			log.error(e.getMessage());
+//		}
 	}
 }
