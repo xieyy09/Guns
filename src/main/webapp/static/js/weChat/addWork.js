@@ -221,7 +221,15 @@ function backEvent(){
     $("#page2").show();
     $("#page3").hide();
 }
-
+var wxAddFormGroup=1;
+function addwxformGroup() {
+    if(wxAddFormGroup>6){
+        alert("最多可以提6个问题");
+        return;
+    }
+    $("#page3Form").find(".form-group").eq(wxAddFormGroup).show();
+    wxAddFormGroup++;
+}
 $(function() {
     init();
     Feng.initValidator("page1Form", page1);

@@ -200,7 +200,15 @@ function backEvent(){
     $("#page2").show();
     $("#page3").hide();
 }
-
+var pcAddFormGroup=1;
+function addformGroup() {
+    if(pcAddFormGroup>6){
+        alert("最多可以提6个问题");
+        return;
+    }
+    $("#page3Form").find(".form-group").eq(pcAddFormGroup).show();
+    pcAddFormGroup++;
+}
 $(function() {
     Feng.initValidator("page1Form", page1);
     Feng.initValidator("page2Form", page2);

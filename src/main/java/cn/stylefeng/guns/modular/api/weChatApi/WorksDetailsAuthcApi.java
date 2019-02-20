@@ -98,31 +98,58 @@ public class WorksDetailsAuthcApi extends BaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Object add(WorksDetailsDto worksDetailsDto){
-
-        if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
-//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            log.error("========={}",worksDetailsDto.getWorksImgDetailsList());
-            return new ErrorResponseData(400,"数据错误");
-        }
-        WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
-        if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
-//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            log.error("-------------{}",worksDetailsDto.getWorksImgDetailsList());
-            return new ErrorResponseData(400,"数据错误");
-        }
-        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle(),worksDetailsDto.getPohtoTime(),
-                worksDetailsDto.getAddress(),worksDetailsDto.getTakenAuthor(),
-                worksDetailsDto.getTakenTool(),worksDetailsDto.getContent(),worksDetailsDto.getAnswerOne())){
-//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
-            log.error("!!!!!!!!!!{}",worksDetailsDto);
-            return new ErrorResponseData(400,"数据错误");
-        }
         long uid = getUserId().longValue();
         //TODO 判断当前人是否能上传作品
         AccountExt accountExt = accountExtService.selectById(uid);
         if(accountExt!=null&&accountExt.getBanPost()==1){
             throw new ServiceException(701,"禁止上传作品");
         }
+        if(worksDetailsDto==null || worksDetailsDto.getWorksImgDetailsList()==null || worksDetailsDto.getWorksImgDetailsList().size()==0){
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            log.error("========={}",worksDetailsDto.getWorksImgDetailsList());
+            return new ErrorResponseData(500,"请上传作品图片");
+        }
+        WorksImgDetailsDto worksImgDetailsDto = worksDetailsDto.getWorksImgDetailsList().get(0);
+        if(ToolUtil.isOneEmpty(worksImgDetailsDto,worksImgDetailsDto.getDetailImg())){
+//            throw new ServiceException(BizExceptionEnum.REQUEST_NULL);
+            log.error("-------------{}",worksDetailsDto.getWorksImgDetailsList());
+            return new ErrorResponseData(500,"请上传作品图片");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getWorksTitle())){
+            return new ErrorResponseData(500,"请填写作品名称");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getPohtoTime())){
+            return new ErrorResponseData(500,"请填写拍摄时间");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getAddress())){
+            return new ErrorResponseData(500,"请填写拍摄地址");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getTakenAuthor())){
+            return new ErrorResponseData(500,"请填写作者名称");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getAuthorSchool())){
+            return new ErrorResponseData(500,"请填写所在学校");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getAuthorAge())){
+            return new ErrorResponseData(500,"请填写作者年龄");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getAuthorTeacher())){
+            return new ErrorResponseData(500,"请填写辅导老师");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getTakenTool())){
+            return new ErrorResponseData(500,"请填写拍摄工具");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getContact())){
+            return new ErrorResponseData(500,"请填写联系方式");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getContent())){
+            return new ErrorResponseData(500,"请填写二记下的描述");
+        }
+        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getAnswerOne(),worksDetailsDto.getAnswerTwo()
+                ,worksDetailsDto.getAnswerThree(),worksDetailsDto.getAnswerFour(),worksDetailsDto.getAnswerFive(),worksDetailsDto.getAnswerSix())){
+            return new ErrorResponseData(500,"三问中至少提交一个问题");
+        }
+
         worksDetailsDto.setUid(uid);
         worksDetailsService.insertWorksDetailsDto(worksDetailsDto);
         return SUCCESS_TIP;
