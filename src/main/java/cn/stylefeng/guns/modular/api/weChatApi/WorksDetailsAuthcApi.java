@@ -145,7 +145,7 @@ public class WorksDetailsAuthcApi extends BaseController {
         if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getContent())){
             return new ErrorResponseData(500,"请填写二记下的描述");
         }
-        if (ToolUtil.isOneEmpty(worksDetailsDto,worksDetailsDto.getAnswerOne(),worksDetailsDto.getAnswerTwo()
+        if (ToolUtil.isAllEmpty(worksDetailsDto.getAnswerOne(),worksDetailsDto.getAnswerTwo()
                 ,worksDetailsDto.getAnswerThree(),worksDetailsDto.getAnswerFour(),worksDetailsDto.getAnswerFive(),worksDetailsDto.getAnswerSix())){
             return new ErrorResponseData(500,"三问中至少提交一个问题");
         }
