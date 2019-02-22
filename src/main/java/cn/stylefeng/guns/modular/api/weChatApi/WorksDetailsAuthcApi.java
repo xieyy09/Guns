@@ -3,21 +3,17 @@ package cn.stylefeng.guns.modular.api.weChatApi;
 import cn.stylefeng.guns.config.util.AuthUtil;
 import cn.stylefeng.guns.config.util.UUIDUtils;
 import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
-import cn.stylefeng.guns.core.shiro.ShiroKit;
-import cn.stylefeng.guns.core.shiro.ShiroUser;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.system.model.*;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
-import cn.stylefeng.guns.modular.system.service.IUserService;
+import cn.stylefeng.guns.modular.system.transfer.WorksDetailsBeanDto;
 import cn.stylefeng.guns.modular.system.transfer.WorksDetailsDto;
 import cn.stylefeng.guns.modular.system.transfer.WorksImgDetailsDto;
 import cn.stylefeng.guns.modular.worksDetail.service.IGiveLikeDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IReplyDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IWorksDetailsService;
-import cn.stylefeng.guns.modular.worksDetail.service.IWorksImgDetailsService;
 import cn.stylefeng.roses.core.base.controller.BaseController;
 import cn.stylefeng.roses.core.reqres.response.ErrorResponseData;
-import cn.stylefeng.roses.core.reqres.response.ResponseData;
 import cn.stylefeng.roses.core.reqres.response.SuccessResponseData;
 import cn.stylefeng.roses.core.util.ToolUtil;
 import cn.stylefeng.roses.kernel.model.exception.ServiceException;
@@ -25,8 +21,6 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.OBJ_ADAPTER;
-import org.omg.CORBA.Request;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.datetime.DateFormatter;
@@ -68,7 +62,42 @@ public class WorksDetailsAuthcApi extends BaseController {
         worksDetailsEntityWrapper.where(worksDetails.getUid()!=null," uid ={0} and details_delete=0 ",worksDetails.getUid())
                 .orderBy(orderBycolnum);
         Page<WorksDetails> worksDetailsPage = worksDetailsService.selectPage(pages, worksDetailsEntityWrapper);
-        return  new SuccessResponseData(worksDetailsPage);
+
+        Page<WorksDetailsBeanDto> resultPage = new Page<>();
+        BeanUtils.copyProperties(worksDetailsPage,resultPage);
+        List<WorksDetails> records = worksDetailsPage.getRecords();
+        int size = records.size();
+        List<WorksDetailsBeanDto> listWorksDetailsBeanDto = new ArrayList<>(size);
+        WorksDetailsBeanDto beanDto = null;
+        for(int i=0;i<size;i++){
+            beanDto = new WorksDetailsBeanDto();
+            WorksDetails worksDetails1 = records.get(i);
+            BeanUtils.copyProperties(worksDetails1,beanDto);
+            if(size>5 ){
+                if(size%2==0 && i==5){
+                    beanDto.setShowType(1);
+                }else if(i<3){
+                    beanDto.setShowType(3);
+                }else{
+                    beanDto.setShowType(2);
+                }
+            }else if(size==5){
+                if(i<2){
+                    beanDto.setShowType(2);
+                }else {
+                    beanDto.setShowType(3);
+                }
+            }else{
+                if(size%2!=0){
+                    beanDto.setShowType(size);
+                }else {
+                    beanDto.setShowType(2);
+                }
+            }
+            listWorksDetailsBeanDto.add(beanDto);
+        }
+        resultPage.setRecords(listWorksDetailsBeanDto);
+        return  new SuccessResponseData(resultPage);
     }
 
     private Integer getUserId() {
