@@ -18,6 +18,10 @@
                         <option value="1">发布</option>
                         <option value="0">未发布</option>
                     </#select>
+                    <#select id="activityType" name="活动类型" underline="true">
+                        <option value="0"  ${0==item.activityType?'selected':''}>科普活动</option>
+                        <option value="1"  ${1==item.activityType?'selected':''}>上传活动</option>
+                    </#select>
                     <#input id="beginTime" name="开始时间" value="${item.beginTime}" underline="true"/>
                     <#input id="endTime" name="结束时间" value="${item.endTime}" underline="true"/>
                 </div>

@@ -40,6 +40,13 @@ ActivityDetails.initColumn = function () {
                     return date.format('yyyy-MM-dd');
                 }},
             {title: '参加人数', field: 'userNumber', visible: true, align: 'center', valign: 'middle'},
+            {title: '活动类型', field: 'activityType', visible: true, align: 'center', valign: 'middle',formatter:function(value, row, index){
+                if(value==0){
+                    return "科普活动";
+                }else{
+                    return "上传活动";
+                }
+            }},
             {title: '发布状态', field: 'state', visible: true, align: 'center', valign: 'middle',formatter:formatter}
     ];
 };

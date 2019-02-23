@@ -35,7 +35,7 @@ public class ActivityApi extends BaseController {
         try {
             Page<ActivityDetails> pages =  new Page<>(page,12);
             Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
-            wrapper.where("state=1");
+            wrapper.where("state=1 and  activity_type=0");
             wrapper.orderDesc(Arrays.asList("state","begin_time"));
             Page<ActivityDetails> activityDetailsList = activityDetailsService.selectPage(pages,wrapper);
             return  new SuccessResponseData(activityDetailsList);
@@ -49,7 +49,7 @@ public class ActivityApi extends BaseController {
         try {
             Page<ActivityDetails> pages =  new Page<>(page,30);
             Wrapper<ActivityDetails> wrapper=new EntityWrapper<>();
-            wrapper.where("activity_state=1");
+            wrapper.where("activity_state=1 and  activity_type=1");
             wrapper.orderDesc(Arrays.asList("state","begin_time"));
             Page<ActivityDetails> activityDetailsList = activityDetailsService.selectPage(pages,wrapper);
             return  new SuccessResponseData(activityDetailsList);
