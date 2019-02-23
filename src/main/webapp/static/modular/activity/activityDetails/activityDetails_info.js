@@ -56,7 +56,7 @@ ActivityDetailsInfoDlg.collectData = function() {
     .set('uid')
     .set('createTime')
     .set('userNumber')
-    .set('state');
+    .set('state').set('activityType');
 }
 
 /**

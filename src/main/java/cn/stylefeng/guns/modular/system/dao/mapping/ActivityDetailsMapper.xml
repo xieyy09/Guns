@@ -15,11 +15,12 @@
         <result column="create_time" property="createTime" />
         <result column="user_number" property="userNumber" />
         <result column="state" property="state" />
+        <result column="activity_type" property="activityType" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, img, content, begin_time, end_time, activity_state, uid, create_time, user_number, state
+        id, title, img, content, begin_time, end_time, activity_state, uid, create_time, user_number, state,activityType
     </sql>
 
 </mapper>

@@ -77,6 +77,8 @@ public class ActivityDetails extends Model<ActivityDetails> {
      * 发布状态(0未发布 已发布)
      */
     private Integer state;
+    @TableField("activity_type")
+    private Integer activityType;// 0科普活动 1上传活动
 
 
     public String getId() {
@@ -165,6 +167,14 @@ public class ActivityDetails extends Model<ActivityDetails> {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(Integer activityType) {
+        this.activityType = activityType;
     }
 
     @Override

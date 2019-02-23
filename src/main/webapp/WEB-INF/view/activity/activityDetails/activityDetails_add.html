@@ -6,13 +6,17 @@
             <div class="row">
                 <div class="col-sm-6 b-r">
                             <#input id="title" name="标题" underline="true"/>
-                            <#fileinput id="img" name="图片" path="activity"/>
+                            <#fileinput id="img" name="图片\r(600*800)" path="activity"/>
                 </div>
 
                 <div class="col-sm-6">
                             <#select id="state" name="是否发布" underline="true">
                                 <option value="1">发布</option>
                                 <option value="0">未发布</option>
+                            </#select>
+                            <#select id="activityType" name="活动类型" underline="true">
+                                <option value="0">科普活动</option>
+                                <option value="1">上传活动</option>
                             </#select>
                             <#TimeCon id="beginTime" name="开始时间" underline="true"/>
                             <#TimeCon id="endTime" name="结束时间" underline="true"/>
