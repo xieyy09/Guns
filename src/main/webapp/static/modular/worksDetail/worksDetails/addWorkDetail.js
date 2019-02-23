@@ -92,16 +92,6 @@ var page3 ={
 }
 
 function nextMiaoshuEvent(){
-var imgurl= "";
-$("input[name=detailImg]").each(function(){
-    if($(this).val().length>0){
-        imgurl = "1";
-    }
-})
-if(imgurl.length==0){
-    alert("请上传照片")
-    return;
-}
     $('#page1Form').data("bootstrapValidator").resetForm();
     $('#page1Form').bootstrapValidator('validate');
     var valid=$("#page1Form").data('bootstrapValidator').isValid();
