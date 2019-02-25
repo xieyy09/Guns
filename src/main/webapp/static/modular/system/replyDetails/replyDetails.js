@@ -92,7 +92,6 @@ ReplyDetails.openAddReplyDetails = function () {
  * 打开查看回复管理详情
  */
 ReplyDetails.openReplyDetailsDetail = function (id) {
-    if (this.check()) {
         var index = layer.open({
             type: 2,
             title: '回复管理详情',
@@ -102,7 +101,6 @@ ReplyDetails.openReplyDetailsDetail = function (id) {
             content: Feng.ctxPath + '/replyDetails/replyDetails_update/' + id
         });
         this.layerIndex = index;
-    }
 };
 
 
