@@ -112,9 +112,12 @@ public class UserApi extends BaseController {
             accountExtService.updateById(accountExtNew);
             //更新擂主系统账户ID
             Wrapper<Champion> champWarpper=new EntityWrapper<>();
+            champWarpper.eq("phone",phone);
             Champion champion = championService.selectOne(champWarpper);
-            champion.setUid(uid);
-            championService.updateById(champion);
+            if(champion!=null) {
+                champion.setUid(uid);
+                championService.updateById(champion);
+            }
             return new SuccessResponseData(true);
         }catch (Exception e){
             log.error(e.getMessage(),e);
