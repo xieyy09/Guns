@@ -4,6 +4,7 @@ import cn.stylefeng.guns.core.common.exception.BizExceptionEnum;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.system.model.*;
 import cn.stylefeng.guns.modular.system.service.IAccountExtService;
+import cn.stylefeng.guns.modular.system.service.IChampionReplyService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.guns.modular.system.transfer.*;
 import cn.stylefeng.guns.modular.worksDetail.service.IGiveLikeDetailsService;
@@ -47,6 +48,8 @@ public class WorksDetailsApi {
     private IReplyDetailsService replyDetailsService;
     @Autowired
     private IAccountExtService accountExtService;
+    @Autowired
+    private IChampionReplyService championReplyService;
     /**
      * 获取作品管理列表
      */
@@ -241,6 +244,11 @@ public class WorksDetailsApi {
             listDto.add(dto);
         }
         return  new SuccessResponseData(listDto);
+    }
+
+    @RequestMapping(value = "/getChampionReply/{worksDetailsId}")
+    public Object getChampionReply(@PathVariable String worksDetailsId){
+        return championReplyService.queryListChampionReplyBybusinessId(worksDetailsId);
     }
 
 

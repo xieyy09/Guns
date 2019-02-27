@@ -1,0 +1,35 @@
+@layout("/common/_container.html"){
+<div class="ibox float-e-margins">
+    <div class="ibox-content">
+        <div class="form-horizontal">
+
+            <div class="row">
+                <div class="col-sm-10">
+                            <#select id="businessId" name="作品" underline="true">
+                                @for(p in worksDetails){
+                                <option value="${p.id}" title="${p.worksTitle}">${p.worksTitle}[${p.authorSchool}-${p.authorTeacher}]</option>
+                                @}
+                            </#select>
+                    <input type="hidden" id="businessTitle" value="${businessTitle}"/>
+                    <input type="hidden" id="championName" value="${championName}"/>
+                            <#select id="championId" name="擂主" underline="true">
+                                @for(p in champions){
+                                <option value="${p.id}" title="${p.championName}">${p.championName}</option>
+                                @}
+                            </#select>
+                            <#textarea id="content" maxlength="300" name="评论内容" underline="true"/>
+                </div>
+            </div>
+
+            <div class="row btn-group-m-t">
+                <div class="col-sm-10">
+                    <#button btnCss="info" name="提交" id="ensure" icon="fa-check" clickFun="ChampionReplyInfoDlg.addSubmit()"/>
+                    <#button btnCss="danger" name="取消" id="cancel" icon="fa-eraser" clickFun="ChampionReplyInfoDlg.close()"/>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="${ctxPath}/static/modular/system/championReply/championReply_info.js"></script>
+@}

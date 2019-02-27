@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.system.dao.ChampionReplyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.system.model.ChampionReply">
+        <id column="id" property="id" />
+        <result column="business_id" property="businessId" />
+        <result column="model" property="model" />
+        <result column="champion_id" property="championId" />
+        <result column="content" property="content" />
+        <result column="create_time" property="createTime" />
+        <result column="reply_delete" property="replyDelete" />
+        <result column="business_title" property="businessTitle" />
+        <result column="champion_name" property="championName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, business_id, model, champion_id, content, create_time, reply_delete,business_title,champion_name
+    </sql>
+
+    <select id="queryListChampionReplyBybusinessId" resultType="java.util.Map">
+
+        SELECT t.content content,t.create_time createTime,c.champion_name championName,c.id championId,c.img img
+FROM champion_reply t LEFT JOIN champion c ON t.champion_id=c.id
+WHERE t.business_id=#{businessId} and t.reply_delete=0 ORDER BY t.create_time
+    </select>
+
+</mapper>
