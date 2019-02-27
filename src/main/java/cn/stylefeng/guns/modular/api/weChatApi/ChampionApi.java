@@ -3,10 +3,8 @@ package cn.stylefeng.guns.modular.api.weChatApi;
 import cn.stylefeng.guns.core.util.BUSINESS_MODE_ENUM;
 import cn.stylefeng.guns.modular.champion.service.IChampionService;
 import cn.stylefeng.guns.modular.science.service.IPopularScienceBaseService;
-import cn.stylefeng.guns.modular.system.model.Champion;
-import cn.stylefeng.guns.modular.system.model.PopularScienceBase;
-import cn.stylefeng.guns.modular.system.model.ReplyDetails;
-import cn.stylefeng.guns.modular.system.model.WorksDetails;
+import cn.stylefeng.guns.modular.system.model.*;
+import cn.stylefeng.guns.modular.system.service.IChampionReplyService;
 import cn.stylefeng.guns.modular.system.service.IUserService;
 import cn.stylefeng.guns.modular.worksDetail.service.IGiveLikeDetailsService;
 import cn.stylefeng.guns.modular.worksDetail.service.IReplyDetailsService;
@@ -48,6 +46,8 @@ public class ChampionApi extends BaseController {
     private IReplyDetailsService replyDetailsService;
     @Autowired
     private IPopularScienceBaseService popularScienceBaseService;
+    @Autowired
+    private IChampionReplyService championReplyService;
     @GetMapping("/list")
     public Object findChampionList(@RequestParam(required=true,defaultValue="1") Integer page,@RequestParam(required=false,defaultValue="") String name ){
         try {
@@ -97,6 +97,15 @@ public class ChampionApi extends BaseController {
                popularScienceBases = popularScienceBaseService.selectBatchIds(listStrId);
             }
             List<Map<String,Object>> worksDetailsList = new ArrayList<>();
+            Wrapper<ChampionReply> wrapperChampionReply=new EntityWrapper<ChampionReply>();
+            wrapperChampionReply.where("reply_delete=0 and champion_id={0} ",id);
+            List<ChampionReply> championReplies = championReplyService.selectList(wrapperChampionReply);
+            List<String> listDetailId = new ArrayList<>();
+            if(championReplies!=null && championReplies.size()>0){
+                for(ChampionReply reply : championReplies){
+                    listDetailId.add(reply.getBusinessId());
+                }
+            }
             if(champion.getUid()!=null&&champion.getUid()>0){
                 Wrapper<ReplyDetails> wrapper = new EntityWrapper();
                 ReplyDetails replyDetails = new ReplyDetails();
@@ -105,25 +114,24 @@ public class ChampionApi extends BaseController {
                 wrapper.where("model = {0} and uid = {1} and reply_state = 1 ",replyDetails.getModel(),replyDetails.getUid())
                         .orderBy("create_time",false);
                 List<ReplyDetails> replyDetailss = replyDetailsService.selectList(wrapper);
-                List<String> listDetailId = new ArrayList<>();
                 for(ReplyDetails reply : replyDetailss){
                     listDetailId.add(reply.getBusinessId());
                 }
-                if(listDetailId.size()>0){
-                    Wrapper<WorksDetails> worksDetailsWarp = new EntityWrapper();
-                    WorksDetails worksDetails = new WorksDetails();
-                    worksDetailsWarp.where("details_delete=0 and state=1 ").in("id",listDetailId).orderBy("create_time");
-                    List<WorksDetails> worksDetailss = worksDetailsService.selectList(worksDetailsWarp);
-                    Map<String,Object> mapInfo = null;
-                    for(WorksDetails details : worksDetailss){
-                        mapInfo = new HashedMap();
-                        mapInfo.put("id",details.getId());
-                        mapInfo.put("title",details.getWorksTitle());
-                        mapInfo.put("imgUrl",details.getImgUrl());
-                        mapInfo.put("imgRemark",details.getImgRemark());
-                        mapInfo.put("createTime",details.getCreateTime());
-                        worksDetailsList.add(mapInfo);
-                    }
+            }
+            if(listDetailId.size()>0){
+                Wrapper<WorksDetails> worksDetailsWarp = new EntityWrapper();
+                WorksDetails worksDetails = new WorksDetails();
+                worksDetailsWarp.where("details_delete=0 and state=1 ").in("id",listDetailId).orderBy("create_time");
+                List<WorksDetails> worksDetailss = worksDetailsService.selectList(worksDetailsWarp);
+                Map<String,Object> mapInfo = null;
+                for(WorksDetails details : worksDetailss){
+                    mapInfo = new HashedMap();
+                    mapInfo.put("id",details.getId());
+                    mapInfo.put("title",details.getWorksTitle());
+                    mapInfo.put("imgUrl",details.getImgUrl());
+                    mapInfo.put("imgRemark",details.getImgRemark());
+                    mapInfo.put("createTime",details.getCreateTime());
+                    worksDetailsList.add(mapInfo);
                 }
             }
             resultMap.put("champion",champion);
