@@ -101,7 +101,9 @@ public class ActivityDetailsController extends BaseController {
         }else if(now.getTime()>endTime.getTime()){
             activityDetails.setActivityState(-1);
         }
-        activityDetails.setUid(Long.parseLong(userId.toString()));
+        if(userId!=null) {
+            activityDetails.setUid(Long.parseLong(userId.toString()));
+        }
         activityDetailsService.insert(activityDetails);
         return SUCCESS_TIP;
     }
