@@ -248,7 +248,8 @@ public class WorksDetailsApi {
 
     @RequestMapping(value = "/getChampionReply/{worksDetailsId}")
     public Object getChampionReply(@PathVariable String worksDetailsId){
-        return championReplyService.queryListChampionReplyBybusinessId(worksDetailsId);
+        List<Map<String, Object>> maps = championReplyService.queryListChampionReplyBybusinessId(worksDetailsId);
+        return  new SuccessResponseData(maps);
     }
 
 
