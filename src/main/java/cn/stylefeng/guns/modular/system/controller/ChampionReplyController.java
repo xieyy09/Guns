@@ -78,7 +78,7 @@ public class ChampionReplyController extends BaseController {
      * 跳转到修改championReply
      */
     @RequestMapping("/championReply_update/{championReplyId}")
-    public String championReplyUpdate(@PathVariable Integer championReplyId, Model model) {
+    public String championReplyUpdate(@PathVariable String championReplyId, Model model) {
         ChampionReply championReply = championReplyService.selectById(championReplyId);
         model.addAttribute("item",championReply);
         LogObjectHolder.me().set(championReply);
