@@ -4,17 +4,9 @@
         <div class="form-horizontal">
 
             <div class="row">
-                <div class="col-sm-6 b-r">
-                            <#input id="id" name="id" value="${item.id}" underline="true"/>
-                            <#input id="businessId" name="业务ID" value="${item.businessId}" underline="true"/>
-                            <#input id="model" name="模块" value="${item.model}" underline="true"/>
-                            <#input id="championId" name="评论人id" value="${item.championId}" />
-                </div>
-
-                <div class="col-sm-6">
-                            <#input id="content" name="评论内容" value="${item.content}" underline="true"/>
-                            <#input id="createTime" name="评论时间" value="${item.createTime}" underline="true"/>
-                            <#input id="replyDelete" name="状态(0不删除 1删除)" value="${item.replyDelete}" />
+                <div class="col-sm-10">
+                    <input id="id" type="hidden" value="${item.id}"/>
+                    <#textarea id="content" style="height:200px;" maxlength="300" value="${item.content}" name="评论内容" underline="true"/>
                 </div>
             </div>
 

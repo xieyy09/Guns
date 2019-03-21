@@ -99,7 +99,7 @@ public class WorksDetailsController extends BaseController {
     public Object list(String condition) {
         Wrapper<WorksDetails> wrapper=new EntityWrapper<>();
         if(condition!=null && !condition.isEmpty()) {
-            wrapper.like("worksTitle", condition);
+            wrapper.like("works_title", condition);
         }
         return worksDetailsService.selectList(wrapper);
 
